@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -6,12 +6,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import ExpenseTable from './ExpenseTable';
-import TopupTable from './TopupTable';
+import TopupPending from './TopupPending';
+import TopupAccept from './TopupAccept';
+import TopupReject from './TopupReject';
 import { Paper } from '@material-ui/core';
-import { TransactionContext } from '../context/TransactionContext';
-import { TopupContext } from '../context/TopupContext';
-import { GetUsersContext } from '../context/GetUsersContext';
+import { TopupContext } from '../../context/TopupContext';
+import { GetUsersContext } from '../../context/GetUsersContext';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,24 +66,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavTabs() {
-  const [transactions, getEmployeeTransactions] = useContext(
-    TransactionContext
-  );
+  const { topups, getManagerTopups } = useContext(TopupContext);
 
-  const [topups, getEmployeeTopups] = useContext(TopupContext);
-
-  const [getManagers, managers] = useContext(GetUsersContext);
+  const { employees, getEmployees } = useContext(GetUsersContext);
 
   useEffect(async () => {
-    await getEmployeeTopups();
+    await getManagerTopups();
   }, []);
 
   useEffect(async () => {
-    await getManagers();
-  }, []);
-
-  useEffect(async () => {
-    await getEmployeeTransactions();
+    await getEmployees();
   }, []);
 
   const classes = useStyles();
@@ -106,15 +98,19 @@ export default function NavTabs() {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="Expense" {...a11yProps(0)} />
-          <Tab label="Topup" {...a11yProps(1)} />
+          <Tab label="Pending" {...a11yProps(0)} />
+          <Tab label="Accept" {...a11yProps(1)} />
+          <Tab label="Reject" {...a11yProps(2)} />
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <ExpenseTable managers={managers} transactions={transactions} />
+        <TopupPending topups={topups} employees={employees} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TopupTable managers={managers} topups={topups} />
+        <TopupAccept topups={topups} employees={employees} />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <TopupReject topups={topups} employees={employees} />
       </TabPanel>
     </div>
   );

@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { AuthTokenContext } from '../../context/AuthTokenContext';
+import { LoginFailed } from '../layouts/Alert';
 
 function SignIn(props) {
   const [loginData, setLoginData] = useState({
@@ -17,7 +18,7 @@ function SignIn(props) {
     password: '',
   });
 
-  const [login, logout] = useContext(AuthTokenContext);
+  const { login, loginStatus } = useContext(AuthTokenContext);
 
   const onChange = (e) =>
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -34,7 +35,7 @@ function SignIn(props) {
   // if(currentUser.role === 'admin'){
   //   return <Redirect to={'/Dashboard'} />;
   // }
-  
+
   // if (localStorage.getItem('token')) {
   //   return <Redirect to={'/dashboard'} />;
   // }
@@ -47,6 +48,7 @@ function SignIn(props) {
         <Typography component="h1" variant="h5">
           Log in
         </Typography>
+        {loginStatus === 'fail' ? <LoginFailed /> : null}
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             variant="outlined"

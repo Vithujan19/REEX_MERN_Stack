@@ -39,7 +39,7 @@ export default function TopupTable(props) {
 
   const details = [];
   if (topups && managers) {
-    topups.map((topup) => {
+    topups.reverse().map((topup) => {
       const data = {
         id: topup._id,
         createdAt: getDate(topup.createdAt),

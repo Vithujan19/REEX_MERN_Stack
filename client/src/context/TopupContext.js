@@ -6,6 +6,24 @@ export const TopupContext = createContext();
 export const TopupContextProvider = function (props) {
   const [topups, setTopups] = useState();
 
+  const getManagerTopups = async () => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await axios
+      .get('http://localhost:3000/topUpRequestReceived', config)
+      .then((response) => {
+        setTopups(response.data);
+      })
+      .catch((err) => {
+        console.log('Unable access ...');
+      });
+  };
+
   const getEmployeeTopups = async () => {
     const token = localStorage.getItem('token');
     const config = {
@@ -25,7 +43,9 @@ export const TopupContextProvider = function (props) {
   };
 
   return (
-    <TopupContext.Provider value={[topups, getEmployeeTopups]}>
+    <TopupContext.Provider
+      value={{ topups, getEmployeeTopups, getManagerTopups }}
+    >
       {props.children}
     </TopupContext.Provider>
   );

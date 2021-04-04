@@ -80,7 +80,7 @@ export default function ExpenseTable(props) {
 
   const details = [];
   if (transactions && managers) {
-    transactions.map((transaction) => {
+    transactions.reverse().map((transaction) => {
       const data = {
         id: transaction._id,
         submissionDate: getDate(transaction.createdAt),

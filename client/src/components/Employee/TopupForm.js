@@ -8,7 +8,7 @@ import { SubmitSuccess, SubmitFailed } from '../layouts/Alert';
 function TopupForm(props) {
   const [formData, setFormData] = useState();
   const [submissionStatus, setSubmissionStatus] = useState('');
-  const [getManagers, managers] = useContext(GetUsersContext);
+  const { getManagers, managers } = useContext(GetUsersContext);
 
   const token = localStorage.getItem('token');
 

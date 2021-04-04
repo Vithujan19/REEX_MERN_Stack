@@ -46,7 +46,7 @@ export const AuthTokenContextProvider = function (props) {
   };
 
   return (
-    <AuthTokenContext.Provider value={[login, logout, loginStatus]}>
+    <AuthTokenContext.Provider value={{ login, logout, loginStatus }}>
       {props.children}
     </AuthTokenContext.Provider>
   );

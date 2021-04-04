@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,7 +9,9 @@ import Box from '@material-ui/core/Box';
 import TransactionPending from './TransactionPending';
 import TransactionAccept from './TransactionAccept';
 import TransactionReject from './TransactionReject';
-import {Paper} from '@material-ui/core';
+import { Paper } from '@material-ui/core';
+import { TransactionContext } from '../../context/TransactionContext';
+import { GetUsersContext } from '../../context/GetUsersContext';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,6 +66,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavTabs() {
+  const { employees, getEmployees } = useContext(GetUsersContext);
+
+  const { transactions, getManagerTransactions } = useContext(
+    TransactionContext
+  );
+
+  useEffect(async () => {
+    await getManagerTransactions();
+  }, []);
+
+  useEffect(async () => {
+    await getEmployees();
+  }, []);
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -73,7 +89,10 @@ export default function NavTabs() {
 
   return (
     <div className={classes.root}>
-      <Paper elevation={3} style={{background:"#fff", color:"#1278B8", width:"auto"}}>
+      <Paper
+        elevation={3}
+        style={{ background: '#fff', color: '#1278B8', width: 'auto' }}
+      >
         <Tabs
           indicatorColor="primary"
           variant="fullWidth"
@@ -87,13 +106,13 @@ export default function NavTabs() {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <TransactionPending/>
+        <TransactionPending transactions={transactions} employees={employees} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TransactionAccept/>
+        <TransactionAccept transactions={transactions} employees={employees} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TransactionReject/>
+        <TransactionReject transactions={transactions} employees={employees} />
       </TabPanel>
     </div>
   );
