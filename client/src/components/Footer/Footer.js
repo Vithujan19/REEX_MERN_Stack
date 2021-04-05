@@ -18,9 +18,9 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from '../SideNav/ListItems';
+// import { mainListItems, secondaryListItems } from '../SideNav/ListItems';
 import Chart from '../Chart';
-import Deposit from '../Deposit'
+import Deposit from '../Deposit';
 import Orders from '../Orders';
 
 function Copyright() {
@@ -41,7 +41,7 @@ export default Copyright;
 //     root: {
 //       display: 'flex',
 //     },
-    
+
 //     container: {
 //       paddingTop: theme.spacing(4),
 //       paddingBottom: theme.spacing(4),
@@ -111,7 +111,7 @@ export default Copyright;
 //           <main className={classes.content}>
 //             <div className={classes.appBarSpacer} />
 //             <Container maxWidth="lg" className={classes.container}>
-              
+
 //               <Box pt={4}>
 //                 <Copyright />
 //               </Box>

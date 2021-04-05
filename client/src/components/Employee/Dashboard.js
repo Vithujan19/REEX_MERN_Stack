@@ -32,7 +32,7 @@ import Copyright from '../Footer/Footer';
 //   );
 // }
 
-const drawerWidth = 240;
+const drawerWidth = '240';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,7 +128,8 @@ export default function Dashboard() {
     <div className={classes.root}>
       <Sidenav/>
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} /> 
+        <div className={classes.appBarSpacer} />
+
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={4}>

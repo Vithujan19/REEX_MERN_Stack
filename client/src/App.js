@@ -9,51 +9,92 @@ import Transaction from './components/Manager/Transactionreq';
 import NewsPage from './components/NewsPage';
 import CreateUser from './components/Admin/CreateUser';
 import Reimbursement from './components/Manager/Reimbursement';
+import Staffs from './components/Staffs/Staffs';
 import {
   BrowserRouter,
   Router,
   Route,
   Switch,
   Redirect,
+  withRouter,
 } from 'react-router-dom';
 import Landing from './components/landing';
 import Login from './components/Login/login';
 import { AuthTokenContextProvider } from './context/AuthTokenContext';
-import ProtectedRouter from './components/protected';
 import { GetUsersContextProvider } from './context/GetUsersContext';
 import { TransactionContextProvider } from './context/TransactionContext';
 import { TopupContextProvider } from './context/TopupContext';
+import {
+  ProtectedRouterEmployee,
+  ProtectedRouterManager,
+  ProtectedRouterAdmin,
+  ProtectedRouter,
+  ProtectedRouterEmployeeManager,
+} from './components/ProtecterRouter';
 
 function App() {
   return (
     <React.Fragment>
       <AuthTokenContextProvider>
-      <TransactionContextProvider>
+        <TransactionContextProvider>
           <TopupContextProvider>
             <GetUsersContextProvider>
-              <BrowserRouter> 
+              <BrowserRouter>
                 <Switch>
                   <Route exact path="/" component={Landing} />
                   <Route exact path="/login" component={Login} />
-                  {/* <Route exact path="/Dashboard" component={Dashboard} />
-                  <Route exact path="/CreateUser" component={CreateUser} />
-                  <Route exact path="/Report" component={Report} />
-                  <Route exact path="/History" component={History} />
-                  <Route exact path="/Report" component={Report} />
-                  <Route exact path="/NewsPage" component={NewsPage} />
-                  <Route exact path="/Topup" component={Topup} />
-                  <Route exact path="/Transaction" component={Transaction} />
-                  <Route exact path="/Reimbursement" component={Reimbursement} /> */}
+
+                  {/* Common Routes */}
+                  <ProtectedRouter
+                    exact
+                    path="/Dashboard"
+                    component={Dashboard}
+                  />
+                  <ProtectedRouter
+                    exact
+                    path="/NewsPage"
+                    component={NewsPage}
+                  />
+
+                  {/* Admin Routes */}
+                  <ProtectedRouterAdmin
+                    exact
+                    path="/Staffs"
+                    component={Staffs}
+                  />
+
+                  {/* Employee & Manager Routes */}
+                  <ProtectedRouterEmployeeManager
+                    exact
+                    path="/Report"
+                    component={Report}
+                  />
+                  <ProtectedRouterEmployeeManager
+                    exact
+                    path="/Reimbursement"
+                    component={Reimbursement}
+                  />
+
+                  {/* Manager Routes */}
+                  <ProtectedRouterManager
+                    exact
+                    path="/Topup"
+                    component={Topup}
+                  />
+                  <ProtectedRouterManager
+                    exact
+                    path="/Transaction"
+                    component={Transaction}
+                  />
+
+                  {/* Employee Routes */}
+                  <ProtectedRouterEmployee
+                    exact
+                    path="/History"
+                    component={History}
+                  />
+                  <Route path="*" component={() => '404 NOT FOUND'} />
                 </Switch>
-                <ProtectedRouter exact path="/Dashboard" component={Dashboard} />
-                <ProtectedRouter exact path="/CreateUser" component={CreateUser} />
-                <ProtectedRouter exact path="/Report" component={Report} />
-                <ProtectedRouter exact path="/History" component={History} />
-                <ProtectedRouter exact path="/Report" component={Report} />
-                <ProtectedRouter exact path="/NewsPage" component={NewsPage} />
-                <ProtectedRouter exact path="/Topup" component={Topup} />
-                <ProtectedRouter exact path="/Transaction" component={Transaction} />
-                <ProtectedRouter exact path="/Reimbursement" component={Reimbursement} />
               </BrowserRouter>
             </GetUsersContextProvider>
           </TopupContextProvider>

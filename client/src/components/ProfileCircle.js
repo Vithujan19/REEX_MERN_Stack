@@ -1,10 +1,11 @@
-import React from 'react';
-import {Redirect} from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Redirect, useHistory,Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { AuthTokenContext } from '../context/AuthTokenContext';
 import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProfileCircle(props) {
+  let history = useHistory();
+  const { logout } = useContext(AuthTokenContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -30,7 +33,7 @@ export default function ProfileCircle(props) {
   var currentUser = JSON.parse(localStorage.getItem('user'));
 
   return (
-    <div >
+    <div>
       {/* <Button aria-describedby={id} variant="contained" color="none" onClick={handleClick}>
       <AccountCircleIcon />
       </Button> */}
@@ -49,18 +52,28 @@ export default function ProfileCircle(props) {
           horizontal: 'center',
         }}
       >
-        <Typography style={{width:150, padding: 15}} className={classes.typography}>
+        <Typography
+          style={{ width: 150, padding: 15 }}
+          className={classes.typography}
+        >
           {/* {currentUser.role===null ? currentUser.role='other' : currentUser.role=currentUser.role} */}
-          
-            <p>{currentUser.name}</p>
-            <p>{currentUser.role}</p>
-            <Button>Edit profile</Button>
-            <br/>
-            <button onClick = {() => {
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-                return <Redirect to={'/login'} />
-            }} className="btn btn-primary" >Logout</button>
+
+          <p>{currentUser.name}</p>
+          <p>{currentUser.role}</p>
+          <Button><Link to="/EditProfile" >Edit profile</Link></Button>
+          <br />
+          <button
+            onClick={() => {
+              logout();
+              history.push('/');
+              // localStorage.removeItem('user');
+              // localStorage.removeItem('token');
+              // props.history.push('/');
+            }}
+            className="btn btn-primary"
+          >
+            Logout
+          </button>
         </Typography>
       </Popover>
     </div>

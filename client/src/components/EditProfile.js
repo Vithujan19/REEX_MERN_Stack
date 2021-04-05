@@ -1,11 +1,26 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Sidenav from '../SideNav/Sidenav';
+import Sidenav from './SideNav/Sidenav';
+import News from './News/News';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Footer from '../Footer/Footer';
-import ReimburseRequests from './ReimburseRequests';
+import Link from '@material-ui/core/Link';
+import EditProfileForm from './EditProfileForm';
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" to="/">
+        The NANs
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const drawerWidth = 240;
 
@@ -88,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function History() {
+export default function NewsPage() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -105,9 +120,9 @@ export default function History() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <ReimburseRequests />
+          <EditProfileForm />
           <Box pt={4}>
-            <Footer />
+            <Copyright />
           </Box>
         </Container>
       </main>
