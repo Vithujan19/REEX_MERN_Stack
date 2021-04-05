@@ -1,9 +1,11 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -11,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProfileCircle() {
+export default function ProfileCircle(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -25,6 +27,7 @@ export default function ProfileCircle() {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+  var currentUser = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div >
@@ -47,7 +50,17 @@ export default function ProfileCircle() {
         }}
       >
         <Typography style={{width:150, padding: 15}} className={classes.typography}>
-            The content of the Popover.
+          {/* {currentUser.role===null ? currentUser.role='other' : currentUser.role=currentUser.role} */}
+          
+            <p>{currentUser.name}</p>
+            <p>{currentUser.role}</p>
+            <Button>Edit profile</Button>
+            <br/>
+            <button onClick = {() => {
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                return <Redirect to={'/login'} />
+            }} className="btn btn-primary" >Logout</button>
         </Typography>
       </Popover>
     </div>

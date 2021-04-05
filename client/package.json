@@ -42,6 +42,7 @@
     "reactstrap": "^8.9.0",
     "recharts": "^2.0.8",
     "redux": "^4.0.5",
+    "rxjs": "^6.6.7",
     "styled-components": "^5.2.1",
     "web-vitals": "^1.1.0",
     "yup": "^0.32.9"

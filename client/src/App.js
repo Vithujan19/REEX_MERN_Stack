@@ -35,6 +35,15 @@ function App() {
                 <Switch>
                   <Route exact path="/" component={Landing} />
                   <Route exact path="/login" component={Login} />
+                  {/* <Route exact path="/Dashboard" component={Dashboard} />
+                  <Route exact path="/CreateUser" component={CreateUser} />
+                  <Route exact path="/Report" component={Report} />
+                  <Route exact path="/History" component={History} />
+                  <Route exact path="/Report" component={Report} />
+                  <Route exact path="/NewsPage" component={NewsPage} />
+                  <Route exact path="/Topup" component={Topup} />
+                  <Route exact path="/Transaction" component={Transaction} />
+                  <Route exact path="/Reimbursement" component={Reimbursement} /> */}
                 </Switch>
                 <ProtectedRouter exact path="/Dashboard" component={Dashboard} />
                 <ProtectedRouter exact path="/CreateUser" component={CreateUser} />

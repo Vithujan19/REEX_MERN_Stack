@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240,
+    height: 200,
   },
 }));
 
@@ -123,31 +123,51 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  var currentUser = JSON.parse(localStorage.getItem('user'));
   return (
     <div className={classes.root}>
       <Sidenav/>
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        
+        <div className={classes.appBarSpacer} /> 
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                {currentUser.role==='employee' ? 
+                  <Deposit /> : currentUser.role==='manager' ? 
+                  <Chart/> : currentUser.role==='admin' ? 
+                  <Orders/> : null
+                }
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
-                <Deposit />
+                {currentUser.role==='employee' ? 
+                  <Chart /> : currentUser.role==='manager' ? 
+                  <Deposit/> : currentUser.role==='admin' ? 
+                  <Orders/> : null
+                }
               </Paper>
             </Grid>
-            <Grid item xs={12} md={10} lg={10}>
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={fixedHeightPaper}>
+                {currentUser.role==='employee' ? 
+                  <Chart /> : currentUser.role==='manager' ? 
+                  <Orders/> : currentUser.role==='admin' ? 
+                  <Deposit/> : null
+                }
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={6}>
               <Paper className={classes.paper}>
-                <Orders />
+                {currentUser.role==='employee' ? 
+                  <Deposit /> : currentUser.role==='manager' ? 
+                  <Chart/> : currentUser.role==='admin' ? 
+                  <Orders/> : null
+                }
               </Paper>
             </Grid>
-            <Grid item xs={12} md={2} lg={2}>
+            <Grid item xs={12} md={4} lg={6}>
               <Paper className={classes.paper}>
                 <AddExpense />
               </Paper>
