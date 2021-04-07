@@ -6,6 +6,25 @@ export const GetUsersContext = createContext();
 export const GetUsersContextProvider = function (props) {
   const [managers, setManagers] = useState();
   const [employees, setEmployees] = useState();
+  const [allUsers, setAllUsers] = useState();
+
+  const getAllUsers = async () => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios
+      .get('http://localhost:3000/getallusers', config)
+      .then((response) => {
+        setAllUsers(response.data);
+      })
+      .catch((err) => {
+        console.log('Unable...');
+      });
+  };
 
   const getEmployees = async () => {
     const token = localStorage.getItem('token');
@@ -45,7 +64,14 @@ export const GetUsersContextProvider = function (props) {
 
   return (
     <GetUsersContext.Provider
-      value={{ getManagers, managers, employees, getEmployees }}
+      value={{
+        getManagers,
+        managers,
+        employees,
+        getEmployees,
+        allUsers,
+        getAllUsers,
+      }}
     >
       {props.children}
     </GetUsersContext.Provider>

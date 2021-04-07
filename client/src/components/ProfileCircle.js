@@ -53,14 +53,15 @@ export default function ProfileCircle(props) {
         }}
       >
         <Typography
-          style={{ width: 150, padding: 15 }}
+          style={{ width: 150, padding: 12 }}
           className={classes.typography}
         >
-          {/* {currentUser.role===null ? currentUser.role='other' : currentUser.role=currentUser.role} */}
-
-          <p>{currentUser.name}</p>
-          <p>{currentUser.role}</p>
-          <Button><Link to="/EditProfile" >Edit profile</Link></Button>
+          <p style={{paddingLeft:5}}>{currentUser.name}<br/>
+            <span style={{fontSize:14}}>{currentUser.role}</span>
+          </p>      
+          <Button><Link to="/ViewProfile" style={{textDecoration:"none", fontWeight:"bold"}}>View profile</Link></Button>
+          <Button><Link to="/EditProfile" style={{textDecoration:"none", fontWeight:"bold"}}>Edit profile</Link></Button>
+          <Button><Link to="/BankDetails" style={{textDecoration:"none", fontWeight:"bold"}}>Bank Details</Link></Button>
           <br />
           <button
             onClick={() => {

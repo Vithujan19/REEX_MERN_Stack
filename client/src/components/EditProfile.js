@@ -121,9 +121,6 @@ export default function NewsPage() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <EditProfileForm />
-          <Box pt={4}>
-            <Copyright />
-          </Box>
         </Container>
       </main>
     </div>

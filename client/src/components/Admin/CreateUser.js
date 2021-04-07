@@ -1,227 +1,116 @@
 import React from 'react';
-import {useFormik, Field} from 'formik';
-import * as yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { makeStyles } from '@material-ui/core/styles';
+import Sidenav from '../SideNav/Sidenav';
+import clsx from 'clsx';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import CreateUserForm from './CreateUserForm';
+import Copyright from '../Footer/Footer';
 
+const drawerWidth = 240;
 
-// validation method 1
-// const validate = values =>{
-//     var errors={}
-//     if(!values.name){
-//         errors.name = "Name is required"
-//     }else if(values.name.length > 15){
-//         errors.name = "Maximum 15 characters only"
-//     }else if(values.name.length < 3){
-//         errors.name = "Minimum 3 characters required"
-//     }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
+    },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  fixedHeight: {
+    height: 240,
+  },
+}));
 
-//     return errors;
-// }
+export default function CreateUser() {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-const Register = (props) => {
-
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            role: '',
-            gender: '',
-            dateOfBirth: '',
-            mobileNumber: '',
-            email: '',
-            userId: '',
-            password: '',
-            confirmPassword: ''
-        },
-        validationSchema:yup.object({
-            name:yup.string()
-            .required("Name is required")
-            .strict()
-            .trim()
-            .min(5, "Minimum 5 characters required")
-            .max(15, "Maximum 15 characters only"),
-            email:yup.string()
-            .email()
-            .required("Email is required"),
-            dateOfBirth:yup.date()
-            .required("DOB is required"),
-            role:yup.string()
-            .required("Role is required"),
-            gender:yup.string()
-            .required("Gender is required"),
-            mobileNumber:yup.string()
-            .required("Mobile Number is required"),
-            userId:yup.string()
-            .required("userId is required"),
-            password:yup.string()
-            .required("Password is required"),
-            confirmPassword:yup.string()
-            .oneOf([yup.ref('password'),null],"Password and confirm password must be same")
-            .required("Confirm Password List is required")
-        }),
-        // validate,
-        onSubmit:(user) => {
-            console.log(user);
-            axios.post('http://localhost:3000/users', user)
-            .then(res => {
-                console.log("Done");
-                toast.success("User Register successful");
-                props.history.push('/user/me');
-            })
-            .catch(err => {
-                    toast.error(err.response.user);
-            })
-        }
-    })
-
-    return(
-        <div className="container">
-            <div className="jumbotron">
-                <h4>Register</h4>
-                <form autoComplete="off" onSubmit={formik.handleSubmit}>
-                    <div className="form-group">
-                        <label>Name:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="name"
-                            onChange={formik.handleChange}
-                            value={formik.values.name}
-                        />
-                            {formik.errors.name ? 
-                                <div className="text-danger">{formik.errors.name}</div>
-                                : null
-                            }
-                    </div>
-                    <div className="form-group">
-                        <label>UserID:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="userId"
-                            onChange={formik.handleChange}
-                            value={formik.values.userId}
-                        />
-                            {formik.errors.userId ? 
-                                <div className="text-danger">{formik.errors.userId}</div>
-                                : null
-                            }
-                    </div>
-                    <div className="form-group">
-                        <label>Email:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="email"
-                            onChange={formik.handleChange}
-                            value={formik.values.email}
-                        />
-                            {formik.errors.email ? 
-                                <div className="text-danger">{formik.errors.email}</div>
-                                : null
-                            }
-                    </div>
-                    <div className="form-group">
-                        <label>Role:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="role"
-                            onChange={formik.handleChange}
-                            value={formik.values.role}
-                        />
-                            {formik.errors.role ? 
-                                <div className="text-danger">{formik.errors.role}</div>
-                                : null
-                            }
-                    </div>
-                    {/* <div id="checkbox-group">Role</div>
-                    <div role="group" aria-labelledby="checkbox-group">
-                        <label>
-                            <Field type="checkbox" name="role" value="employee" />
-                            Employee
-                        </label>
-                        <label>
-                            <Field type="checkbox" name="role" value="manager" />
-                            Manager
-                        </label>
-                    </div> */}
-                    <div className="form-group">
-                        <label>Gender:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="gender"
-                            onChange={formik.handleChange}
-                            value={formik.values.gender}
-                        />
-                            {formik.errors.gender ? 
-                                <div className="text-danger">{formik.errors.gender}</div>
-                                : null
-                            }
-                    </div>
-                    <div className="form-group">
-                        <label>Password:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="password"
-                            onChange={formik.handleChange}
-                            value={formik.values.password}
-                        />
-                            {formik.errors.password ? 
-                                <div className="text-danger">{formik.errors.password}</div>
-                                : null
-                            }
-                    </div>
-                    <div className="form-group">
-                        <label>Confirm Password:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="confirmPassword"
-                            onChange={formik.handleChange}
-                            value={formik.values.confirmPassword}
-                        />
-                            {formik.errors.confirmPassword ? 
-                                <div className="text-danger">{formik.errors.confirmPassword}</div>
-                                : null
-                            }
-                    </div>
-                    <div className="form-group">
-                        <label>Mobile Number:</label>
-                        <input
-                            className="form-control" 
-                            type="text" 
-                            name="mobileNumber"
-                            onChange={formik.handleChange}
-                            value={formik.values.mobileNumber}
-                        />
-                            {formik.errors.mobileNumber ? 
-                                <div className="text-danger">{formik.errors.mobileNumber}</div>
-                                : null
-                            }
-                    </div>
-                    <div className="form-group">
-                        <label>Date of Birth:</label>
-                        <input
-                            className="form-control" 
-                            name="dateOfBirth"
-                            type="date"
-                            onChange={formik.handleChange}
-                            value={formik.values.dateOfBirth}
-                        /> 
-                            {formik.errors.dateOfBirth ? 
-                                <div className="text-danger">{formik.errors.dateOfBirth}</div>
-                                : null
-                            }
-                    </div>
-                    <button className="btn btn-primary">Submit</button>    
-                </form>
-            </div>
-        </div>
-    )
-
+  return (
+    <div className={classes.root}>
+      <Sidenav />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <CreateUserForm />
+          <Box pt={4}>
+            <Copyright />
+          </Box>
+        </Container>
+      </main>
+    </div>
+  );
 }
-
-export default Register;

@@ -19,6 +19,14 @@ export const SubmitFailed = function (props) {
   );
 };
 
+export const passwordNotMatched = function (props) {
+  return (
+    <div>
+      <Alert color="danger">Passwords did not matched.Please try again.</Alert>
+    </div>
+  );
+};
+
 export const LoginFailed = function (props) {
   return (
     <div>

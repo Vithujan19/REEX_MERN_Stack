@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, container } from 'r
 import TopupForm from './TopupForm';
 import '../../App.css';
 import {Grid} from '@material-ui/core';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
 
 const Topup = (props) => {
   const {
@@ -17,7 +18,7 @@ const Topup = (props) => {
   return (
     <div>
       <div className="AddBtn">
-      <Button onClick={toggle}>Topup Request <i className="fas fa-angle-right"></i></Button>
+      <Button style={{backgroundColor:"#ff4dd2"}} onClick={toggle}><HowToVoteIcon style={{width:200, height:100}} /><br/>Topup</Button>
       </div>
       <Modal isOpen={modal} toggle={toggle} className="container" style={{paddingTop:40}}>
         <ModalHeader toggle={toggle}>Topup Request</ModalHeader>

@@ -10,6 +10,11 @@ import NewsPage from './components/NewsPage';
 import CreateUser from './components/Admin/CreateUser';
 import Reimbursement from './components/Manager/Reimbursement';
 import Staffs from './components/Staffs/Staffs';
+import ViewProfile from './components/ViewProfile'
+import EditProfile from './components/EditProfile';
+import BankDetails from './components/BankDetail';
+import ChangePassword from './components/ChangePassword';
+import EmployeeReimbursement from './components/Employee/EmployeeReimbursement';
 import {
   BrowserRouter,
   Router,
@@ -24,6 +29,7 @@ import { AuthTokenContextProvider } from './context/AuthTokenContext';
 import { GetUsersContextProvider } from './context/GetUsersContext';
 import { TransactionContextProvider } from './context/TransactionContext';
 import { TopupContextProvider } from './context/TopupContext';
+import { ReimbursementContextProvider } from './context/ReimbursementContext';
 import {
   ProtectedRouterEmployee,
   ProtectedRouterManager,
@@ -39,63 +45,100 @@ function App() {
         <TransactionContextProvider>
           <TopupContextProvider>
             <GetUsersContextProvider>
-              <BrowserRouter>
-                <Switch>
-                  <Route exact path="/" component={Landing} />
-                  <Route exact path="/login" component={Login} />
+              <ReimbursementContextProvider>
+                <BrowserRouter>
+                  <Switch>
+                    <Route exact path="/" component={Landing} />
+                    <Route exact path="/login" component={Login} />
 
-                  {/* Common Routes */}
-                  <ProtectedRouter
-                    exact
-                    path="/Dashboard"
-                    component={Dashboard}
-                  />
-                  <ProtectedRouter
-                    exact
-                    path="/NewsPage"
-                    component={NewsPage}
-                  />
+                    {/* Common Routes */}
+                    <ProtectedRouter
+                      exact
+                      path="/Dashboard"
+                      component={Dashboard}
+                    />
+                    <ProtectedRouter
+                      exact
+                      path="/NewsPage"
+                      component={NewsPage}
+                    />
+                    <ProtectedRouter
+                      exact
+                      path="/EditProfile"
+                      component={EditProfile}
+                    />
+                    <ProtectedRouter
+                      exact
+                      path="/ViewProfile"
+                      component={ViewProfile}
+                    />
+                    <ProtectedRouter
+                      exact
+                      path="/BankDetails"
+                      component={BankDetails}
+                    />
+                    <ProtectedRouter
+                      exact
+                      path="/ChangePassword"
+                      component={ChangePassword}
+                    />
 
-                  {/* Admin Routes */}
-                  <ProtectedRouterAdmin
-                    exact
-                    path="/Staffs"
-                    component={Staffs}
-                  />
+                    {/* Admin Routes */}
+                    <ProtectedRouterAdmin
+                      exact
+                      path="/Staffs"
+                      component={Staffs}
+                    />
+                    <ProtectedRouterAdmin
+                      exact
+                      path="/CreateUser"
+                      component={CreateUser}
+                    />
+                    <ProtectedRouterAdmin
+                      exact
+                      path="/CreateNews"
+                      component={CreateNews}
+                    />
 
-                  {/* Employee & Manager Routes */}
-                  <ProtectedRouterEmployeeManager
-                    exact
-                    path="/Report"
-                    component={Report}
-                  />
-                  <ProtectedRouterEmployeeManager
-                    exact
-                    path="/Reimbursement"
-                    component={Reimbursement}
-                  />
+                    {/* Employee & Manager Routes */}
+                    <ProtectedRouterEmployeeManager
+                      exact
+                      path="/Report"
+                      component={Report}
+                    />
 
-                  {/* Manager Routes */}
-                  <ProtectedRouterManager
-                    exact
-                    path="/Topup"
-                    component={Topup}
-                  />
-                  <ProtectedRouterManager
-                    exact
-                    path="/Transaction"
-                    component={Transaction}
-                  />
+                    {/* Manager Routes */}
+                    <ProtectedRouterManager
+                      exact
+                      path="/Topup"
+                      component={Topup}
+                    />
+                    <ProtectedRouterManager
+                      exact
+                      path="/Transaction"
+                      component={Transaction}
+                    />
+                    <ProtectedRouterManager
+                      exact
+                      path="/Reimbursement"
+                      component={Reimbursement}
+                    />
 
-                  {/* Employee Routes */}
-                  <ProtectedRouterEmployee
-                    exact
-                    path="/History"
-                    component={History}
-                  />
-                  <Route path="*" component={() => '404 NOT FOUND'} />
-                </Switch>
-              </BrowserRouter>
+                    {/* Employee Routes */}
+                    <ProtectedRouterEmployee
+                      exact
+                      path="/History"
+                      component={History}
+                    />
+                    <ProtectedRouterEmployee
+                      exact
+                      path="/EmployeeReimburement"
+                      component={EmployeeReimbursement}
+                    />
+                    <Route path="*" component={() => '404 NOT FOUND'} />
+                  </Switch>
+                </BrowserRouter>
+              </ReimbursementContextProvider>
             </GetUsersContextProvider>
           </TopupContextProvider>
         </TransactionContextProvider>

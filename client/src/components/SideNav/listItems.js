@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import BarChartIcon from '@material-ui/icons/BarChart';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import CachedIcon from '@material-ui/icons/Cached';
 import HistoryIcon from '@material-ui/icons/History';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
-import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
+import PeopleIcon from '@material-ui/icons/People';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import LaunchIcon from '@material-ui/icons/Launch';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthTokenContext } from '../../context/AuthTokenContext';
 
@@ -31,7 +32,7 @@ function ListItems(props) {
           <Link className="nav-link" to="/NewsPage">
             <ListItem>
               <ListItemIcon>
-                <BarChartIcon />
+                <AssignmentIcon />
               </ListItemIcon>
               <ListItemText primary="NewsPage" />
             </ListItem>
@@ -47,15 +48,15 @@ function ListItems(props) {
           <Link className="nav-link" to="/Report">
             <ListItem>
               <ListItemIcon>
-                <LibraryBooksIcon />
+                <ErrorOutlineIcon />
               </ListItemIcon>
               <ListItemText primary="Report" />
             </ListItem>
           </Link>
-          <Link className="nav-link" to="/Reimbursement">
+          <Link className="nav-link" to="/EmployeeReimburement">
             <ListItem>
               <ListItemIcon>
-                <MobileFriendlyIcon />
+                <CachedIcon />
               </ListItemIcon>
               <ListItemText primary="Reimbursement" />
             </ListItem>
@@ -75,7 +76,7 @@ function ListItems(props) {
           <Link className="nav-link" to="/NewsPage">
             <ListItem>
               <ListItemIcon>
-                <BarChartIcon />
+                <AssignmentIcon />
               </ListItemIcon>
               <ListItemText primary="NewsPage" />
             </ListItem>
@@ -84,7 +85,7 @@ function ListItems(props) {
             <span className="sr-only"></span>
             <ListItem>
               <ListItemIcon>
-                <DashboardIcon />
+                <HowToVoteIcon />
               </ListItemIcon>
               <ListItemText primary="Topup" />
             </ListItem>
@@ -93,7 +94,7 @@ function ListItems(props) {
             <span className="sr-only"></span>
             <ListItem>
               <ListItemIcon>
-                <DashboardIcon />
+                <LaunchIcon />
               </ListItemIcon>
               <ListItemText primary="Transaction" />
             </ListItem>
@@ -101,7 +102,7 @@ function ListItems(props) {
           <Link className="nav-link" to="/Report">
             <ListItem>
               <ListItemIcon>
-                <LibraryBooksIcon />
+                <ErrorOutlineIcon />
               </ListItemIcon>
               <ListItemText primary="Report" />
             </ListItem>
@@ -109,7 +110,7 @@ function ListItems(props) {
           <Link className="nav-link" to="/Reimbursement">
             <ListItem>
               <ListItemIcon>
-                <LibraryBooksIcon />
+                <CachedIcon />
               </ListItemIcon>
               <ListItemText primary="Reimbursement" />
             </ListItem>
@@ -129,7 +130,7 @@ function ListItems(props) {
           <Link className="nav-link" to="/NewsPage">
             <ListItem>
               <ListItemIcon>
-                <BarChartIcon />
+                <AssignmentIcon />
               </ListItemIcon>
               <ListItemText primary="NewsPage" />
             </ListItem>
@@ -137,7 +138,7 @@ function ListItems(props) {
           <Link className="nav-link" to="/Staffs">
             <ListItem>
               <ListItemIcon>
-                <BarChartIcon />
+                <PeopleIcon />
               </ListItemIcon>
               <ListItemText primary="Staffs" />
             </ListItem>

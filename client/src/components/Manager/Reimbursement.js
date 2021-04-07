@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Sidenav from '../SideNav/Sidenav';
 import clsx from 'clsx';
@@ -6,6 +6,8 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Footer from '../Footer/Footer';
 import ReimburseRequests from './ReimburseRequests';
+import { ReimbursementContext } from '../../context/ReimbursementContext';
+import { GetUsersContext } from '../../context/GetUsersContext';
 
 const drawerWidth = 240;
 
@@ -90,7 +92,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function History() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+
+  const { employees, getEmployees } = useContext(GetUsersContext);
+  const { reimbursements, getManagerReimbursement } = useContext(
+    ReimbursementContext
+  );
+
+  useEffect(async () => {
+    await getManagerReimbursement();
+  }, []);
+
+  useEffect(async () => {
+    await getEmployees();
+  }, []);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -105,7 +121,10 @@ export default function History() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <ReimburseRequests />
+          <ReimburseRequests
+            employees={employees}
+            reimbursements={reimbursements}
+          />
           <Box pt={4}>
             <Footer />
           </Box>

@@ -68,6 +68,15 @@ router.get('/getalladmin', [auth.authUser], async (req, res) => {
   }
 });
 
+router.get('/getallusers', [auth.authUser], async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
 router.patch('/users/me', [auth.authUser], async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = [
@@ -117,25 +126,24 @@ router.post('/users/login', async (req, res) => {
   }
 });
 
-const upload = multer({
-  limits: {
-    fileSize: 1000000,
-  },
-  fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      return cb(new Error('Please upload an image'));
-    }
+// const upload = multer({
+//   limits: {
+//     fileSize: 1000000,
+//   },
+//   fileFilter(req, file, cb) {
+//     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+//       return cb(new Error('Please upload an image'));
+//     }
 
-    cb(undefined, true);
-  },
-});
+//     cb(undefined, true);
+//   },
+// });
 
 router.post(
   '/users/me/profilePicture',
   auth.authUser,
-  upload.single('profilePicture'),
   async (req, res) => {
-    req.user.profilePicture = req.file.buffer;
+    req.user.profilePictureUrl = req.body.profilePictureUrl;
     await req.user.save();
     res.send();
   },
@@ -145,7 +153,7 @@ router.post(
 );
 
 router.delete('/users/me/profilePicture', auth.authUser, async (req, res) => {
-  req.user.profilePicture = undefined;
+  req.user.profilePictureUrl = undefined;
   await req.user.save();
   res.send();
 });
@@ -153,11 +161,11 @@ router.delete('/users/me/profilePicture', auth.authUser, async (req, res) => {
 router.get('/users/:id/profilePicture', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (!user || !user.profilePicture) {
+    if (!user || !user.profilePictureUrl) {
       throw new Error();
     }
-    res.set('Content-Type', 'image/jpg');
-    res.send(user.profilePicture);
+    // res.set('Content-Type', 'image/jpg');
+    res.send(user.profilePictureUrl);
   } catch (error) {
     res.status(400).send();
   }

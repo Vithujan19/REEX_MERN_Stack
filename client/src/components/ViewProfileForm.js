@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { useFormik, Field } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -8,9 +8,8 @@ import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } 
 import { Select, Paper } from '@material-ui/core';
 import DefaultProf from './Admin/profImg.jpg';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-const EditProfileForm = (props) => {
+const ViewProfileForm = (props) => {
 
     const formik = useFormik({
         initialValues: {
@@ -21,12 +20,19 @@ const EditProfileForm = (props) => {
             mobileNumber: '',
             email: '',
             userId: '',
-            profileImg: ''
+            password: '',
+            confirmPassword: '',
+            profileImg: '',
+            bank: '',
+            branch: '',
+            accountNumber: ''
         },
         validationSchema: yup.object({
-            email: yup.string()
-                .email()
-                .required("Enter valid Email")
+            password: yup.string()
+                .required("Password is required"),
+            confirmPassword: yup.string()
+                .oneOf([yup.ref('password'), null], "Password and confirm password must be same")
+                .required("Confirm Password List is required")
         }),
         // validate,
         onSubmit: (user) => {
@@ -54,14 +60,15 @@ const EditProfileForm = (props) => {
             <Col xs={12} sm={8}>
                 <div className="container" >
                     <Paper elevation={4} style={{ padding: "20px" }}>
-                        <h3 style={{ textAlign: "center" }}>Update Profile</h3>
-                        <hr />
-                        <form autoComplete="off" onSubmit={formik.handleSubmit}>
+                        <h3 style={{textAlign:"center"}}>Update Profile</h3>
+                        <hr/>
+                        
                             <Row>
                                 <Col xs={12} sm={6}>
                                     <div className="form-group">
                                         <label>Name:</label>
-                                        <input
+                                        <input 
+                                            disabled
                                             className="form-control"
                                             type="text"
                                             name="name"
@@ -87,22 +94,20 @@ const EditProfileForm = (props) => {
                                     <div className="form-group">
                                         <label>Email:</label>
                                         <input
+                                            disabled
                                             className="form-control"
                                             type="text"
                                             name="email"
                                             onChange={formik.handleChange}
                                             value={formik.values.email}
                                         />
-                                        {formik.errors.email ?
-                                            <div className="text-danger">{formik.errors.email}</div>
-                                            : null
-                                        }
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={4}>
                                     <div className="form-group">
                                         <label>Mobile Number:</label>
                                         <input
+                                            disabled
                                             className="form-control"
                                             type="text"
                                             name="mobileNumber"
@@ -128,22 +133,22 @@ const EditProfileForm = (props) => {
                                 <Col xs={12} sm={4}>
                                     <div className="form-group">
                                         <label>Gender:</label>
-                                        <Select
+                                        <Input
+                                            disabled
                                             className="form-control"
                                             type="select"
                                             name="gender"
                                             onChange={formik.handleChange}
                                             value={formik.values.gender}
                                         >
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                        </Select>
+                                        </Input>
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={4}>
                                     <div className="form-group">
                                         <label>Date of Birth:</label>
                                         <input
+                                            disabled
                                             className="form-control"
                                             name="dateOfBirth"
                                             type="date"
@@ -152,35 +157,65 @@ const EditProfileForm = (props) => {
                                         />
                                     </div>
                                 </Col>
-                                <Col>
+                            </Row>
+                            <h4>Bank Details</h4>
+                            <hr />
+                            <Row>
+                                <Col xs={12} sm={6}>
                                     <div className="form-group">
-                                        <Label for="receiptImage">Upload Profile Image</Label>
-                                        <Input
-                                            type="file"
-                                            name="profileImg"
+                                        <label>Account Holder Name:</label>
+                                        <input
+                                            disabled
+                                            className="form-control"
+                                            type="text"
+                                            name="owner"
                                             onChange={formik.handleChange}
-                                            value={formik.values.profileImg}
-                                            id="profileImg"
+                                            value={formik.values.owner}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col xs={12} sm={6}>
+                                    <div className="form-group">
+                                        <label>Account Number:</label>
+                                        <input
+                                            disabled
+                                            className="form-control"
+                                            type="text"
+                                            name="accountNumber"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.accountNumber}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col xs={12} sm={6}>
+                                    <div className="form-group">
+                                        <label>Bank Name:</label>
+                                        <input
+                                            disabled
+                                            className="form-control"
+                                            type="text"
+                                            name="bank"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.bank}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col xs={12} sm={6}>
+                                    <div className="form-group">
+                                        <label>Branch Name:</label>
+                                        <input
+                                            disabled
+                                            className="form-control"
+                                            type="text"
+                                            name="branch"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.branch}
                                         />
                                     </div>
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col xs={12} sm={6}>
-                                    <button className="btn btn-primary">Update Profile</button>
-                                </Col>
-                                <Col xs={12} sm={6} style={{ paddingTop: 10 }}>
-                                    <Row>
-                                        <Col xs={12} sm={6}>
-                                            <Link style={{ textDecoration: "none" }} to="/ViewProfile"><ArrowBackIcon />View Profile </Link>
-                                        </Col>
-                                        <Col xs={12} sm={6}>
-                                            <Link style={{ textDecoration: "none" }} to="/ChangePassword"><ArrowForwardIcon />Change Password </Link>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </form>
+                            <Link style={{textDecoration:"none", fontWeight:"bold"}} to="/EditProfile"> Edit Profile <ArrowForwardIcon/></Link>
+                        
                     </Paper>
                 </div>
             </Col>
@@ -189,4 +224,4 @@ const EditProfileForm = (props) => {
 
 }
 
-export default EditProfileForm;
+export default ViewProfileForm;

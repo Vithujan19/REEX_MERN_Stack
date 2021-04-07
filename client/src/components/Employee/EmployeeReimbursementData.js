@@ -3,7 +3,7 @@ import { DataGrid } from '@material-ui/data-grid';
 
 const columns = [
   { field: 'createdDate', headerName: 'Created Date', width: 150 },
-  { field: 'employeeName', headerName: 'Employee Name Name', width: 130 },
+  { field: 'managerName', headerName: 'Manager Name', width: 130 },
   { field: 'bankDetails', headerName: 'Bank Details', width: 160 },
   {
     field: 'amount',
@@ -15,9 +15,9 @@ const columns = [
   { field: 'transactionId', hide: true, headerName: 'Status', width: 160 },
 ];
 
-export default function ReimburseRequests(props) {
+export default function EmployeeReimbursementData(props) {
   const rows = [];
-  const { employees, reimbursements } = props;
+  const { managers, reimbursements } = props;
 
   const getDate = (realDate) => {
     const datee = new Date(realDate);
@@ -28,19 +28,18 @@ export default function ReimburseRequests(props) {
     return correctDate;
   };
 
-  const getEmployeeName = (id) => {
-    let employee = employees.find((m) => m._id === id);
-    return employee.name;
+  const getManagerName = (id) => {
+    let manager = managers.find((m) => m._id === id);
+    return manager.name;
   };
 
   const details = [];
-  if (reimbursements && employees) {
-    console.log('Employee : ', employees);
+  if (reimbursements && managers) {
     reimbursements.reverse().map((reimbursement) => {
       const data = {
         id: reimbursement._id,
         createdDate: getDate(reimbursement.createdAt),
-        employeeName: getEmployeeName(reimbursement.reimbursementTo),
+        managerName: getManagerName(reimbursement.reimbursementBy),
         amount: reimbursement.amount,
         status: reimbursement.status,
         bankDetails: reimbursement.reimbursementAccount,
@@ -53,6 +52,7 @@ export default function ReimburseRequests(props) {
 
   return (
     <div style={{ height: 400, width: 'auto' }}>
+      {console.log('Details :', details)}
       <h3>Reimbursement Requests</h3>
       <DataGrid rows={details} columns={columns} pageSize={5} />
     </div>

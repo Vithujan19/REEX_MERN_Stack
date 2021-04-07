@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, container } from 'r
 import '../../App.css';
 import AddExpenseForm from './AddExpenseForm';
 import {Grid} from '@material-ui/core';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 
 const AddExpense = (props) => {
   const {
@@ -17,7 +18,7 @@ const AddExpense = (props) => {
   return (
     <div>
       <div className="AddBtn">
-      <Button onClick={toggle}>Add Expenses <i className="fas fa-angle-right"></i></Button>
+      <Button style={{backgroundColor:"#ffa31a"}} onClick={toggle}><PostAddIcon style={{width:200, height:100}} /><br/>Add Expenses</Button>
       </div>
       
       <Modal isOpen={modal} toggle={toggle} className="container" style={{paddingTop:40}}>
