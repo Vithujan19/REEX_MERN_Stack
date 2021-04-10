@@ -60,7 +60,7 @@ const ViewProfileForm = (props) => {
             <Col xs={12} sm={8}>
                 <div className="container" >
                     <Paper elevation={4} style={{ padding: "20px" }}>
-                        <h3 style={{textAlign:"center"}}>Update Profile</h3>
+                        <h3 style={{textAlign:"center"}}>View Profile</h3>
                         <hr/>
                         
                             <Row>

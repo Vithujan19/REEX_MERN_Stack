@@ -1,10 +1,9 @@
 import React from "react";
+import {Link} from 'react-router-dom';
 import { Typography, Button, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import { } from "@material-ui/core";
 import { Row } from "react-bootstrap";
 
 const StaffCard = (props) => {
@@ -81,7 +80,7 @@ const StaffCard = (props) => {
                 </Grid>
                 <br />
                 <Typography variant="body2" gutterBottom>
-                  <div className={classes.status}> {role}</div>
+                  <div className={classes.status} style={{color:"#1278B8"}}> {role}</div>
                 </Typography>
               </Grid>
 
@@ -100,15 +99,13 @@ const StaffCard = (props) => {
                 DOB: {dateOfBirth}
               </Typography>
               <br />
+              <br/>
               <Grid align="center">
-                <Button size="small" style={{ color: "green" }}>
+                <Button size="small">
                   {" "}
-                    Edit
-                  </Button>{" "}
-                <Button size="small" style={{ color: "red" }}>
-                  {" "}
-                    DELETE{" "}
-                </Button>
+                  <Link style={{textDecoration:"none",color: "green"}} to="/EditUser">Edit</Link>
+                    
+                  </Button>
               </Grid>
             </Grid>
           </Grid>

@@ -39,7 +39,7 @@ export default function TopupTable(props) {
 
   const details = [];
   if (topups && managers) {
-    topups.reverse().map((topup) => {
+    topups.map((topup) => {
       const data = {
         id: topup._id,
         createdAt: getDate(topup.createdAt),
@@ -54,7 +54,7 @@ export default function TopupTable(props) {
   return (
     <div style={{ height: 400, width: '100%' }}>
       <h3>Topup-Request History</h3>
-      <DataGrid rows={details} columns={columns} pageSize={5} />
+      <DataGrid rows={details.reverse()} columns={columns} pageSize={5} />
     </div>
   );
 }

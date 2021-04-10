@@ -78,6 +78,18 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
+userSchema.virtual('reportsSender', {
+  ref: 'Reports',
+  localField: '_id',
+  foreignField: 'sender',
+});
+
+userSchema.virtual('reportsReceiver', {
+  ref: 'Reports',
+  localField: '_id',
+  foreignField: 'receiver',
+});
+
 userSchema.virtual('bankDetails', {
   ref: 'BankDetail',
   localField: '_id',

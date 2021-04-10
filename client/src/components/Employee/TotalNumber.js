@@ -18,7 +18,6 @@ const useStyles = makeStyles({
 });
 
 export default function Deposits() {
-  // const classes = useStyles();
   return (
     <div>
       <Title>Total Number of Expenses</Title>
@@ -30,8 +29,8 @@ export default function Deposits() {
         30
       </Typography>
       <Typography color="textSecondary">
-      until: {new Date().toDateString()}
-      </Typography> 
+        until: {new Date().toDateString()}
+      </Typography>
     </div>
   );
 }

@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Sidenav from '../SideNav/Sidenav';
-import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Footer from '../Footer/Footer';
 import { ReimbursementContext } from '../../context/ReimbursementContext';
 import { GetUsersContext } from '../../context/GetUsersContext';
+import { TransactionContext } from '../../context/TransactionContext';
+import { BankDetailsContext } from '../../context/BankDetailsContext';
 import EmployeeReimbursementData from './EmployeeReimbursementData';
 
 const drawerWidth = 240;
@@ -92,13 +93,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EmployeeReimbursement() {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+
+  const { transactions, getEmployeeTransactions } = useContext(
+    TransactionContext
+  );
+
+  const { bankDetails, getUserBankDetails } = useContext(BankDetailsContext);
+
   const { getManagers, managers } = useContext(GetUsersContext);
+
   const {
     reimbursements,
     getEmployeeReimbursement,
     getManagerReimbursement,
   } = useContext(ReimbursementContext);
+
+  useEffect(async () => {
+    await getUserBankDetails();
+  }, []);
+
+  useEffect(async () => {
+    await getEmployeeTransactions();
+  }, []);
 
   useEffect(async () => {
     await getEmployeeReimbursement();
@@ -107,14 +123,6 @@ export default function EmployeeReimbursement() {
   useEffect(async () => {
     await getManagers();
   }, []);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -125,6 +133,8 @@ export default function EmployeeReimbursement() {
           <EmployeeReimbursementData
             managers={managers}
             reimbursements={reimbursements}
+            transactions={transactions}
+            bankDetails={bankDetails}
           />
           <Box pt={4}>
             <Footer />

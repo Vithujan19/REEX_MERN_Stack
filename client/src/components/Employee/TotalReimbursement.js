@@ -11,59 +11,59 @@ AOS.init();
 
 export default function Deposits(props) {
   // const classes = useStyles();
-  const { topups } = props;
+  const { reimbursements } = props;
 
-  let topupsCopy = [];
+  let reimbursementsCopy = [];
   let pending = [];
   let approved = [];
   let rejected = [];
-  let totalTopupAmount = 0;
+  let totalreimbursementAmount = 0;
 
-  if (topups) {
-    topupsCopy = topups;
+  if (reimbursements) {
+    reimbursementsCopy = reimbursements;
 
-    pending = topups.filter((topup) => {
-      return topup.status === 'Pending';
+    pending = reimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Pending';
     });
 
-    approved = topups.filter((topup) => {
-      return topup.status === 'Approved';
+    approved = reimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Done';
     });
 
-    rejected = topups.filter((topup) => {
-      return topup.status === 'Rejected';
+    rejected = reimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Rejected';
     });
 
-    topups.map((topup) => {
-      totalTopupAmount += topup.amount;
+    reimbursements.map((reimbursement) => {
+      totalreimbursementAmount += reimbursement.amount;
     });
   }
 
   return (
     <div>
-      <Title>Topups</Title>
+      <Title>Reimbursement</Title>
       <hr/>
       <Row>
-        <Col xs={12} sm={6}>
+        <Col xs={12} sm={8}>
           <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
-            Topups(Rs.):
+            Reimbursement(Rs.):
           </Typography>
         </Col>
-        <Col xs={12} sm={6}>
+        <Col xs={12} sm={4}>
           <Typography component="p" variant="h6">
-            {totalTopupAmount}
+            {totalreimbursementAmount}
           </Typography>
         </Col>
       </Row>
       <Row>
-        <Col xs={12} sm={6}>
+        <Col xs={12} sm={8}>
           <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
             Total(Number):
           </Typography>
         </Col>
-        <Col xs={12} sm={6}>
+        <Col xs={12} sm={4}>
           <Typography component="p" variant="h6">
-            {topupsCopy.length}
+            {reimbursementsCopy.length}
           </Typography>
         </Col>
       </Row>

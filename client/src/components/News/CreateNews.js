@@ -93,13 +93,16 @@ export default function CreateUser() {
 
   return (
     <div className={classes.root}>
-      <Sidenav /> 
+      <Sidenav />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <NewsForm />
           <Box pt={4}>
             <Copyright />
           </Box>
         </Container>
+      </main>
     </div>
   );
 }

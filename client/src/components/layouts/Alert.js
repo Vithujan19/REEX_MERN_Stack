@@ -11,6 +11,22 @@ export const SubmitSuccess = function (props) {
   );
 };
 
+export const SuccessMessage = function (props) {
+  return (
+    <div>
+      <Alert color="success">{props.message}</Alert>
+    </div>
+  );
+};
+
+export const FailedMessage = function (props) {
+  return (
+    <div>
+      <Alert color="danger">{props.message}</Alert>
+    </div>
+  );
+};
+
 export const SubmitFailed = function (props) {
   return (
     <div>

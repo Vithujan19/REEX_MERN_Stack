@@ -14,7 +14,7 @@ const AddExpense = (props) => {
       <div>
         <div className="AddBtn">
             <Link to="/CreateUser">
-        <Button style={{backgroundColor:"#ff33ff"}} ><PersonAddIcon style={{width:200, height:100}} /><br/>Create Users</Button>
+            <Button style={{backgroundColor:"#fff", color:"#1278B8"}} ><PersonAddIcon style={{width:230, height:100}} /><br/>Create Users</Button>
         </Link>
         </div>   
       </div>

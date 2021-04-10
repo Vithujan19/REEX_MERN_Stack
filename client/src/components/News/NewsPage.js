@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Sidenav from './SideNav/Sidenav';
-import News from './News/News';
+import Sidenav from '../SideNav/Sidenav';
+import News from './News';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';

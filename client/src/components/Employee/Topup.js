@@ -18,7 +18,7 @@ const Topup = (props) => {
   return (
     <div>
       <div className="AddBtn">
-      <Button style={{backgroundColor:"#ff4dd2"}} onClick={toggle}><HowToVoteIcon style={{width:200, height:100}} /><br/>Topup</Button>
+      <Button style={{backgroundColor:"#fff", color:"#1278B8"}} onClick={toggle}><HowToVoteIcon style={{width:230, height:100}} /><br/>Topup</Button>
       </div>
       <Modal isOpen={modal} toggle={toggle} className="container" style={{paddingTop:40}}>
         <ModalHeader toggle={toggle}>Topup Request</ModalHeader>

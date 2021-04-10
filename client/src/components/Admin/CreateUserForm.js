@@ -56,7 +56,6 @@ const CreateUserForm = (props) => {
     }),
     // validate,
     onSubmit: (user) => {
-      //   const token = localStorage.getItem('token');
       console.log(user);
       const userData = {
         name: user.name,
@@ -83,23 +82,12 @@ const CreateUserForm = (props) => {
           setSubmissionStatus('fail');
         });
     },
-
-    // axios.post('http://localhost:3000/users', user)
-    //     .then(res => {
-    //         console.log("Done");
-    //         toast.success("User Register successful");
-    //         props.history.push('/user/me');
-    //     })
-    //     .catch(err => {
-    //         toast.error(err.response.user);
-    //     }),
   });
 
   return (
     <Row>
       <Col xs={12} sm={4}>
         <Paper Container elevation={4}>
-          {/* {profileImg===null?<img src={DefaultProf} alt="" />: <img scr={profileImg}/>} */}
           <img src={DefaultProf} alt="" />
         </Paper>
       </Col>

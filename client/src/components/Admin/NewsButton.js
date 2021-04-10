@@ -13,7 +13,7 @@ const AddExpense = (props) => {
     <div>
       <div className="AddBtn">
           <Link to="/CreateNews">
-      <Button style={{backgroundColor:"#3366ff"}} ><CreateNewFolderIcon style={{width:200, height:100}} /><br/>Create News</Button>
+      <Button style={{backgroundColor:"#fff", color:"#1278B8"}} ><CreateNewFolderIcon style={{width:230, height:100}} /><br/>Create News</Button>
       </Link>
       </div>   
     </div>

@@ -1,153 +1,205 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useFormik, Field } from 'formik';
+import * as yup from 'yup';
 import axios from 'axios';
-// import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Paper } from '@material-ui/core';
-import { Row, Col } from 'reactstrap';
+import { toast } from 'react-toastify';
+import { SubmitSuccess, SubmitFailed } from '../layouts/Alert';
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Container,
+  Row,
+  Col,
+} from 'reactstrap';
+import { Select, Paper } from '@material-ui/core';
+import DoubleArrowSharpIcon from '@material-ui/icons/DoubleArrowSharp';
+import { SuccessMessage, FailedMessage } from '../layouts/Alert';
 
-const CreateNews = () => {
-  // const [managerIncharge, setManagerIncharge] = useState("");
-  const [title, setTitle] = useState('');
-  const [news, setNews] = useState('');
-  const [newsImg, setNewsImg] = useState('');
-  const [viewOn, setViewOn] = useState('');
-  const [hideOn, setHideOn] = useState('');
-  const [viewers, setViewers] = useState([]);
+const NewsForm = (props) => {
+  const [newsCreationStatus, setNewsCreationStatus] = useState('');
 
-  const onChecked = (e) => {
-    const target = e.target;
-    var value = target.value;
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      news: '',
+      viewers: [],
+      startDisplayOn: '',
+      endDisplayOn: '',
+    },
+    validationSchema: yup.object({
+      title: yup.string().required('Title is required'),
+      news: yup.string().required('News is required'),
+      viewers: yup.string().required('viewers is required'),
+      startDisplayOn: yup.string().required('Start preview date is required'),
+      endDisplayOn: yup.string().required('End preview date is required'),
+    }),
+    // validate,
+    onSubmit: (news) => {
+      //   const token = localStorage.getItem('token');
+      const newsViewers = [];
+      if (news.viewers === 'both') {
+        newsViewers.push('employee');
+        newsViewers.push('manager');
+      } else if (news.viewers === 'employee') {
+        newsViewers.push('employee');
+      } else if (news.viewers === 'manager') {
+        newsViewers.push('manager');
+      }
+      console.log(newsViewers);
+      const newsData = {
+        title: news.title,
+        news: news.news,
+        viewers: newsViewers,
+        startDisplayOn: news.startDisplayOn,
+        endDisplayOn: news.endDisplayOn,
+      };
+      console.log(newsData);
 
-    if (target.checked) {
-      setViewers[value] = value;
-    } else {
-      this.state.hobbies.splice(value, 1);
-    }
-  };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      };
 
-  const changeOnClick = (e) => {
-    e.preventDefault();
+      axios
+        .post('http://localhost:3000/news', newsData, config)
+        .then((res) => {
+          setNewsCreationStatus('success');
+        })
+        .catch((err) => {
+          setNewsCreationStatus('fail');
+        });
+    },
 
-    const formData = new FormData();
-
-    formData.append('title', title);
-    formData.append('news', news);
-    formData.append('newsImg', newsImg);
-    formData.append('viewOn', viewOn);
-    formData.append('hideOn', hideOn);
-
-    // setTitle("");
-    // setNews("");
-    // setNewsImg("");
-    // setViewOn("");
-    // setHideOn("");
-
-    // console.log("Current Title is " + JSON.stringify(title));
-    // console.log("Current News is is " + JSON.stringify(news));
-
-    // axios.post('http://localhost:3000/news',)
-    //     .then((response) => {
-    //         console.log("Successfully updated");
-    //         console.log(response);
-    //     },
-    //         (error) => {
-    //             console.log("Error : ", error);
-    //         });
-  };
+    // axios.post('http://localhost:3000/users', user)
+    //     .then(res => {
+    //         console.log("Done");
+    //         toast.success("User Register successful");
+    //         props.history.push('/user/me');
+    //     })
+    //     .catch(err => {
+    //         toast.error(err.response.user);
+    //     }),
+  });
 
   return (
-    <div className="container" style={{ marginTop: 40 }}>
-      <Paper elevation={8}>
-        <div className="container" style={{ padding: 50 }}>
-          <h2 style={{ textAlign: 'center' }}>Add News</h2>
-          <br />
-          <form onSubmit={changeOnClick} encType="multipart/form-data">
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="form-control"
-                placeholder="Title"
-              />
-            </div>
+    <Row>
+      <Col xs={12} sm={2}></Col>
+      <Col xs={12} sm={8}>
+        <div className="container">
+          <Paper elevation={4} style={{ padding: '20px' }}>
+            {/* {submissionStatus === 'success' ? <SubmitSuccess /> : null}
+            {submissionStatus === 'fail' ? <SubmitFailed /> : null} */}
+            <h3 style={{ textAlign: 'center' }}>Create News</h3>
             <hr />
-            <div className="form-group">
-              <label htmlFor="viewers">Viewers</label>
+            {newsCreationStatus === 'success' ? (
+              <SuccessMessage message="News Created Successfully" />
+            ) : null}
+            {newsCreationStatus === 'fail' ? (
+              <FailedMessage message="Failed to Create News" />
+            ) : null}
+            <form autoComplete="off" onSubmit={formik.handleSubmit}>
               <Row>
-                <Col xs={12} sm={2}>
-                  <label class="container">
-                    Manager
-                    <input type="checkbox" value="manager" />
-                    <span class="checkmark"></span>
-                  </label>
+                <Col xs={12} sm={12}>
+                  <div className="form-group">
+                    <label>Title:</label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="title"
+                      onChange={formik.handleChange}
+                      value={formik.values.title}
+                    />
+                    {formik.errors.title ? (
+                      <div className="text-danger">{formik.errors.title}</div>
+                    ) : null}
+                  </div>
                 </Col>
-                <Col xs={12} sm={2}>
-                  <label class="container">
-                    Employee
-                    <input type="checkbox" value="employee" />
-                    <span class="checkmark"></span>
-                  </label>
+                <Col xs={12} sm={12}>
+                  <div className="form-group">
+                    <label>News:</label>
+                    <textarea
+                      style={{ height: 200 }}
+                      className="form-control"
+                      type="text"
+                      name="news"
+                      onChange={formik.handleChange}
+                      value={formik.values.news}
+                    />
+                    {formik.errors.news ? (
+                      <div className="text-danger">{formik.errors.news}</div>
+                    ) : null}
+                  </div>
+                </Col>
+                <Col xs={12} sm={4}>
+                  <div className="form-group">
+                    <label>Viewers:</label>
+                    <Select
+                      className="form-control"
+                      type="select"
+                      name="viewers"
+                      onChange={formik.handleChange}
+                      value={formik.values.viewers}
+                    >
+                      <option value="manager">Managers</option>
+                      <option value="employee">Employees</option>
+                      <option value="both">For All </option>
+                    </Select>
+                    {formik.errors.viewers ? (
+                      <div className="text-danger">{formik.errors.viewers}</div>
+                    ) : null}
+                  </div>
+                </Col>
+                <Col xs={12} sm={4}>
+                  <div className="form-group">
+                    <label>Start Display on:</label>
+                    <input
+                      className="form-control"
+                      name="startDisplayOn"
+                      type="date"
+                      onChange={formik.handleChange}
+                      value={formik.values.startDisplayOn}
+                    />
+                    {formik.errors.startDisplayOn ? (
+                      <div className="text-danger">
+                        {formik.errors.startDisplayOn}
+                      </div>
+                    ) : null}
+                  </div>
+                </Col>
+                <Col xs={12} sm={4}>
+                  <div className="form-group">
+                    <label>End Display on:</label>
+                    <input
+                      className="form-control"
+                      name="endDisplayOn"
+                      type="date"
+                      onChange={formik.handleChange}
+                      value={formik.values.endDisplayOn}
+                    />
+                    {formik.errors.endDisplayOn ? (
+                      <div className="text-danger">
+                        {formik.errors.endDisplayOn}
+                      </div>
+                    ) : null}
+                  </div>
                 </Col>
               </Row>
-            </div>
-            <hr />
-            <div className="form-group">
-              <label htmlFor="news">News</label>
-              <textarea
-                value={news}
-                onChange={(e) => setNews(e.target.value)}
-                className="form-control"
-                rows="3"
-              ></textarea>
-            </div>
-            <br />
-            <Row>
-              <Col xs={12} sm={4}>
-                <div className="form-group">
-                  <input
-                    type="file"
-                    name="newsImg"
-                    onChange={(e) => setNewsImg(e.target.files[0])}
-                    id="newsImg"
-                  />
-                  <br />
-                  <label for="newsImg">Attach Image</label>
-                </div>
-              </Col>
-              <Col xs={12} sm={4}>
-                <div className="form-group">
-                  <label>Publish On:</label>
-                  <input
-                    className="form-control"
-                    name="viewOn"
-                    type="date"
-                    onChange={(e) => setViewOn(e.target.value)}
-                  />
-                </div>
-              </Col>
-              <Col xs={12} sm={4}>
-                <div className="form-group">
-                  <label>Hide On:</label>
-                  <input
-                    className="form-control"
-                    name="hideOn"
-                    type="date"
-                    onChange={(e) => setHideOn(e.target.value)}
-                  />
-                </div>
-              </Col>
-            </Row>
-            <button type="submit" className="btn btn-primary">
-              <ion-icon name="send"></ion-icon>Post News
-            </button>
-          </form>
+              <button className="btn btn-primary">
+                Post News <DoubleArrowSharpIcon />
+              </button>
+            </form>
+          </Paper>
         </div>
-      </Paper>
-    </div>
+      </Col>
+      <Col xs={12} sm={2}></Col>
+    </Row>
   );
 };
 
-export default CreateNews;
+export default NewsForm;

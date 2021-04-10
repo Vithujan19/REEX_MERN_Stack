@@ -18,7 +18,7 @@ const AddExpense = (props) => {
   return (
     <div>
       <div className="AddBtn">
-      <Button style={{backgroundColor:"#ffa31a"}} onClick={toggle}><PostAddIcon style={{width:200, height:100}} /><br/>Add Expenses</Button>
+      <Button style={{backgroundColor:"#fff", color:"#1278B8"}} onClick={toggle}><PostAddIcon style={{width:230, height:100}} /><br/>Add Expenses</Button>
       </div>
       
       <Modal isOpen={modal} toggle={toggle} className="container" style={{paddingTop:40}}>

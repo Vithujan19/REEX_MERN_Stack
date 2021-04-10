@@ -39,13 +39,37 @@ export const AuthTokenContextProvider = function (props) {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    setAuthData({
-      user: {},
-      token: '',
-    });
+  const logout = async () => {
+    const dummy = '';
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/users/logout',
+        '',
+        config
+      );
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      setAuthData({
+        user: {},
+        token: '',
+      });
+    } catch (error) {
+      console.log('logout failed ');
+    }
+    // localStorage.removeItem('user');
+    // localStorage.removeItem('token');
+    // setAuthData({
+    //   user: {},
+    //   token: '',
+    // });
   };
 
   return (

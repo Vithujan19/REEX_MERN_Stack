@@ -16,7 +16,7 @@ const topUpRequestSchema = new mongoose.Schema(
       type: String,
       default: 'Pending',
       required: true,
-      enum: ['Pending', 'Not Approved', 'Approved'],
+      enum: ['Pending', 'Rejected', 'Approved'],
     },
 
     requestTo: {

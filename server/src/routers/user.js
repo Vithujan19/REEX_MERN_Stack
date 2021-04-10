@@ -86,6 +86,7 @@ router.patch('/users/me', [auth.authUser], async (req, res) => {
     'dateOfBirth',
     'mobileNumber',
     'gender',
+    'profilePictureUrl',
   ];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)

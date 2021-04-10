@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button } from 'reactstrap';
-import {
-  DataGrid,
-  ColDef,
-  ValueGetterParams,
-  CellParams,
-  GridApi,
-} from '@material-ui/data-grid';
+import { DataGrid} from '@material-ui/data-grid';
 
 export default function ExpenseTable(props) {
   const { managers, transactions } = props;
@@ -39,9 +33,9 @@ export default function ExpenseTable(props) {
       sortable: false,
       width: 120,
       disableClickEventBubbling: true,
-      renderCell: (params: CellParams) => {
+      renderCell: (params) => {
         const onClick = () => {
-          const api: GridApi = params.api;
+          const api = params.api;
           const fields = api
             .getAllColumns()
             .map((c) => c.field)

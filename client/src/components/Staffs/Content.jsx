@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import CoffeCard from './Card';
+import StaffCard from './Card';
 import { Grid } from '@material-ui/core';
 import { GetUsersContext } from '../../context/GetUsersContext';
-import coffeMakerList from './constants';
 
 const Content = () => {
   const { allUsers, getAllUsers } = useContext(GetUsersContext);
 
   useEffect(async () => {
     await getAllUsers();
-  }, []);
+  });
 
   const getDate = (realDate) => {
     const datee = new Date(realDate);
@@ -38,10 +37,10 @@ const Content = () => {
     });
   }
 
-  const getCoffeMakerCard = (coffeMakerObj) => {
+  const getStaffCard = (staffObj) => {
     return (
       <Grid item xs={12} sm={4}>
-        <CoffeCard {...coffeMakerObj} />
+        <StaffCard {...staffObj} />
       </Grid>
     );
   };
@@ -49,7 +48,7 @@ const Content = () => {
   return (
     <div>
       <Grid container spacing={2}>
-        {usersDetails.map((coffeMakerObj) => getCoffeMakerCard(coffeMakerObj))}
+        {usersDetails.map((staffObj) => getStaffCard(staffObj))}
       </Grid>
     </div>
   );

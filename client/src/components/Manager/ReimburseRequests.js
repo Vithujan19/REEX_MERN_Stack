@@ -1,23 +1,49 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-
-const columns = [
-  { field: 'createdDate', headerName: 'Created Date', width: 150 },
-  { field: 'employeeName', headerName: 'Employee Name Name', width: 130 },
-  { field: 'bankDetails', headerName: 'Bank Details', width: 160 },
-  {
-    field: 'amount',
-    headerName: 'Amount',
-    width: 130,
-  },
-  { field: 'updatedDate', headerName: 'Updated Date', width: 160 },
-  { field: 'status', headerName: 'Status', width: 160 },
-  { field: 'transactionId', hide: true, headerName: 'Status', width: 160 },
-];
+import EmployeeReimburseDetail from '../Employee/EmployeeReimburseDetail';
+import { Button } from 'reactstrap';
 
 export default function ReimburseRequests(props) {
-  const rows = [];
+  const [rows, setRows] = useState();
+  const [rowSelcted, setRowSelected] = useState(false);
   const { employees, reimbursements } = props;
+
+  const columns = [
+    { field: 'createdDate', headerName: 'Created Date', width: 150 },
+    { field: 'employeeName', headerName: 'Employee Name Name', width: 130 },
+    { field: 'bankDetails', headerName: 'Bank Details', width: 160 },
+    {
+      field: 'amount',
+      headerName: 'Amount',
+      width: 130,
+    },
+    { field: 'updatedDate', headerName: 'Updated Date', width: 160 },
+    { field: 'status', headerName: 'Status', width: 160 },
+    { field: 'transactionId', hide: true, headerName: 'Status', width: 160 },
+    {
+      field: "",
+      headerName: "Action",
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        const onClick = () => {
+          const api = params.api;
+          const fields = api
+            .getAllColumns()
+            .map((c) => c.field)
+            .filter((c) => c !== "__check__" && !!c);
+          const thisRow = {};
+  
+          fields.forEach((f) => {
+            thisRow[f] = params.getValue(f);
+          });
+          setRows(thisRow);
+          return setRowSelected(true);
+        };
+  
+        return <Button onClick={onClick}>Click</Button>;
+      }
+    }
+  ];
 
   const getDate = (realDate) => {
     const datee = new Date(realDate);
@@ -53,8 +79,14 @@ export default function ReimburseRequests(props) {
 
   return (
     <div style={{ height: 400, width: 'auto' }}>
-      <h3>Reimbursement Requests</h3>
-      <DataGrid rows={details} columns={columns} pageSize={5} />
+      {rowSelcted ? (
+        <EmployeeReimburseDetail rowData={rows} />
+      ) : (
+        <React.Fragment>
+            <h3>Reimbursement Requests</h3>
+            <DataGrid rows={details} columns={columns} pageSize={5} />
+        </React.Fragment>
+      )}
     </div>
   );
 }

@@ -44,6 +44,25 @@ export const GetUsersContextProvider = function (props) {
       });
   };
 
+  const reloadUser = () => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios
+      .get('http://localhost:3000/users/me', config)
+      .then((response) => {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log('Unable to Update');
+      });
+  };
+
   const getManagers = async () => {
     const token = localStorage.getItem('token');
     const config = {
@@ -71,6 +90,7 @@ export const GetUsersContextProvider = function (props) {
         getEmployees,
         allUsers,
         getAllUsers,
+        reloadUser,
       }}
     >
       {props.children}

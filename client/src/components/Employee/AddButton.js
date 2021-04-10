@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NavigationIcon from '@material-ui/icons/Navigation';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,17 +22,13 @@ export default function FloatingActionButtons() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}> 
-    <h5>Add Expenses</h5> 
+    <div className={classes.root}>
+      <h5>Add Expenses</h5>
       <Fab color="primary" aria-label="add">
-      <Link className="nav-link" to="/AddExpense" style={{color: "#fff"}}>
-        <AddIcon />
+        <Link className="nav-link" to="/AddExpense" style={{ color: '#fff' }}>
+          <AddIcon />
         </Link>
       </Fab>
-      {/* <Fab color="secondary" aria-label="edit">
-        <EditIcon />
-      </Fab> */}
-      
     </div>
   );
 }
