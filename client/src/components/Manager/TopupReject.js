@@ -13,11 +13,6 @@ export default function TopupReject(props) {
       headerName: 'Amount',
       width: 130,
     },
-    // {
-    //   field: 'status',
-    //   headerName: 'Status',
-    //   width: 150,
-    // },
   ];
 
   const getDate = (realDate) => {
@@ -43,7 +38,7 @@ export default function TopupReject(props) {
 
   if (topups && employees) {
     const notApprovedTopups = topups.filter((topup) => {
-      return topup.status === 'Not Approved';
+      return topup.status === 'Rejected';
     });
 
     notApprovedTopups.reverse().map((notApprovedTopup) => {
@@ -53,7 +48,6 @@ export default function TopupReject(props) {
         employeeName: getEmployeeName(notApprovedTopup.requestBy),
         employeeId: getEmployeeId(notApprovedTopup.requestBy),
         amount: notApprovedTopup.amount,
-        // status: notApprovedTopup.status,
       };
       rows.push(data);
     });

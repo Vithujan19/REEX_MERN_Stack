@@ -1,14 +1,11 @@
-import React, { useContext , useEffect} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Sidenav from '../SideNav/Sidenav';
-import News from './News';
+import Sidenav from '../components/SideNav/Sidenav';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
-import Copyright from '../Footer/Footer';
-import {NewsContext} from '../../context/NewsContext';
+import ViewUserForm from './ViewUserForm';
+import Copyright from '../components/Footer/Footer';
 
 const drawerWidth = 240;
 
@@ -91,14 +88,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewsPage() {
+export default function CreateUser() {
   const classes = useStyles();
-
-  const { news, getAllNews } = useContext(NewsContext);
-
-  useEffect(async () => {
-    await getAllNews();
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -106,7 +97,7 @@ export default function NewsPage() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <News news={news}/>
+          <ViewUserForm />
           <Box pt={4}>
             <Copyright />
           </Box>

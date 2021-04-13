@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React from 'react';
 import { Col, Row } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Title from '../../components/Title';
@@ -6,7 +6,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 AOS.init();
 
-export default function TotalExpenses(props) {
+export default function ATotalExpenses(props) {
   const { transactions } = props;
 
   let expenses = [];
@@ -34,34 +34,16 @@ export default function TotalExpenses(props) {
       totalExpense += transaction.amount;
     });
   }
-  var currentUser = JSON.parse(localStorage.getItem('user'));
+
   return (
     <div>
-      {currentUser.role === 'employee' ? (
-        <Title>Expenses</Title>
-      ) : currentUser.role === 'manager' || currentUser.role === 'admin' ? (
-        <Title>Transaction</Title>
-      ) : null}
+      <Title>Transaction</Title>
       <hr />
       <Row>
         <Col xs={12} sm={6}>
-          {currentUser.role === 'employee' || currentUser.role === 'admin' ? (
-            <Typography
-              component="p"
-              variant="h6"
-              style={{ fontWeight: 'bold' }}
-            >
-              Expenses(Rs.):
-            </Typography>
-          ) : currentUser.role === 'manager' ? (
-            <Typography
-              component="p"
-              variant="h6"
-              style={{ fontWeight: 'bold' }}
-            >
-              Transaction(Rs.):
-            </Typography>
-          ) : null}
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
+            Transaction(Rs.):
+          </Typography>
         </Col>
         <Col xs={12} sm={6}>
           <Typography component="p" variant="h6">

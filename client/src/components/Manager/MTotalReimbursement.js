@@ -1,69 +1,65 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import { Col, Row } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Title from '../../components/Title';
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
+import 'aos/dist/aos.css';
 AOS.init();
 
-export default function TotalTopup(props) {
-  // const classes = useStyles();
-  const { topups } = props;
+export default function MTotalReimbursement(props) {
+  const { reimbursements } = props;
 
-  let topupsCopy = [];
+  let reimbursementsCopy = [];
   let pending = [];
   let approved = [];
   let rejected = [];
-  let totalTopupAmount = 0;
+  let totalreimbursementAmount = 0;
 
-  if (topups) {
-    topupsCopy = topups;
+  if (reimbursements) {
+    reimbursementsCopy = reimbursements;
 
-    pending = topups.filter((topup) => {
-      return topup.status === 'Pending';
+    pending = reimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Pending';
     });
 
-    approved = topups.filter((topup) => {
-      return topup.status === 'Approved';
+    approved = reimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Done';
     });
 
-    rejected = topups.filter((topup) => {
-      return topup.status === 'Rejected';
+    rejected = reimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Rejected';
     });
 
-    topups.map((topup) => {
-      totalTopupAmount += topup.amount;
+    reimbursements.map((reimbursement) => {
+      totalreimbursementAmount += reimbursement.amount;
     });
   }
 
   return (
     <div>
-      <Title>Topups</Title>
-      <hr/>
+      <Title>Reimbursement</Title>
+      <hr />
       <Row>
-        <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
-            Topups(Rs.):
+        <Col xs={12} sm={8}>
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
+            Reimbursement(Rs.):
           </Typography>
         </Col>
-        <Col xs={12} sm={6}>
+        <Col xs={12} sm={4}>
           <Typography component="p" variant="h6">
-            {totalTopupAmount}
+            {totalreimbursementAmount}
           </Typography>
         </Col>
       </Row>
       <Row>
-        <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
+        <Col xs={12} sm={8}>
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
             Total(Number):
           </Typography>
         </Col>
-        <Col xs={12} sm={6}>
+        <Col xs={12} sm={4}>
           <Typography component="p" variant="h6">
-            {topupsCopy.length}
+            {reimbursementsCopy.length}
           </Typography>
         </Col>
       </Row>

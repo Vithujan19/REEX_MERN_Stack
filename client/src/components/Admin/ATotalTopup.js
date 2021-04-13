@@ -1,16 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import { Col, Row } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Title from '../../components/Title';
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
+import 'aos/dist/aos.css';
 AOS.init();
 
-export default function TotalTopup(props) {
-  // const classes = useStyles();
+export default function ATotalTopup(props) {
   const { topups } = props;
 
   let topupsCopy = [];
@@ -42,10 +38,10 @@ export default function TotalTopup(props) {
   return (
     <div>
       <Title>Topups</Title>
-      <hr/>
+      <hr />
       <Row>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
             Topups(Rs.):
           </Typography>
         </Col>
@@ -57,7 +53,7 @@ export default function TotalTopup(props) {
       </Row>
       <Row>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
             Total(Number):
           </Typography>
         </Col>

@@ -9,48 +9,56 @@ import 'aos/dist/aos.css'; // You can also use <link> for styles
 AOS.init();
 
 export default function TotalStaffs(props) {
-  // const classes = useStyles();
-//   const { topups } = props;
+  const { managers, employees } = props;
 
-//   let topupsCopy = [];
-//   let pending = [];
-//   let approved = [];
-//   let rejected = [];
-//   let totalTopupAmount = 0;
+  //   let topupsCopy = [];
+  //   let pending = [];
+  //   let approved = [];
+  //   let rejected = [];
+  //   let totalTopupAmount = 0;
 
-//   if (topups) {
-//     topupsCopy = topups;
+  let managersCopy = [];
+  let managersMale = [];
+  let managersFemale = [];
 
-//     pending = topups.filter((topup) => {
-//       return topup.status === 'Pending';
-//     });
+  let employeesCopy = [];
+  let employeesMale = [];
+  let employeesFemale = [];
 
-//     approved = topups.filter((topup) => {
-//       return topup.status === 'Approved';
-//     });
+  if (employees && managers) {
+    managersCopy = managers;
+    employeesCopy = employees;
 
-//     rejected = topups.filter((topup) => {
-//       return topup.status === 'Rejected';
-//     });
+    managersMale = managersCopy.filter((manager) => {
+      return manager.gender === 'male';
+    });
 
-//     topups.map((topup) => {
-//       totalTopupAmount += topup.amount;
-//     });
-//   }
+    managersFemale = managersCopy.filter((manager) => {
+      return manager.gender === 'female';
+    });
+
+    employeesMale = employeesCopy.filter((employee) => {
+      return employee.gender === 'male';
+    });
+
+    employeesFemale = employeesCopy.filter((employee) => {
+      return employee.gender === 'female';
+    });
+  }
 
   return (
     <div>
       <Title>Staffs</Title>
-      <hr/>
+      <hr />
       <Row>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
             Total Managers:
           </Typography>
         </Col>
         <Col xs={12} sm={6}>
           <Typography component="p" variant="h6">
-            10
+            {managersCopy.length}
           </Typography>
         </Col>
       </Row>
@@ -58,26 +66,26 @@ export default function TotalStaffs(props) {
         <Row>
           <Col xs={12} sm={6}>
             <span style={{ color: '#ff6600' }}>
-              Male: 8
+              Male: {managersMale.length}
             </span>
           </Col>
           <Col xs={12} sm={6}>
             <span style={{ color: '#00b300' }}>
-              Female: 2 
+              Female: {managersFemale.length}
             </span>
           </Col>
         </Row>
       </Typography>
-      <br/>
+      <br />
       <Row>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
             Total Employees:
           </Typography>
         </Col>
         <Col xs={12} sm={6}>
           <Typography component="p" variant="h6">
-            50
+            {employeesCopy.length}
           </Typography>
         </Col>
       </Row>
@@ -85,12 +93,12 @@ export default function TotalStaffs(props) {
         <Row>
           <Col xs={12} sm={6}>
             <span style={{ color: '#ff6600' }}>
-              Male: 30
+              Male: {employeesMale.length}
             </span>
           </Col>
           <Col xs={12} sm={6}>
             <span style={{ color: '#00b300' }}>
-              Female: 20 
+              Female: {employeesFemale.length}
             </span>
           </Col>
         </Row>

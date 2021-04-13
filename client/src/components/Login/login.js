@@ -33,11 +33,6 @@ function SignIn(props) {
     }
   };
 
-  // var currentUser = JSON.parse(localStorage.getItem('user'));
-  // if(currentUser.role === 'admin'){
-  //   return <Redirect to={'/Dashboard'} />;
-  // }
-
   if (localStorage.getItem('token')) {
     return <Redirect to={'/dashboard'} />;
   }
@@ -99,4 +94,5 @@ function SignIn(props) {
     </Container>
   );
 }
+
 export default SignIn;

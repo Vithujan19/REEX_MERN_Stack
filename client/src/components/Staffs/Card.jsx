@@ -103,7 +103,7 @@ const StaffCard = (props) => {
               <Grid align="center">
                 <Button size="small">
                   {" "}
-                  <Link style={{textDecoration:"none",color: "green"}} to="/EditUser">Edit</Link>
+                  <Link style={{textDecoration:"none",color: "green"}} to="/ViewUser">View</Link>
                     
                   </Button>
               </Grid>

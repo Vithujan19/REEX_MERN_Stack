@@ -68,10 +68,10 @@ router.get('/getalladmin', [auth.authUser], async (req, res) => {
   }
 });
 
-router.get('/getallusers', [auth.authUser], async (req, res) => {
+router.get('/getallusers', [auth.authUser, auth.isAdmin], async (req, res) => {
   try {
-    const users = await User.find({});
-    res.send(users);
+    const allUsers = await User.find({});
+    res.send(allUsers);
   } catch (error) {
     res.status(400).send();
   }
@@ -127,19 +127,6 @@ router.post('/users/login', async (req, res) => {
   }
 });
 
-// const upload = multer({
-//   limits: {
-//     fileSize: 1000000,
-//   },
-//   fileFilter(req, file, cb) {
-//     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-//       return cb(new Error('Please upload an image'));
-//     }
-
-//     cb(undefined, true);
-//   },
-// });
-
 router.post(
   '/users/me/profilePicture',
   auth.authUser,
@@ -165,7 +152,6 @@ router.get('/users/:id/profilePicture', async (req, res) => {
     if (!user || !user.profilePictureUrl) {
       throw new Error();
     }
-    // res.set('Content-Type', 'image/jpg');
     res.send(user.profilePictureUrl);
   } catch (error) {
     res.status(400).send();

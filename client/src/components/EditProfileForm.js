@@ -20,6 +20,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { GetUsersContext } from '../context/GetUsersContext';
 import { SuccessMessage, FailedMessage } from './layouts/Alert';
+import ProfilePictureUpdate from './ProfilePictureUpdate';
+
 
 const EditProfileForm = (props) => {
   const [updateStatus, setUpdateStatus] = useState();
@@ -86,7 +88,13 @@ const EditProfileForm = (props) => {
 
   return (
     <Row>
-      <Col xs={12} sm={2}></Col>
+      <Col xs={12} sm={4}>
+        <Paper elevation={4}>
+          <div>
+            <ProfilePictureUpdate/>
+          </div>
+        </Paper>
+      </Col>
       <Col xs={12} sm={8}>
         <div className="container">
           <Paper elevation={4} style={{ padding: '20px' }}>

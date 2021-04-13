@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import { Button } from 'reactstrap';
 
 export default function TopupPending(props) {
+  const [isRowSelected, setIsRowSelected] = useState(false);
+  const [selectedRow, setSelectedRow] = useState();
   const { transactions, employees } = props;
   const columns = [
     { field: 'submissionDate', headerName: 'Submission Date', width: 161 },
     { field: 'employeeName', headerName: 'Employee Name', width: 165 },
     { field: 'category', headerName: 'Category', width: 110 },
     { field: 'paymentMethod', headerName: 'Payment Method', width: 160 },
-    { field: 'transactionDate', headerName: 'Transaction Date', width: 161 },
-    { field: 'updatedDate', headerName: 'Updated Date', width: 151 },
+    {
+      field: 'transactionDate',
+      headerName: 'Transaction Date',
+      width: 161,
+      hide: true,
+    },
+    {
+      field: 'updatedDate',
+      headerName: 'Updated Date',
+      width: 151,
+      hide: true,
+    },
     {
       field: 'amount',
       headerName: 'Amount',
-      // type: 'number',
       width: 110,
     },
     {
@@ -27,6 +39,34 @@ export default function TopupPending(props) {
       width: 0,
       hide: true,
     },
+    {
+      field: '',
+      headerName: 'View More',
+      width: 150,
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        const onClick = () => {
+          const api = params.api;
+          const fields = api
+            .getAllColumns()
+            .map((c) => c.field)
+            .filter((c) => c !== '__check__' && !!c);
+          const thisRow = {};
+
+          fields.forEach((f) => {
+            thisRow[f] = params.getValue(f);
+          });
+          setSelectedRow(thisRow);
+          return setIsRowSelected(true);
+        };
+
+        return (
+          <Button color="primary" onClick={onClick}>
+            Click Here
+          </Button>
+        );
+      },
+    },
   ];
 
   const getDate = (realDate) => {
@@ -34,7 +74,7 @@ export default function TopupPending(props) {
     const year = datee.getUTCFullYear();
     const month = datee.getUTCMonth();
     const date = datee.getUTCDate();
-    const correctDate = date + '-' + month + '-' + year;
+    const correctDate = date + '-' + (month + 1) + '-' + year;
     return correctDate;
   };
 
@@ -69,14 +109,28 @@ export default function TopupPending(props) {
         receiptUrl: pendingTransaction.receiptUrl,
       };
       rows.push(data);
-      // console.log('Rows : ', rows);
+      console.log('Rows : ', rows);
     });
   }
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <h3>Transactions Pending</h3>
-      <DataGrid rows={rows} columns={columns} pageSize={5} />
+      {isRowSelected ? (
+        // <PendingTransactionDetail
+        //   transactions={transactions}
+        //   employees={employees}
+        //   selectedRow={selectedRow}
+        // />
+        <React.Fragment>
+          <p> Got slectedRow Details</p>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          {' '}
+          <h3>Transactions Pending</h3>
+          <DataGrid rows={rows} columns={columns} pageSize={5} />
+        </React.Fragment>
+      )}
     </div>
   );
 }

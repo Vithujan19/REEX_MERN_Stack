@@ -13,6 +13,7 @@ import Staffs from './components/Staffs/Staffs';
 import ViewProfile from './components/ViewProfile';
 import EditProfile from './components/EditProfile';
 import EditUser from './components/EditUser';
+import ViewUser from './components/ViewUser';
 import BankDetails from './components/BankDetail';
 import ChangePassword from './components/ChangePassword';
 import EmployeeReimbursement from './components/Employee/EmployeeReimbursement';
@@ -32,6 +33,7 @@ import { TransactionContextProvider } from './context/TransactionContext';
 import { TopupContextProvider } from './context/TopupContext';
 import { BankDetailsContextProvider } from './context/BankDetailsContext';
 import { ReimbursementContextProvider } from './context/ReimbursementContext';
+import { NewsContextProvider } from './context/NewsContext';
 import {
   ProtectedRouterEmployee,
   ProtectedRouterManager,
@@ -49,6 +51,7 @@ function App() {
             <GetUsersContextProvider>
               <ReimbursementContextProvider>
                 <BankDetailsContextProvider>
+                  <NewsContextProvider>
                   <BrowserRouter>
                     <Switch>
                       <Route exact path="/" component={Landing} />
@@ -107,6 +110,11 @@ function App() {
                         path="/EditUser"
                         component={EditUser}
                       />
+                      <ProtectedRouterAdmin
+                        exact
+                        path="/ViewUser"
+                        component={ViewUser}
+                      />
 
                       {/* Employee & Manager Routes */}
                       <ProtectedRouterEmployeeManager
@@ -146,6 +154,7 @@ function App() {
                       <Route path="*" component={() => '404 NOT FOUND'} />
                     </Switch>
                   </BrowserRouter>
+                  </NewsContextProvider>
                 </BankDetailsContextProvider>
               </ReimbursementContextProvider>
             </GetUsersContextProvider>

@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react';
 import axios from 'axios';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 export const AuthTokenContext = createContext();
 
@@ -64,12 +64,6 @@ export const AuthTokenContextProvider = function (props) {
     } catch (error) {
       console.log('logout failed ');
     }
-    // localStorage.removeItem('user');
-    // localStorage.removeItem('token');
-    // setAuthData({
-    //   user: {},
-    //   token: '',
-    // });
   };
 
   return (

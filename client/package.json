@@ -37,6 +37,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "react-scroll": "^1.8.1",
+    "react-show-more-button": "^1.0.0",
     "react-swipeable-views": "^0.13.9",
     "react-toastify": "^7.0.3",
     "reactstrap": "^8.9.0",
