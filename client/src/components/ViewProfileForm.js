@@ -11,44 +11,6 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const ViewProfileForm = (props) => {
 
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            role: '',
-            gender: '',
-            dateOfBirth: '',
-            mobileNumber: '',
-            email: '',
-            userId: '',
-            password: '',
-            confirmPassword: '',
-            profileImg: '',
-            bank: '',
-            branch: '',
-            accountNumber: ''
-        },
-        validationSchema: yup.object({
-            password: yup.string()
-                .required("Password is required"),
-            confirmPassword: yup.string()
-                .oneOf([yup.ref('password'), null], "Password and confirm password must be same")
-                .required("Confirm Password List is required")
-        }),
-        // validate,
-        onSubmit: (user) => {
-            console.log(user);
-            axios.post('http://localhost:3000/users', user)
-                .then(res => {
-                    console.log("Done");
-                    toast.success("User Register successful");
-                    props.history.push('/user/me');
-                })
-                .catch(err => {
-                    toast.error(err.response.user);
-                })
-        }
-    })
-
     return (
         <Row>
             <Col xs={12} sm={4}>
@@ -62,160 +24,71 @@ const ViewProfileForm = (props) => {
                     <Paper elevation={4} style={{ padding: "20px" }}>
                         <h3 style={{textAlign:"center"}}>View Profile</h3>
                         <hr/>
-                        
                             <Row>
-                                <Col xs={12} sm={6}>
+                                <Col xs={12} sm={4}>
                                     <div className="form-group">
-                                        <label>Name:</label>
-                                        <input 
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="name"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.name}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col xs={12} sm={6}>
-                                    <div className="form-group">
-                                        <label>UserID:(Admin only)</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="userId"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.userId}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col xs={12} sm={8}>
-                                    <div className="form-group">
-                                        <label>Email:</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="email"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.email}
-                                        />
+                                        <label><span style={{fontWeight:"bold"}}>Name : </span>Kovarthanan</label>    
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={4}>
                                     <div className="form-group">
-                                        <label>Mobile Number:</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="mobileNumber"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.mobileNumber}
-                                        />
+                                        <label><span style={{fontWeight:"bold"}}>Email : </span>kova@gmail.com</label>    
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={4}>
                                     <div className="form-group">
-                                        <label>Role:(Admin only)</label>
-                                        <Input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="role"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.role}
-                                        >
-                                        </Input>
+                                        <label><span style={{fontWeight:"bold"}}>Date of Birth : </span>1997-12-07</label>
+                                    </div>
+                                </Col>
+                                <Col xs={12} sm={3}>
+                                    <div className="form-group">
+                                        <label><span style={{fontWeight:"bold"}}>UserID : </span>184081D</label>  
+                                    </div>
+                                </Col>
+                                <Col xs={12} sm={3}>
+                                    <div className="form-group">
+                                        <label><span style={{fontWeight:"bold"}}>Gender : </span>Male</label>
+                                    </div>
+                                </Col>
+                                <Col xs={12} sm={2}>
+                                    <div className="form-group">
+                                        <label><span style={{fontWeight:"bold"}}>Role : </span>Admin</label>
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={4}>
                                     <div className="form-group">
-                                        <label>Gender:</label>
-                                        <Input
-                                            disabled
-                                            className="form-control"
-                                            type="select"
-                                            name="gender"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.gender}
-                                        >
-                                        </Input>
-                                    </div>
-                                </Col>
-                                <Col xs={12} sm={4}>
-                                    <div className="form-group">
-                                        <label>Date of Birth:</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            name="dateOfBirth"
-                                            type="date"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.dateOfBirth}
-                                        />
+                                        <label><span style={{fontWeight:"bold"}}>Mobile Number : </span>0779726655</label>
                                     </div>
                                 </Col>
                             </Row>
-                            <h4>Bank Details</h4>
+                            </Paper>
+                            <br/>
+                            <Paper elevation={4} style={{ padding: "20px" }}>
+                            <h4 style={{textAlign:"center"}}>Bank Details</h4>
                             <hr />
                             <Row>
                                 <Col xs={12} sm={6}>
                                     <div className="form-group">
-                                        <label>Account Holder Name:</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="owner"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.owner}
-                                        />
+                                        <label><span style={{fontWeight:"bold"}}>Account Holder Name:</span>Kovarthanan.K</label>
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={6}>
                                     <div className="form-group">
-                                        <label>Account Number:</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="accountNumber"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.accountNumber}
-                                        />
+                                        <label><span style={{fontWeight:"bold"}}>Account Number:</span>8669568</label>
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={6}>
                                     <div className="form-group">
-                                        <label>Bank Name:</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="bank"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.bank}
-                                        />
+                                        <label><span style={{fontWeight:"bold"}}>Bank Name:</span>BOC</label>
                                     </div>
                                 </Col>
                                 <Col xs={12} sm={6}>
                                     <div className="form-group">
-                                        <label>Branch Name:</label>
-                                        <input
-                                            disabled
-                                            className="form-control"
-                                            type="text"
-                                            name="branch"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.branch}
-                                        />
+                                        <label><span style={{fontWeight:"bold"}}>Branch Name:</span>Chunakam</label>
                                     </div>
                                 </Col>
                             </Row>
-                            <Link style={{textDecoration:"none", fontWeight:"bold"}} to="/EditProfile"> Edit Profile <ArrowForwardIcon/></Link>
-                        
+                            <Link style={{textDecoration:"none", fontWeight:"bold"}} to="/EditProfile"> Edit Profile <ArrowForwardIcon/></Link>                       
                     </Paper>
                 </div>
             </Col>

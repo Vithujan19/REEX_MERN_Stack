@@ -10,13 +10,15 @@ export const GetUsersContextProvider = function (props) {
 
   const getAllUsers = async () => {
     const token = localStorage.getItem('token');
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     };
-    axios
+
+    await axios
       .get('http://localhost:3000/getallusers', config)
       .then((response) => {
         setAllUsers(response.data);
@@ -28,13 +30,15 @@ export const GetUsersContextProvider = function (props) {
 
   const getEmployees = async () => {
     const token = localStorage.getItem('token');
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     };
-    axios
+
+    await axios
       .get('http://localhost:3000/getallemployee', config)
       .then((response) => {
         setEmployees(response.data);
@@ -44,15 +48,17 @@ export const GetUsersContextProvider = function (props) {
       });
   };
 
-  const reloadUser = () => {
+  const reloadUser = async () => {
     const token = localStorage.getItem('token');
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     };
-    axios
+
+    await axios
       .get('http://localhost:3000/users/me', config)
       .then((response) => {
         localStorage.setItem('user', JSON.stringify(response.data));
@@ -65,13 +71,15 @@ export const GetUsersContextProvider = function (props) {
 
   const getManagers = async () => {
     const token = localStorage.getItem('token');
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     };
-    axios
+
+    await axios
       .get('http://localhost:3000/getallmanager', config)
       .then((response) => {
         setManagers(response.data);

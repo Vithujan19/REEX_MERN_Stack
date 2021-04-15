@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import EmployeeReimburseDetail from '../Employee/EmployeeReimburseDetail';
+import ManagerReimburseDetail from './ManagerReimburseDetail';
 import { Button } from 'reactstrap';
 
 export default function ReimburseRequests(props) {
   const [rows, setRows] = useState();
-  const [rowSelcted, setRowSelected] = useState(false);
+  const [rowSelected, setRowSelected] = useState(false);
   const { employees, reimbursements } = props;
 
   const columns = [
@@ -21,8 +21,8 @@ export default function ReimburseRequests(props) {
     { field: 'status', headerName: 'Status', width: 160 },
     { field: 'transactionId', hide: true, headerName: 'Status', width: 160 },
     {
-      field: "",
-      headerName: "Action",
+      field: '',
+      headerName: 'Action',
       disableClickEventBubbling: true,
       renderCell: (params) => {
         const onClick = () => {
@@ -30,19 +30,19 @@ export default function ReimburseRequests(props) {
           const fields = api
             .getAllColumns()
             .map((c) => c.field)
-            .filter((c) => c !== "__check__" && !!c);
+            .filter((c) => c !== '__check__' && !!c);
           const thisRow = {};
-  
+
           fields.forEach((f) => {
             thisRow[f] = params.getValue(f);
           });
           setRows(thisRow);
           return setRowSelected(true);
         };
-  
+
         return <Button onClick={onClick}>Click</Button>;
-      }
-    }
+      },
+    },
   ];
 
   const getDate = (realDate) => {
@@ -61,7 +61,6 @@ export default function ReimburseRequests(props) {
 
   const details = [];
   if (reimbursements && employees) {
-    console.log('Employee : ', employees);
     reimbursements.reverse().map((reimbursement) => {
       const data = {
         id: reimbursement._id,
@@ -79,12 +78,12 @@ export default function ReimburseRequests(props) {
 
   return (
     <div style={{ height: 400, width: 'auto' }}>
-      {rowSelcted ? (
-        <EmployeeReimburseDetail rowData={rows} />
+      {rowSelected ? (
+        <ManagerReimburseDetail rowData={rows} />
       ) : (
         <React.Fragment>
-            <h3>Reimbursement Requests</h3>
-            <DataGrid rows={details} columns={columns} pageSize={5} />
+          <h3>Reimbursement Requests</h3>
+          <DataGrid rows={details} columns={columns} pageSize={5} />
         </React.Fragment>
       )}
     </div>

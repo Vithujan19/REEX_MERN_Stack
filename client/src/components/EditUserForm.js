@@ -96,7 +96,7 @@ const EditProfileForm = (props) => {
             <Col xs={12} sm={8}>
                 <div className="container">
                     <Paper elevation={4} style={{ padding: '20px' }}>
-                        <h3 style={{ textAlign: 'center' }}>Edit User</h3>
+                        <h3 style={{ textAlign: 'center' }}>Edit (Koshaliya) Profile</h3>
                         <hr />
                         {/* {updateStatus === true ? (
               <SuccessMessage message="Successfully Edited Your Profile" />
@@ -207,24 +207,15 @@ const EditProfileForm = (props) => {
                                 </Col>
                                 <Col xs={12} sm={6} style={{ paddingTop: 10 }}>
                                     <Row>
+                                    <Col xs={12} sm={6}></Col>
                                         <Col xs={12} sm={6}>
-                                            {/* <Link
+                                            <Link
                                                 style={{ textDecoration: 'none' }}
-                                                to="/ViewProfile"
+                                                to="/ViewUser"
                                             >
                                                 <ArrowBackIcon />
-                                                View Profile{' '}
-                                            </Link> */}
-                                        </Col>
-                                        <Col xs={12} sm={6}>
-                                            <button className="btn btn-primary">
-                                                <Link
-                                                    style={{ textDecoration: 'none', color: "#FFF" }}
-                                                    to="/ResetPassword"
-                                                >
-                                                    Reset Password{' '}
-                                                </Link>
-                                            </button>
+                                                View User Profile{' '}
+                                            </Link>
                                         </Col>
                                     </Row>
                                 </Col>

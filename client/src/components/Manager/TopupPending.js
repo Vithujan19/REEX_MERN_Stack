@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import TopupPendingDetail from './TopupPendingDetail';
+import { Button } from 'reactstrap';
 
 export default function TopupPending(props) {
   const { topups, employees } = props;
+  const [rows, setRows] = useState();
+  const [rowSelected, setRowSelected] = useState(false);
 
   const columns = [
     { field: 'createdAt', headerName: 'Requested Date', width: 160 },
@@ -12,6 +16,29 @@ export default function TopupPending(props) {
       field: 'amount',
       headerName: 'Amount',
       width: 130,
+    },
+    {
+      field: "",
+      headerName: "Action",
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        const onClick = () => {
+          const api = params.api;
+          const fields = api
+            .getAllColumns()
+            .map((c) => c.field)
+            .filter((c) => c !== "__check__" && !!c);
+          const thisRow = {};
+  
+          fields.forEach((f) => {
+            thisRow[f] = params.getValue(f);
+          });
+          setRows(thisRow);
+          return setRowSelected(true);
+        };
+  
+        return <Button onClick={onClick}>Click</Button>;
+      }
     },
     // {
     //   field: 'status',
@@ -39,8 +66,8 @@ export default function TopupPending(props) {
     return employee.userId;
   };
 
-  const rows = [];
 
+  const details = []
   if (topups && employees) {
     const pendingTopups = topups.filter((topup) => {
       return topup.status === 'Pending';
@@ -55,7 +82,7 @@ export default function TopupPending(props) {
         amount: pendingTopup.amount,
         // status: pendingTopup.status,
       };
-      rows.push(data);
+      details.push(data);
     });
 
     console.log('Rows : ', rows);
@@ -63,8 +90,16 @@ export default function TopupPending(props) {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <h3>Topups Pending</h3>
-      <DataGrid rows={rows} columns={columns} pageSize={5} />
+      {rowSelected ? (
+        <TopupPendingDetail />
+      ) : (
+        <React.Fragment>
+            <h3>Topups Pending</h3>
+            <DataGrid rows={details} columns={columns} pageSize={5} />
+        </React.Fragment>
+      )}
+      {/* <h3>Topups Pending</h3>
+      <DataGrid rows={details} columns={columns} pageSize={5} /> */}
     </div>
   );
 }

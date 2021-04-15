@@ -141,15 +141,28 @@ export default function Dashboard() {
   var currentUser = JSON.parse(localStorage.getItem('user'));
 
   useEffect(async () => {
-    await getManagers();
-  }, []);
+    var user = JSON.parse(localStorage.getItem('user'));
 
-  useEffect(async () => {
-    await getEmployees();
+    if (user.role === 'admin') {
+      await getManagers();
+    }
   }, []);
 
   useEffect(async () => {
     var user = JSON.parse(localStorage.getItem('user'));
+
+    if (user.role === 'admin') {
+      await getEmployees();
+    }
+  }, []);
+
+  // useEffect(async () => {
+  //   await getEmployees();
+  // }, []);
+
+  useEffect(async () => {
+    var user = JSON.parse(localStorage.getItem('user'));
+
     if (user.role === 'employee') {
       await getEmployeeTransactions();
     } else if (user.role === 'manager') {

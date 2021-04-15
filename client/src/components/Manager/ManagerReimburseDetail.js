@@ -11,89 +11,93 @@ import {
   Row,
   Col,
 } from 'reactstrap';
+import Receipt from '../Employee/Receipt.png';
 
-const EmployeeReimburseDetail = (props) => {
-  const { rowData, transactions, reimbursements, bankDetails } = props;
+const ManagerReimburseDetail = (props) => {
+//   const { rowData, transactions, reimbursements, bankDetails } = props;
 
-  let expenseDetails = {
-    to: '',
-    transactionDate: '',
-    amount: '',
-    category: '',
-    paymentType: '',
-    description: '',
-    receiptUrl: '',
-    status: '',
-  };
+//   let expenseDetails = {
+//     to: '',
+//     transactionDate: '',
+//     amount: '',
+//     category: '',
+//     paymentType: '',
+//     description: '',
+//     receiptUrl: '',
+//     status: '',
+//   };
 
-  let reimbursementDetails = {
-    to: '',
-    transactionId: '',
-    amount: '',
-    status: '',
-    createdAt: '',
-    updatedAt: '',
-    bankName: '-',
-    bankBranch: '-',
-    bankAccountNumber: '-',
-  };
+//   let reimbursementDetails = {
+//     to: '',
+//     transactionId: '',
+//     amount: '',
+//     status: '',
+//     createdAt: '',
+//     updatedAt: '',
+//     bankName: '-',
+//     bankBranch: '-',
+//     bankAccountNumber: '-',
+//   };
 
-  let relatedTransaction = {};
-  let relatedReimbursement = {};
-  let relatedBankDetail = {};
+//   let relatedTransaction = {};
+//   let relatedReimbursement = {};
+//   let relatedBankDetail = {};
 
-  const getDate = (realDate) => {
-    const datee = new Date(realDate);
-    const year = datee.getUTCFullYear();
-    const month = datee.getUTCMonth();
-    const date = datee.getUTCDate();
-    const correctDate = date + '-' + month + '-' + year;
-    return correctDate;
-  };
+//   const getDate = (realDate) => {
+//     const datee = new Date(realDate);
+//     const year = datee.getUTCFullYear();
+//     const month = datee.getUTCMonth();
+//     const date = datee.getUTCDate();
+//     const correctDate = date + '-' + month + '-' + year;
+//     return correctDate;
+//   };
 
-  if (rowData && transactions && reimbursements) {
-    relatedTransaction = transactions.find(
-      (transaction) => transaction._id === rowData.transactionId
-    );
+//   if (rowData && transactions && reimbursements) {
+//     relatedTransaction = transactions.find(
+//       (transaction) => transaction._id === rowData.transactionId
+//     );
 
-    relatedReimbursement = reimbursements.find(
-      (reimbursement) => reimbursement._id === rowData.id
-    );
+//     relatedReimbursement = reimbursements.find(
+//       (reimbursement) => reimbursement._id === rowData.id
+//     );
 
-    relatedBankDetail = bankDetails.find(
-      (bankDetail) =>
-        bankDetail._id === relatedReimbursement.reimbursementAccount
-    );
+//     relatedBankDetail = bankDetails.find(
+//       (bankDetail) =>
+//         bankDetail._id === relatedReimbursement.reimbursementAccount
+//     );
 
-    expenseDetails.to = rowData.managerName;
-    expenseDetails.amount = rowData.amount;
-    expenseDetails.status = rowData.status;
-    expenseDetails.paymentType = relatedTransaction.paymentMethod;
-    expenseDetails.description = relatedTransaction.description;
-    expenseDetails.receiptUrl = relatedTransaction.receiptUrl;
-    expenseDetails.transactionDate = getDate(
-      relatedTransaction.transactionDate
-    );
-    expenseDetails.category = relatedTransaction.category;
+//     expenseDetails.to = rowData.managerName;
+//     expenseDetails.amount = rowData.amount;
+//     expenseDetails.status = rowData.status;
+//     expenseDetails.paymentType = relatedTransaction.paymentMethod;
+//     expenseDetails.description = relatedTransaction.description;
+//     expenseDetails.receiptUrl = relatedTransaction.receiptUrl;
+//     expenseDetails.transactionDate = getDate(
+//       relatedTransaction.transactionDate
+//     );
+//     expenseDetails.category = relatedTransaction.category;
 
-    reimbursementDetails.to = rowData.managerName;
-    reimbursementDetails.transactionId = rowData.id;
-    reimbursementDetails.amount = expenseDetails.amount;
-    reimbursementDetails.status = rowData.status;
-    reimbursementDetails.createdAt = getDate(relatedReimbursement.createdAt);
-    reimbursementDetails.updatedAt = getDate(relatedReimbursement.updatedAt);
-    if (relatedBankDetail) {
-      reimbursementDetails.bankName = relatedBankDetail.bank;
-      reimbursementDetails.bankBranch = relatedBankDetail.branch;
-      reimbursementDetails.bankAccountNumber = relatedBankDetail.accountNumber;
-    }
-  }
+//     reimbursementDetails.to = rowData.managerName;
+//     reimbursementDetails.transactionId = rowData.id;
+//     reimbursementDetails.amount = expenseDetails.amount;
+//     reimbursementDetails.status = rowData.status;
+//     reimbursementDetails.createdAt = getDate(relatedReimbursement.createdAt);
+//     reimbursementDetails.updatedAt = getDate(relatedReimbursement.updatedAt);
+//     if (relatedBankDetail) {
+//       reimbursementDetails.bankName = relatedBankDetail.bank;
+//       reimbursementDetails.bankBranch = relatedBankDetail.branch;
+//       reimbursementDetails.bankAccountNumber = relatedBankDetail.accountNumber;
+//     }
+
+//     console.log('RowData : ', rowData);
+//     console.log('expenseDetails : ', expenseDetails);
+//     console.log('reimbursementDetails : ', reimbursementDetails);
+//   }
 
   const onClick = () => {
     window.location.reload();
   };
   var currentUser = JSON.parse(localStorage.getItem('user'));
-
   return (
     <div>
       <Row>
@@ -133,8 +137,8 @@ const EmployeeReimburseDetail = (props) => {
                 <Row>
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
-                      <span style={{ fontWeight: 'bold' }}>To :</span>{' '}
-                      {expenseDetails.to}{' '}
+                      <span style={{ fontWeight: 'bold' }}>From :</span>{' '}
+                      Vithujan
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
@@ -143,26 +147,26 @@ const EmployeeReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Transaction Date :{' '}
                       </span>
-                      {expenseDetails.transactionDate}
+                      24-05-2020
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Status :</span>{' '}
-                      {expenseDetails.status}{' '}
+                     Pending
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Amount : </span>
-                      {expenseDetails.amount}
+                      2000
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}> Category : </span>
-                      {expenseDetails.category}
+                      Food
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
@@ -170,28 +174,18 @@ const EmployeeReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Payment Method :{' '}
                       </span>
-                      {expenseDetails.paymentType}
+                      Card
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={12}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Description : </span>
-                      {expenseDetails.description}
+                      Summa adichu vidirathu thaa
                     </CardSubtitle>
                   </Col>
                   <br />
                 </Row>
-                {currentUser.role === 'manager' ? (
-                  <Row>
-                    <Col xs={12} sm={6}>
-                      <button className="btn btn-primary">Accept</button>
-                    </Col>
-                    <Col xs={12} sm={6}>
-                      <button className="btn btn-danger">Reject</button>
-                    </Col>
-                  </Row>
-                ) : null}
               </CardBody>
             </Paper>
           </Card>
@@ -209,8 +203,8 @@ const EmployeeReimburseDetail = (props) => {
                 <Row>
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
-                      <span style={{ fontWeight: 'bold' }}>Manager Name :</span>{' '}
-                      {reimbursementDetails.to}{' '}
+                      <span style={{ fontWeight: 'bold' }}>Employee Name :</span>{' '}
+                      Vithujan
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
@@ -218,21 +212,21 @@ const EmployeeReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Transaction Id :{' '}
                       </span>
-                      {reimbursementDetails.transactionId}
+                      1002526
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Amount : </span>
-                      {reimbursementDetails.amount}
+                      2000
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       {' '}
                       <span style={{ fontWeight: 'bold' }}>Status : </span>
-                      {reimbursementDetails.status}
+                        Pending
                     </CardSubtitle>
                   </Col>
                   <br />
@@ -242,7 +236,7 @@ const EmployeeReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Created Date :{' '}
                       </span>
-                      {reimbursementDetails.createdAt}
+                      24-05-2020
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
@@ -251,14 +245,14 @@ const EmployeeReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Updated Date :{' '}
                       </span>
-                      {reimbursementDetails.updatedAt}
+                      25-05-2020
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}> Bank Name : </span>
-                      {reimbursementDetails.bankName}
+                      BOC
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
@@ -267,7 +261,7 @@ const EmployeeReimburseDetail = (props) => {
                         {' '}
                         Bank Branch :{' '}
                       </span>
-                      {reimbursementDetails.bankAccountNumber}
+                      Point Pedro
                     </CardSubtitle>
                   </Col>
                   <br />
@@ -278,7 +272,7 @@ const EmployeeReimburseDetail = (props) => {
                         {' '}
                         Account Number :{' '}
                       </span>
-                      {reimbursementDetails.bankAccountNumber}
+                      86956896
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={2}></Col>
@@ -304,7 +298,7 @@ const EmployeeReimburseDetail = (props) => {
               style={{ width: 'auto', height: 400 }}
               top
               width="100%"
-              src={relatedTransaction.receiptUrl}
+            //   src={relatedTransaction.receiptUrl}
               alt="Card image cap"
             />
           </Paper>
@@ -314,4 +308,4 @@ const EmployeeReimburseDetail = (props) => {
   );
 };
 
-export default EmployeeReimburseDetail;
+export default ManagerReimburseDetail;

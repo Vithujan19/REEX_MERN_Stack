@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { Button } from 'reactstrap';
+import TransactionPendingDetail from './TransactionPendingDetail';
 
 export default function TopupPending(props) {
-  const [isRowSelected, setIsRowSelected] = useState(false);
-  const [selectedRow, setSelectedRow] = useState();
+  const [rowSelected, setRowSelected] = useState(false);
+  const [rows, setRows] = useState();
   const { transactions, employees } = props;
   const columns = [
     { field: 'submissionDate', headerName: 'Submission Date', width: 161 },
@@ -56,8 +57,8 @@ export default function TopupPending(props) {
           fields.forEach((f) => {
             thisRow[f] = params.getValue(f);
           });
-          setSelectedRow(thisRow);
-          return setIsRowSelected(true);
+          setRows(thisRow);
+          return setRowSelected(true);
         };
 
         return (
@@ -88,7 +89,7 @@ export default function TopupPending(props) {
     return employee.userId;
   };
 
-  const rows = [];
+  const details = [];
 
   if (transactions && employees) {
     const pendingTransactions = transactions.filter((transaction) => {
@@ -108,27 +109,24 @@ export default function TopupPending(props) {
         status: pendingTransaction.status,
         receiptUrl: pendingTransaction.receiptUrl,
       };
-      rows.push(data);
+      details.push(data);
       console.log('Rows : ', rows);
     });
   }
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      {isRowSelected ? (
-        // <PendingTransactionDetail
-        //   transactions={transactions}
-        //   employees={employees}
-        //   selectedRow={selectedRow}
-        // />
-        <React.Fragment>
-          <p> Got slectedRow Details</p>
-        </React.Fragment>
+      {rowSelected ? (
+        <TransactionPendingDetail
+          transactions={transactions}
+          employees={employees}
+          rows={rows}
+        />
       ) : (
         <React.Fragment>
           {' '}
           <h3>Transactions Pending</h3>
-          <DataGrid rows={rows} columns={columns} pageSize={5} />
+          <DataGrid rows={details} columns={columns} pageSize={5} />
         </React.Fragment>
       )}
     </div>
