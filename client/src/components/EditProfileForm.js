@@ -1,27 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useFormik, Field } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Input, Row, Col } from 'reactstrap';
 import { Select, Paper } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { GetUsersContext } from '../context/GetUsersContext';
 import { SuccessMessage, FailedMessage } from './layouts/Alert';
 import ProfilePictureUpdate from './ProfilePictureUpdate';
-
 
 const EditProfileForm = (props) => {
   const [updateStatus, setUpdateStatus] = useState();
@@ -91,7 +80,7 @@ const EditProfileForm = (props) => {
       <Col xs={12} sm={4}>
         <Paper elevation={4}>
           <div>
-            <ProfilePictureUpdate/>
+            <ProfilePictureUpdate currentUser={currentUser} />
           </div>
         </Paper>
       </Col>

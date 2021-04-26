@@ -8,12 +8,14 @@ import Topup from './components/Manager/Topupreq';
 import Transaction from './components/Manager/Transactionreq';
 import NewsPage from './components/News/NewsPage';
 import CreateUser from './components/Admin/CreateUser';
-import Reimbursement from './components/Manager/Reimbursement';
+import Reimbursement from './components/Manager/ReimburseRequests';
 import Staffs from './components/Staffs/Staffs';
+import EmployeeStaffs from './components/Staffs/EmployeeStaff';
 import ViewProfile from './components/ViewProfile';
 import EditProfile from './components/EditProfile';
 import EditUser from './components/EditUser';
 import ViewUser from './components/ViewUser';
+import ViewEmployee from './components/ViewEmployee';
 import BankDetails from './components/BankDetail';
 import ChangePassword from './components/ChangePassword';
 import EmployeeReimbursement from './components/Employee/EmployeeReimbursement';
@@ -34,6 +36,7 @@ import { TopupContextProvider } from './context/TopupContext';
 import { BankDetailsContextProvider } from './context/BankDetailsContext';
 import { ReimbursementContextProvider } from './context/ReimbursementContext';
 import { NewsContextProvider } from './context/NewsContext';
+import { ReportsContextProvider } from './context/ReportsContext';
 import {
   ProtectedRouterEmployee,
   ProtectedRouterManager,
@@ -52,108 +55,117 @@ function App() {
               <ReimbursementContextProvider>
                 <BankDetailsContextProvider>
                   <NewsContextProvider>
-                  <BrowserRouter>
-                    <Switch>
-                      <Route exact path="/" component={Landing} />
-                      <Route exact path="/login" component={Login} />
+                    <ReportsContextProvider>
+                      <BrowserRouter>
+                        <Switch>
+                          <Route exact path="/" component={Landing} />
+                          <Route exact path="/login" component={Login} />
 
-                      {/* Common Routes */}
-                      <ProtectedRouter
-                        exact
-                        path="/Dashboard"
-                        component={Dashboard}
-                      />
-                      <ProtectedRouter
-                        exact
-                        path="/NewsPage"
-                        component={NewsPage}
-                      />
-                      <ProtectedRouter
-                        exact
-                        path="/EditProfile"
-                        component={EditProfile}
-                      />
-                      <ProtectedRouter
-                        exact
-                        path="/ViewProfile"
-                        component={ViewProfile}
-                      />
-                      <ProtectedRouter
-                        exact
-                        path="/BankDetails"
-                        component={BankDetails}
-                      />
-                      <ProtectedRouter
-                        exact
-                        path="/ChangePassword"
-                        component={ChangePassword}
-                      />
+                          {/* Common Routes */}
+                          <ProtectedRouter
+                            exact
+                            path="/Dashboard"
+                            component={Dashboard}
+                          />
+                          <ProtectedRouter
+                            exact
+                            path="/NewsPage"
+                            component={NewsPage}
+                          />
+                          <ProtectedRouter
+                            exact
+                            path="/EditProfile"
+                            component={EditProfile}
+                          />
+                          <ProtectedRouter
+                            exact
+                            path="/ViewProfile"
+                            component={ViewProfile}
+                          />
+                          <ProtectedRouter
+                            exact
+                            path="/BankDetails"
+                            component={BankDetails}
+                          />
+                          <ProtectedRouter
+                            exact
+                            path="/ChangePassword"
+                            component={ChangePassword}
+                          />
 
-                      {/* Admin Routes */}
-                      <ProtectedRouterAdmin
-                        exact
-                        path="/Staffs"
-                        component={Staffs}
-                      />
-                      <ProtectedRouterAdmin
-                        exact
-                        path="/CreateUser"
-                        component={CreateUser}
-                      />
-                      <ProtectedRouterAdmin
-                        exact
-                        path="/CreateNews"
-                        component={CreateNews}
-                      />
-                      <ProtectedRouterAdmin
-                        exact
-                        path="/EditUser"
-                        component={EditUser}
-                      />
-                      <ProtectedRouterAdmin
-                        exact
-                        path="/ViewUser"
-                        component={ViewUser}
-                      />
+                          {/* Admin Routes */}
+                          <ProtectedRouterAdmin
+                            exact
+                            path="/Staffs"
+                            component={Staffs}
+                          />
+                          <ProtectedRouterAdmin
+                            exact
+                            path="/CreateUser"
+                            component={CreateUser}
+                          />
+                          <ProtectedRouterAdmin
+                            exact
+                            path="/CreateNews"
+                            component={CreateNews}
+                          />
+                          <ProtectedRouterAdmin
+                            path="/EditUser/:userId"
+                            component={EditUser}
+                          />
+                          <ProtectedRouterAdmin
+                            path="/ViewUser/:userId"
+                            component={ViewUser}
+                          />
 
-                      {/* Employee & Manager Routes */}
-                      <ProtectedRouterEmployeeManager
-                        exact
-                        path="/Report"
-                        component={Report}
-                      />
+                          {/* Employee & Manager Routes */}
+                          <ProtectedRouterEmployeeManager
+                            exact
+                            path="/Report"
+                            component={Report}
+                          />
 
-                      {/* Manager Routes */}
-                      <ProtectedRouterManager
-                        exact
-                        path="/Topup"
-                        component={Topup}
-                      />
-                      <ProtectedRouterManager
-                        exact
-                        path="/Transaction"
-                        component={Transaction}
-                      />
-                      <ProtectedRouterManager
-                        exact
-                        path="/Reimbursement"
-                        component={Reimbursement}
-                      />
+                          {/* Manager Routes */}
+                          <ProtectedRouterManager
+                            exact
+                            path="/Topup"
+                            component={Topup}
+                          />
+                          <ProtectedRouterManager
+                            exact
+                            path="/Transaction"
+                            component={Transaction}
+                          />
+                          <ProtectedRouterManager
+                            exact
+                            path="/Reimbursement"
+                            component={Reimbursement}
+                          />
+                          <ProtectedRouterManager
+                            exact
+                            path="/EmployeeStaffs"
+                            component={EmployeeStaffs}
+                          />
+                          <ProtectedRouterManager
+                            path="/ViewEmployee/:userId"
+                            component={ViewEmployee}
+                          />
 
-                      {/* Employee Routes */}
-                      <ProtectedRouterEmployee
-                        exact
-                        path="/History"
-                        component={History}
-                      />
-                      <ProtectedRouterEmployee
-                        exact
-                        path="/EmployeeReimburement"
-                        component={EmployeeReimbursement}
-                      />
-                      <Route path="*" component={() => '404 NOT FOUND'} />
-                    </Switch>
-                  </BrowserRouter>
+                          {/* Employee Routes */}
+                          <ProtectedRouterEmployee
+                            exact
+                            path="/History"
+                            component={History}
+                          />
+                          <ProtectedRouterEmployee
+                            exact
+                            path="/EmployeeReimburement"
+                            component={EmployeeReimbursement}
+                          />
+                          <Route path="*" component={() => '404 NOT FOUND'} />
+                        </Switch>
+                      </BrowserRouter>
+                    </ReportsContextProvider>
                   </NewsContextProvider>
                 </BankDetailsContextProvider>
               </ReimbursementContextProvider>

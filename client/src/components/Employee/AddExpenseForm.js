@@ -1,10 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import { InputGroup, InputGroupText } from 'reactstrap';
-import { makeStyles } from '@material-ui/core/styles';
+import { Button, Form, FormGroup, Label, Input, FormText, InputGroup, InputGroupText } from 'reactstrap';
 import { GetUsersContext } from '../../context/GetUsersContext';
 import axios from 'axios';
 import { SubmitSuccess, SubmitFailed } from '../layouts/Alert';
+import { useStyles } from '../../components/Styles';
 
 function AddExpenseForm(props) {
   const { getManagers, managers } = useContext(GetUsersContext);
@@ -16,21 +15,7 @@ function AddExpenseForm(props) {
     getManagers();
   }, []);
 
-  useEffect(() => {
-    
-  }, [managers]);
-
-  const useStyles = makeStyles((theme) => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-    },
-  }));
+  useEffect(() => { }, [managers]);
 
   const [managerIncharge, setManagerIncharge] = useState('');
   const [category, setCategory] = useState('');

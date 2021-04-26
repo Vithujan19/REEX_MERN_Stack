@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Sidenav from '../SideNav/Sidenav';
-import clsx from 'clsx';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Footer from '../Footer/Footer';
-import ReimburseRequests from './ReimburseRequests';
-import { ReimbursementContext } from '../../context/ReimbursementContext';
-import { GetUsersContext } from '../../context/GetUsersContext';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -86,50 +77,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240,
+    height: 250,
   },
 }));
-
-export default function History() {
-  const classes = useStyles();
-  const [open, setOpen] = useState(true);
-
-  const { employees, getEmployees } = useContext(GetUsersContext);
-  const { reimbursements, getManagerReimbursement } = useContext(
-    ReimbursementContext
-  );
-
-  useEffect(async () => {
-    await getManagerReimbursement();
-  }, []);
-
-  useEffect(async () => {
-    await getEmployees();
-  }, []);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-  return (
-    <div className={classes.root}>
-      <Sidenav />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <ReimburseRequests
-            employees={employees}
-            reimbursements={reimbursements}
-          />
-          <Box pt={4}>
-            <Footer />
-          </Box>
-        </Container>
-      </main>
-    </div>
-  );
-}

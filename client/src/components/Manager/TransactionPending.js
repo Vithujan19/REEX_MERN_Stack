@@ -33,10 +33,23 @@ export default function TopupPending(props) {
       field: 'status',
       headerName: 'Status',
       width: 100,
+      hide: true,
     },
     {
       field: 'receiptUrl',
       headerName: 'receiptUrl',
+      width: 0,
+      hide: true,
+    },
+    {
+      field: 'description',
+      headerName: 'description',
+      width: 0,
+      hide: true,
+    },
+    {
+      field: 'id',
+      headerName: 'id',
       width: 0,
       hide: true,
     },
@@ -108,9 +121,9 @@ export default function TopupPending(props) {
         amount: pendingTransaction.amount,
         status: pendingTransaction.status,
         receiptUrl: pendingTransaction.receiptUrl,
+        description: pendingTransaction.description,
       };
       details.push(data);
-      console.log('Rows : ', rows);
     });
   }
 

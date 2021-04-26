@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { InputGroup, InputGroupText } from 'reactstrap';
 import axios from 'axios';
 import { GetUsersContext } from '../../context/GetUsersContext';
@@ -16,9 +16,7 @@ function TopupForm(props) {
     getManagers();
   }, []);
 
-  useEffect(() => {
-    console.log('Manager : ', managers);
-  }, [managers]);
+  useEffect(() => { }, [managers]);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,8 +37,6 @@ function TopupForm(props) {
       .catch((err) => {
         setSubmissionStatus('fail');
       });
-    console.log('Token : ', token);
-    console.log(formData);
   };
   return (
     <Form onSubmit={(e) => onSubmit(e)} className="container">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 
 export default function TopupAccept(props) {
@@ -13,13 +13,13 @@ export default function TopupAccept(props) {
     {
       field: 'amount',
       headerName: 'Amount',
-      // type: 'number',
       width: 110,
     },
     {
       field: 'status',
       headerName: 'Status',
       width: 100,
+      hide: true,
     },
     {
       field: 'receiptUrl',
@@ -34,7 +34,7 @@ export default function TopupAccept(props) {
     const year = datee.getUTCFullYear();
     const month = datee.getUTCMonth();
     const date = datee.getUTCDate();
-    const correctDate = date + '-' + month + '-' + year;
+    const correctDate = date + '-' + (month + 1) + '-' + year;
     return correctDate;
   };
 

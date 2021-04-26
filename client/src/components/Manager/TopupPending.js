@@ -10,6 +10,7 @@ export default function TopupPending(props) {
 
   const columns = [
     { field: 'createdAt', headerName: 'Requested Date', width: 160 },
+    { field: 'id', headerName: 'Requested Date', width: 160, hide: true },
     { field: 'employeeName', headerName: 'Employee Name', width: 170 },
     { field: 'employeeId', headerName: 'Employee UserID', width: 170 },
     {
@@ -18,8 +19,8 @@ export default function TopupPending(props) {
       width: 130,
     },
     {
-      field: "",
-      headerName: "Action",
+      field: '',
+      headerName: 'Action',
       disableClickEventBubbling: true,
       renderCell: (params) => {
         const onClick = () => {
@@ -27,24 +28,19 @@ export default function TopupPending(props) {
           const fields = api
             .getAllColumns()
             .map((c) => c.field)
-            .filter((c) => c !== "__check__" && !!c);
+            .filter((c) => c !== '__check__' && !!c);
           const thisRow = {};
-  
+
           fields.forEach((f) => {
             thisRow[f] = params.getValue(f);
           });
           setRows(thisRow);
           return setRowSelected(true);
         };
-  
+
         return <Button onClick={onClick}>Click</Button>;
-      }
+      },
     },
-    // {
-    //   field: 'status',
-    //   headerName: 'Status',
-    //   width: 150,
-    // },
   ];
 
   const getDate = (realDate) => {
@@ -52,7 +48,7 @@ export default function TopupPending(props) {
     const year = datee.getUTCFullYear();
     const month = datee.getUTCMonth();
     const date = datee.getUTCDate();
-    const correctDate = date + '-' + month + '-' + year;
+    const correctDate = date + '-' + (month + 1) + '-' + year;
     return correctDate;
   };
 
@@ -66,8 +62,7 @@ export default function TopupPending(props) {
     return employee.userId;
   };
 
-
-  const details = []
+  const details = [];
   if (topups && employees) {
     const pendingTopups = topups.filter((topup) => {
       return topup.status === 'Pending';
@@ -80,26 +75,22 @@ export default function TopupPending(props) {
         employeeName: getEmployeeName(pendingTopup.requestBy),
         employeeId: getEmployeeId(pendingTopup.requestBy),
         amount: pendingTopup.amount,
-        // status: pendingTopup.status,
       };
       details.push(data);
     });
 
-    console.log('Rows : ', rows);
   }
 
   return (
     <div style={{ height: 400, width: '100%' }}>
       {rowSelected ? (
-        <TopupPendingDetail />
+        <TopupPendingDetail topups={topups} rows={rows} />
       ) : (
         <React.Fragment>
-            <h3>Topups Pending</h3>
-            <DataGrid rows={details} columns={columns} pageSize={5} />
+          <h3>Topups Pending</h3>
+          <DataGrid rows={details} columns={columns} pageSize={5} />
         </React.Fragment>
       )}
-      {/* <h3>Topups Pending</h3>
-      <DataGrid rows={details} columns={columns} pageSize={5} /> */}
     </div>
   );
 }

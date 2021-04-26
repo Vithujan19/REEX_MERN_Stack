@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React from 'react';
 import { Col, Row } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Title from '../../components/Title';
@@ -7,56 +7,49 @@ import 'aos/dist/aos.css';
 AOS.init();
 
 export default function TotalExpenses(props) {
-//   const { transactions } = props;
+  const { selectedUserReimbursements } = props;
 
-//   let expenses = [];
+  let reimbursements = [];
 
-//   let totalExpense = 0;
-//   let pending = [];
-//   let approved = [];
-//   let rejected = [];
-//   if (transactions) {
-//     expenses = transactions;
+  let totalReimbursement = 0;
+  let pending = [];
+  let approved = [];
+  let rejected = [];
+  if (selectedUserReimbursements) {
+    reimbursements = selectedUserReimbursements;
 
-//     pending = transactions.filter((transaction) => {
-//       return transaction.status === 'Pending';
-//     });
+    pending = selectedUserReimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Pending';
+    });
 
-//     approved = transactions.filter((transaction) => {
-//       return transaction.status === 'Approved';
-//     });
+    approved = selectedUserReimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Done';
+    });
 
-//     rejected = transactions.filter((transaction) => {
-//       return transaction.status === 'Rejected';
-//     });
+    rejected = selectedUserReimbursements.filter((reimbursement) => {
+      return reimbursement.status === 'Cancelled';
+    });
 
-//     transactions.map((transaction) => {
-//       totalExpense += transaction.amount;
-//     });
-//   }
+    selectedUserReimbursements.map((reimbursement) => {
+      totalReimbursement += reimbursement.amount;
+    });
+  }
+
   var currentUser = JSON.parse(localStorage.getItem('user'));
+
   return (
     <div>
-        <Title>Reimbusements</Title>
-      {/* {currentUser.role === 'employee' ? (
-        <Title>Expenses</Title>
-      ) : currentUser.role === 'manager' || currentUser.role === 'admin' ? (
-        <Title>Transaction</Title>
-      ) : null} */}
+      <Title>Reimbusements</Title>
       <hr />
       <Row>
-        <Col xs={12} sm={6}> 
-            <Typography
-              component="p"
-              variant="h6"
-              style={{ fontWeight: 'bold' }}
-            >
-              Total Reimbursement Amount(Rs.):
-            </Typography>
+        <Col xs={12} sm={6}>
+          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
+            Total Reimbursement Amount(Rs.):
+          </Typography>
         </Col>
         <Col xs={12} sm={6}>
           <Typography component="p" variant="h6">
-            2,000
+            {totalReimbursement}
           </Typography>
         </Col>
         <Col xs={12} sm={6}>
@@ -66,7 +59,7 @@ export default function TotalExpenses(props) {
         </Col>
         <Col xs={12} sm={6}>
           <Typography component="p" variant="h6">
-            50
+            {reimbursements.length}
           </Typography>
         </Col>
       </Row>
@@ -74,16 +67,16 @@ export default function TotalExpenses(props) {
       <Typography>
         <Row>
           <Col xs={12} sm={4}>
-            <span style={{ color: '#ff6600' }}>Pending: 20</span>
+            <span style={{ color: '#ff6600' }}>Pending : {pending.length}</span>
           </Col>
           <Col xs={12} sm={4}>
             <span style={{ color: '#00b300' }}>
-              Accepted: 15
+              Completed : {approved.length}
             </span>
           </Col>
           <Col xs={12} sm={4}>
             <span style={{ color: '#ff0000' }}>
-              Rejected: 15
+              Cancelled : {rejected.length}
             </span>
           </Col>
         </Row>

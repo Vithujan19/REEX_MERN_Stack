@@ -260,7 +260,8 @@ export default function Dashboard() {
                     >
                       <CachedIcon style={{ width: 230, height: 100 }} />
                       <br />
-                      Check Reimbursement Requests
+                      Check Reimbursement 
+                      <br/>Requests
                     </Link>
                   </Button>
                 ) : currentUser.role === 'admin' ? (

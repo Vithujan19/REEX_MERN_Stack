@@ -1,103 +1,117 @@
+import React, { useState } from 'react';
 import { Paper } from '@material-ui/core';
-import React from 'react';
 import {
   Card,
   CardImg,
-  CardText,
   CardBody,
   CardTitle,
   CardSubtitle,
-  Button,
   Row,
   Col,
 } from 'reactstrap';
-import Receipt from '../Employee/Receipt.png';
+import { SuccessMessage, FailedMessage } from '../layouts/Alert';
+import axios from 'axios';
 
 const ManagerReimburseDetail = (props) => {
-//   const { rowData, transactions, reimbursements, bankDetails } = props;
+  const { rowData, transactions, allBankDetails } = props;
+  const [validUpdate, setValidUpdate] = useState();
+  const [validBankDetail, setValidBankDetail] = useState();
+  const [updateStatus, setUpdateStatus] = useState();
+  const [rejectionValid, setRejectionValid] = useState();
 
-//   let expenseDetails = {
-//     to: '',
-//     transactionDate: '',
-//     amount: '',
-//     category: '',
-//     paymentType: '',
-//     description: '',
-//     receiptUrl: '',
-//     status: '',
-//   };
+  let relatedTransaction = {};
+  let relatedBankDetail = {};
 
-//   let reimbursementDetails = {
-//     to: '',
-//     transactionId: '',
-//     amount: '',
-//     status: '',
-//     createdAt: '',
-//     updatedAt: '',
-//     bankName: '-',
-//     bankBranch: '-',
-//     bankAccountNumber: '-',
-//   };
+  const getDate = (realDate) => {
+    const datee = new Date(realDate);
+    const year = datee.getUTCFullYear();
+    const month = datee.getUTCMonth();
+    const date = datee.getUTCDate();
+    const correctDate = date + '-' + (month + 1) + '-' + year;
+    return correctDate;
+  };
 
-//   let relatedTransaction = {};
-//   let relatedReimbursement = {};
-//   let relatedBankDetail = {};
+  if (rowData && transactions) {
+    relatedTransaction = transactions.find(
+      (transaction) => transaction._id === rowData.transactionId
+    );
 
-//   const getDate = (realDate) => {
-//     const datee = new Date(realDate);
-//     const year = datee.getUTCFullYear();
-//     const month = datee.getUTCMonth();
-//     const date = datee.getUTCDate();
-//     const correctDate = date + '-' + month + '-' + year;
-//     return correctDate;
-//   };
+    relatedBankDetail = allBankDetails.find(
+      (bankDetail) => bankDetail._id === rowData.reimbursementAccount
+    );
+  }
 
-//   if (rowData && transactions && reimbursements) {
-//     relatedTransaction = transactions.find(
-//       (transaction) => transaction._id === rowData.transactionId
-//     );
+  const onAccept = () => {
+    const selectedBankDetail = allBankDetails.find(
+      (m) => m.owner === relatedTransaction.transactionBy
+    );
 
-//     relatedReimbursement = reimbursements.find(
-//       (reimbursement) => reimbursement._id === rowData.id
-//     );
+    if (relatedTransaction.status !== 'Approved') {
+      setValidUpdate(false);
+    } else {
+      if (!selectedBankDetail) {
+        setValidBankDetail(false);
+      } else {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        };
+        let url = 'http://localhost:3000/cashReimbursement/' + rowData.id;
 
-//     relatedBankDetail = bankDetails.find(
-//       (bankDetail) =>
-//         bankDetail._id === relatedReimbursement.reimbursementAccount
-//     );
+        const dataa = JSON.stringify({
+          status: 'Done',
+          reimbursementAccount: selectedBankDetail._id,
+        });
 
-//     expenseDetails.to = rowData.managerName;
-//     expenseDetails.amount = rowData.amount;
-//     expenseDetails.status = rowData.status;
-//     expenseDetails.paymentType = relatedTransaction.paymentMethod;
-//     expenseDetails.description = relatedTransaction.description;
-//     expenseDetails.receiptUrl = relatedTransaction.receiptUrl;
-//     expenseDetails.transactionDate = getDate(
-//       relatedTransaction.transactionDate
-//     );
-//     expenseDetails.category = relatedTransaction.category;
+        axios
+          .patch(url, dataa, config)
+          .then((res) => {
+            setUpdateStatus(true);
+          })
+          .catch((err) => {
+            console.log(err);
+            setUpdateStatus(false);
+          });
+      }
+    }
+  };
 
-//     reimbursementDetails.to = rowData.managerName;
-//     reimbursementDetails.transactionId = rowData.id;
-//     reimbursementDetails.amount = expenseDetails.amount;
-//     reimbursementDetails.status = rowData.status;
-//     reimbursementDetails.createdAt = getDate(relatedReimbursement.createdAt);
-//     reimbursementDetails.updatedAt = getDate(relatedReimbursement.updatedAt);
-//     if (relatedBankDetail) {
-//       reimbursementDetails.bankName = relatedBankDetail.bank;
-//       reimbursementDetails.bankBranch = relatedBankDetail.branch;
-//       reimbursementDetails.bankAccountNumber = relatedBankDetail.accountNumber;
-//     }
+  const onReject = () => {
+    if (relatedTransaction.status === 'Pending') {
+      setRejectionValid(false);
+    } else {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      };
+      let url = 'http://localhost:3000/cashReimbursement/' + rowData.id;
 
-//     console.log('RowData : ', rowData);
-//     console.log('expenseDetails : ', expenseDetails);
-//     console.log('reimbursementDetails : ', reimbursementDetails);
-//   }
+      const dataa = JSON.stringify({
+        status: 'Cancelled',
+      });
+
+      axios
+        .patch(url, dataa, config)
+        .then((res) => {
+          setUpdateStatus(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setUpdateStatus(false);
+        });
+    }
+  };
 
   const onClick = () => {
     window.location.reload();
   };
+
   var currentUser = JSON.parse(localStorage.getItem('user'));
+
   return (
     <div>
       <Row>
@@ -110,6 +124,21 @@ const ManagerReimburseDetail = (props) => {
             Back
           </button>
         </Col>
+        {validUpdate === false ? (
+          <FailedMessage message="Transaction should be approved before Reimbursement." />
+        ) : null}
+        {validBankDetail === false ? (
+          <FailedMessage message="Bank detail not available" />
+        ) : null}
+        {updateStatus === true ? (
+          <SuccessMessage message="Reimbursement updated Successfully" />
+        ) : null}
+        {updateStatus === false ? (
+          <FailedMessage message="Reimbursement update Failed" />
+        ) : null}
+        {rejectionValid === false ? (
+          <FailedMessage message="You can't reject while transaction in pending." />
+        ) : null}
       </Row>
       <br />
       <Row>
@@ -138,7 +167,7 @@ const ManagerReimburseDetail = (props) => {
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>From :</span>{' '}
-                      Vithujan
+                      {rowData.employeeName}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
@@ -147,26 +176,26 @@ const ManagerReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Transaction Date :{' '}
                       </span>
-                      24-05-2020
+                      {getDate(relatedTransaction.transactionDate)}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Status :</span>{' '}
-                     Pending
+                      {relatedTransaction.status}
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Amount : </span>
-                      2000
+                      {relatedTransaction.amount}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}> Category : </span>
-                      Food
+                      {relatedTransaction.category}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={4}>
@@ -174,14 +203,14 @@ const ManagerReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Payment Method :{' '}
                       </span>
-                      Card
+                      {relatedTransaction.paymentMethod}
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={12}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Description : </span>
-                      Summa adichu vidirathu thaa
+                      {relatedTransaction.description}
                     </CardSubtitle>
                   </Col>
                   <br />
@@ -203,8 +232,10 @@ const ManagerReimburseDetail = (props) => {
                 <Row>
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
-                      <span style={{ fontWeight: 'bold' }}>Employee Name :</span>{' '}
-                      Vithujan
+                      <span style={{ fontWeight: 'bold' }}>
+                        Employee Name :
+                      </span>{' '}
+                      {rowData.employeeName}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
@@ -212,21 +243,21 @@ const ManagerReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Transaction Id :{' '}
                       </span>
-                      1002526
+                      {rowData.transactionId}
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Amount : </span>
-                      2000
+                      {rowData.amount}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       {' '}
                       <span style={{ fontWeight: 'bold' }}>Status : </span>
-                        Pending
+                      {rowData.status}
                     </CardSubtitle>
                   </Col>
                   <br />
@@ -236,7 +267,7 @@ const ManagerReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Created Date :{' '}
                       </span>
-                      24-05-2020
+                      {rowData.createdDate}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
@@ -245,14 +276,14 @@ const ManagerReimburseDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Updated Date :{' '}
                       </span>
-                      25-05-2020
+                      {rowData.updatedDate}
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}> Bank Name : </span>
-                      BOC
+                      {relatedBankDetail ? relatedBankDetail.bank : ' - '}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
@@ -261,7 +292,7 @@ const ManagerReimburseDetail = (props) => {
                         {' '}
                         Bank Branch :{' '}
                       </span>
-                      Point Pedro
+                      {relatedBankDetail ? relatedBankDetail.branch : ' - '}
                     </CardSubtitle>
                   </Col>
                   <br />
@@ -272,19 +303,26 @@ const ManagerReimburseDetail = (props) => {
                         {' '}
                         Account Number :{' '}
                       </span>
-                      86956896
+                      {relatedBankDetail
+                        ? relatedBankDetail.accountNumber
+                        : ' - '}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={2}></Col>
                   <br />
                 </Row>
-                {currentUser.role === 'manager' ? (
+                {currentUser.role === 'manager' &&
+                  rowData.status === 'Pending' ? (
                   <Row>
                     <Col xs={12} sm={6}>
-                      <button className="btn btn-primary">Accept</button>
+                      <button className="btn btn-primary" onClick={onAccept}>
+                        Accept
+                      </button>
                     </Col>
                     <Col xs={12} sm={6}>
-                      <button className="btn btn-danger">Reject</button>
+                      <button className="btn btn-danger" onClick={onReject}>
+                        Reject
+                      </button>
                     </Col>
                   </Row>
                 ) : null}
@@ -298,7 +336,7 @@ const ManagerReimburseDetail = (props) => {
               style={{ width: 'auto', height: 400 }}
               top
               width="100%"
-            //   src={relatedTransaction.receiptUrl}
+              src={relatedTransaction.receiptUrl}
               alt="Card image cap"
             />
           </Paper>

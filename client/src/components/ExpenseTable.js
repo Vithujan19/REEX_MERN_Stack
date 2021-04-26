@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import { Button } from 'reactstrap';
-import { DataGrid} from '@material-ui/data-grid';
+import { DataGrid } from '@material-ui/data-grid';
 
 export default function ExpenseTable(props) {
   const { managers, transactions } = props;
@@ -13,7 +13,6 @@ export default function ExpenseTable(props) {
     {
       field: 'amount',
       headerName: 'Amount',
-      // type: 'number',
       width: 110,
     },
     {

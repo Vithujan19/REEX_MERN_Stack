@@ -1,15 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { makeStyles, Typography, Box, Tab, Tabs, Paper } from '@material-ui/core';
 import TopupPending from './TopupPending';
 import TopupAccept from './TopupAccept';
 import TopupReject from './TopupReject';
-import { Paper } from '@material-ui/core';
 import { TopupContext } from '../../context/TopupContext';
 import { GetUsersContext } from '../../context/GetUsersContext';
 
@@ -44,18 +38,6 @@ function a11yProps(index) {
     id: `nav-tab-${index}`,
     'aria-controls': `nav-tabpanel-${index}`,
   };
-}
-
-function LinkTab(props) {
-  return (
-    <Tab
-      component="a"
-      onClick={(event) => {
-        event.preventDefault();
-      }}
-      {...props}
-    />
-  );
 }
 
 const useStyles = makeStyles((theme) => ({

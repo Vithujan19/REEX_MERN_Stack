@@ -5,6 +5,7 @@ export const TransactionContext = createContext();
 
 export const TransactionContextProvider = function (props) {
   const [transactions, setTransactions] = useState();
+  const [selectedUserTransactions, setSelectedUserTransactions] = useState();
   // const [managerTransacations, setManagerTransactions] = useState();
 
   const getEmployeeTransactions = async () => {
@@ -64,6 +65,27 @@ export const TransactionContextProvider = function (props) {
       });
   };
 
+  const getSelectedUserTransactions = async (id) => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    let url = 'http://localhost:3000/allTransactions/' + id;
+
+    await axios
+      .get(url, config)
+      .then((response) => {
+        setSelectedUserTransactions(response.data);
+      })
+      .catch((err) => {
+        console.log('Unable access selected user transactions ...');
+      });
+  };
+
   return (
     <TransactionContext.Provider
       value={{
@@ -71,6 +93,8 @@ export const TransactionContextProvider = function (props) {
         getEmployeeTransactions,
         getManagerTransactions,
         getAllTransactions,
+        getSelectedUserTransactions,
+        selectedUserTransactions,
       }}
     >
       {props.children}

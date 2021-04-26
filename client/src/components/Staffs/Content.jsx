@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import StaffCard from './Card';
 import { Grid } from '@material-ui/core';
 import { GetUsersContext } from '../../context/GetUsersContext';
@@ -8,7 +8,7 @@ const Content = () => {
 
   useEffect(async () => {
     await getAllUsers();
-  });
+  }, []);
 
   const getDate = (realDate) => {
     const datee = new Date(realDate);
@@ -39,7 +39,7 @@ const Content = () => {
 
   const getStaffCard = (staffObj) => {
     return (
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} md={6} sm={12}>
         <StaffCard {...staffObj} />
       </Grid>
     );

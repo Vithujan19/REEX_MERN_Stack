@@ -72,7 +72,7 @@ router.get(
 
 router.get(
   '/allTopUpRequests',
-  [auth.authUser, auth.isAdmin],
+  [auth.authUser, auth.isAdminOrManager],
   async (req, res) => {
     try {
       const allTopUprequests = await TopUpRequest.find({});

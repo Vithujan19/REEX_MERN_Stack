@@ -6,12 +6,13 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { AuthTokenContext } from '../../context/AuthTokenContext';
 import { LoginFailed } from '../layouts/Alert';
-import { Paper } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
+import { Col, Row} from 'reactstrap';
+import LoginBg from '../Login/Secure-login.gif';
 
 function SignIn(props) {
   const [loginData, setLoginData] = useState({
@@ -38,8 +39,13 @@ function SignIn(props) {
   }
 
   return (
-    <Container component="main" maxWidth="xs" style={{ paddingTop: 50 }}>
+    <Container component="main">
       <CssBaseline />
+      <Row>
+      <Col xs={12} sm={6}>
+        <img style={{position:"fixed", height:'90%'}} src={LoginBg} />
+      </Col>
+      <Col xs={12} sm={6} style={{ paddingTop: 100 }}>
       <Paper elevation={6}>
         <div className="container" style={{ padding: 30 }}>
           <Typography
@@ -91,6 +97,8 @@ function SignIn(props) {
           </form>
         </div>
       </Paper>
+      </Col>
+      </Row>
     </Container>
   );
 }

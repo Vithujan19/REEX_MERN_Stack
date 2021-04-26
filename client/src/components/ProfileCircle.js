@@ -1,9 +1,6 @@
 import React, { useContext } from 'react';
-import { Redirect, useHistory, Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { useHistory, Link } from 'react-router-dom';
+import { Popover, Typography, Button, makeStyles } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { AuthTokenContext } from '../context/AuthTokenContext';
 
@@ -49,7 +46,7 @@ export default function ProfileCircle(props) {
         }}
       >
         <Typography
-          style={{ width: 150, padding: 12 }}
+          style={{ width: 150, padding: 12, fontFamily: "Montserrat" }}
           className={classes.typography}
         >
           <p style={{ paddingLeft: 5 }}>
@@ -73,14 +70,14 @@ export default function ProfileCircle(props) {
               Edit profile
             </Link>
           </Button>
-          <Button>
+          {/* <Button>
             <Link
               to="/BankDetails"
               style={{ textDecoration: 'none', fontWeight: 'bold' }}
             >
               Bank Details
             </Link>
-          </Button>
+          </Button> */}
           <br />
           <button
             onClick={() => {

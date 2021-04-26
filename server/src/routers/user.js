@@ -68,7 +68,16 @@ router.get('/getalladmin', [auth.authUser], async (req, res) => {
   }
 });
 
-router.get('/getallusers', [auth.authUser, auth.isAdmin], async (req, res) => {
+router.get('/user/:userId', [auth.authUser, auth.isAdminOrManager], async (req, res) => {
+  try {
+    const user = await User.find({ userId: req.params.userId });
+    res.send(user);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+router.get('/getallusers', [auth.authUser], async (req, res) => {
   try {
     const allUsers = await User.find({});
     res.send(allUsers);
@@ -111,6 +120,22 @@ router.delete('/users/me', [auth.authUser, auth.isAdmin], async (req, res) => {
     res.send(req.user);
   } catch (e) {
     res.status(500).send();
+  }
+});
+
+router.delete('/users/:id', [auth.authUser, auth.isAdmin], async (req, res) => {
+  try {
+    const user = await User.findOneAndDelete({
+      _id: req.params.id,
+    });
+
+    if (!user) {
+      return res.status(404).send();
+    }
+
+    res.send(user);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 
@@ -157,5 +182,37 @@ router.get('/users/:id/profilePicture', async (req, res) => {
     res.status(400).send();
   }
 });
+
+router.patch(
+  '/userUpdate/:id',
+  [auth.authUser, auth.isAdmin],
+  async (req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['role', 'userId', 'password'];
+    const isValidOperation = updates.every((update) =>
+      allowedUpdates.includes(update)
+    );
+
+    if (!isValidOperation) {
+      return res.status(400).send({ error: 'Invalid updates!' });
+    }
+
+    try {
+      const user = await User.findOne({
+        _id: req.params.id,
+      });
+
+      if (!user) {
+        return res.status(404).send();
+      }
+
+      updates.forEach((update) => (user[update] = req.body[update]));
+      await user.save();
+      res.send(user);
+    } catch (e) {
+      res.status(400).send(e);
+    }
+  }
+);
 
 module.exports = router;

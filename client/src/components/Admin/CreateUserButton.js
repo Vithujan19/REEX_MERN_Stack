@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalHeader } from 'reactstrap';
-import {Grid} from '@material-ui/core';
+import React from 'react';
+import { Button } from 'reactstrap';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Link } from 'react-router-dom';
 
-const AddExpense = (props) => {
-    const {
-      buttonLabel,
-      className
-    } = props;
-  
+const AddExpense = () => {
+    
     return (
       <div>
         <div className="AddBtn">

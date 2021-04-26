@@ -5,11 +5,7 @@ import AddExpenseForm from './AddExpenseForm';
 import {Grid} from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
-const AddExpense = (props) => {
-  const {
-    buttonLabel,
-    className
-  } = props;
+const AddExpense = () => {
 
   const [modal, setModal] = useState(false);
 

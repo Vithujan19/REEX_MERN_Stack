@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import { Col, Row } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Title from '../../components/Title';
@@ -42,27 +40,27 @@ export default function TotalReimbursement(props) {
   return (
     <div>
       <Title>Reimbursement</Title>
-      <hr/>
+      <hr />
       <Row>
         <Col xs={12} sm={8}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
+          <Typography component="p" variant="h6" style={{ fontFamily: "Montserrat" }}>
             Reimbursement(Rs.):
           </Typography>
         </Col>
         <Col xs={12} sm={4}>
-          <Typography component="p" variant="h6">
+          <Typography component="p" variant="h6" style={{ fontFamily: "Montserrat" }}>
             {totalreimbursementAmount}
           </Typography>
         </Col>
       </Row>
       <Row>
         <Col xs={12} sm={8}>
-          <Typography component="p" variant="h6" style={{fontWeight:"bold"}}>
+          <Typography component="p" variant="h6" style={{ fontFamily: "Montserrat" }}>
             Total(Number):
           </Typography>
         </Col>
         <Col xs={12} sm={4}>
-          <Typography component="p" variant="h6">
+          <Typography component="p" variant="h6" style={{ fontFamily: "Montserrat" }}>
             {reimbursementsCopy.length}
           </Typography>
         </Col>
@@ -71,15 +69,15 @@ export default function TotalReimbursement(props) {
       <Typography>
         <Row>
           <Col xs={12} sm={4}>
-            <span style={{ color: '#ff6600' }}>Pending: {pending.length}</span>
+            <span style={{ color: '#ff6600', fontFamily: "Montserrat" }}>Pending: {pending.length}</span>
           </Col>
           <Col xs={12} sm={4}>
-            <span style={{ color: '#00b300' }}>
+            <span style={{ color: '#00b300', fontFamily: "Montserrat" }}>
               Accepted: {approved.length}
             </span>
           </Col>
           <Col xs={12} sm={4}>
-            <span style={{ color: '#ff0000' }}>
+            <span style={{ color: '#ff0000', fontFamily: "Montserrat" }}>
               Rejected: {rejected.length}
             </span>
           </Col>

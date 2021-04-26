@@ -1,103 +1,93 @@
 import { Paper } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
-  CardImg,
-  CardText,
   CardBody,
   CardTitle,
   CardSubtitle,
-  Button,
   Row,
   Col,
 } from 'reactstrap';
-import Receipt from '../Employee/Receipt.png';
+import axios from 'axios';
+import { SuccessMessage, FailedMessage } from '../layouts/Alert';
 
 const TopupPendingDetail = (props) => {
-//   const { rowData, transactions, reimbursements, bankDetails } = props;
+  const { rows, topups } = props;
+  const [updatedStatus, setUpdateStatus] = useState();
+  const [updatedRejectStatus, setUpdateRejectStatus] = useState();
 
-//   let expenseDetails = {
-//     to: '',
-//     transactionDate: '',
-//     amount: '',
-//     category: '',
-//     paymentType: '',
-//     description: '',
-//     receiptUrl: '',
-//     status: '',
-//   };
+  let currentTopup = {};
 
-//   let reimbursementDetails = {
-//     to: '',
-//     transactionId: '',
-//     amount: '',
-//     status: '',
-//     createdAt: '',
-//     updatedAt: '',
-//     bankName: '-',
-//     bankBranch: '-',
-//     bankAccountNumber: '-',
-//   };
+  if (topups) {
+    currentTopup = topups.find((m) => m._id === rows.id);
+    console.log(currentTopup);
+  }
 
-//   let relatedTransaction = {};
-//   let relatedReimbursement = {};
-//   let relatedBankDetail = {};
-
-//   const getDate = (realDate) => {
-//     const datee = new Date(realDate);
-//     const year = datee.getUTCFullYear();
-//     const month = datee.getUTCMonth();
-//     const date = datee.getUTCDate();
-//     const correctDate = date + '-' + month + '-' + year;
-//     return correctDate;
-//   };
-
-//   if (rowData && transactions && reimbursements) {
-//     relatedTransaction = transactions.find(
-//       (transaction) => transaction._id === rowData.transactionId
-//     );
-
-//     relatedReimbursement = reimbursements.find(
-//       (reimbursement) => reimbursement._id === rowData.id
-//     );
-
-//     relatedBankDetail = bankDetails.find(
-//       (bankDetail) =>
-//         bankDetail._id === relatedReimbursement.reimbursementAccount
-//     );
-
-//     expenseDetails.to = rowData.managerName;
-//     expenseDetails.amount = rowData.amount;
-//     expenseDetails.status = rowData.status;
-//     expenseDetails.paymentType = relatedTransaction.paymentMethod;
-//     expenseDetails.description = relatedTransaction.description;
-//     expenseDetails.receiptUrl = relatedTransaction.receiptUrl;
-//     expenseDetails.transactionDate = getDate(
-//       relatedTransaction.transactionDate
-//     );
-//     expenseDetails.category = relatedTransaction.category;
-
-//     reimbursementDetails.to = rowData.managerName;
-//     reimbursementDetails.transactionId = rowData.id;
-//     reimbursementDetails.amount = expenseDetails.amount;
-//     reimbursementDetails.status = rowData.status;
-//     reimbursementDetails.createdAt = getDate(relatedReimbursement.createdAt);
-//     reimbursementDetails.updatedAt = getDate(relatedReimbursement.updatedAt);
-//     if (relatedBankDetail) {
-//       reimbursementDetails.bankName = relatedBankDetail.bank;
-//       reimbursementDetails.bankBranch = relatedBankDetail.branch;
-//       reimbursementDetails.bankAccountNumber = relatedBankDetail.accountNumber;
-//     }
-
-//     console.log('RowData : ', rowData);
-//     console.log('expenseDetails : ', expenseDetails);
-//     console.log('reimbursementDetails : ', reimbursementDetails);
-//   }
+  const getDate = (realDate) => {
+    const datee = new Date(realDate);
+    const year = datee.getUTCFullYear();
+    const month = datee.getUTCMonth();
+    const date = datee.getUTCDate();
+    const correctDate = date + '-' + (month + 1) + '-' + year;
+    return correctDate;
+  };
 
   const onClick = () => {
     window.location.reload();
   };
+
+  const onAccept = () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    };
+
+    let url = 'http://localhost:3000/topUpRequest/' + rows.id;
+
+    const dataa = JSON.stringify({
+      status: 'Approved',
+    });
+
+    axios
+      .patch(url, dataa, config)
+      .then((res) => {
+        setUpdateStatus(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUpdateStatus(false);
+      });
+  };
+
+  const onReject = () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    };
+
+    let url = 'http://localhost:3000/topUpRequest/' + rows.id;
+
+    const dataa = JSON.stringify({
+      status: 'Rejected',
+    });
+
+    axios
+      .patch(url, dataa, config)
+      .then((res) => {
+        setUpdateRejectStatus(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUpdateRejectStatus(false);
+      });
+  };
+
   var currentUser = JSON.parse(localStorage.getItem('user'));
+
   return (
     <div>
       <Row>
@@ -123,34 +113,47 @@ const TopupPendingDetail = (props) => {
                 >
                   Topup Details
                 </CardTitle>
+
                 <hr />
+                {updatedStatus === true ? (
+                  <SuccessMessage message="Topup Request Accepted." />
+                ) : null}
+                {updatedStatus === false ? (
+                  <FailedMessage message="Error Occured ..." />
+                ) : null}
+                {updatedRejectStatus === true ? (
+                  <SuccessMessage message="Topup Request Rejected." />
+                ) : null}
+                {updatedRejectStatus === false ? (
+                  <FailedMessage message="Error Occured ..." />
+                ) : null}
                 <Row>
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
-                      <span style={{ fontWeight: 'bold' }}>Employee Name :</span>{' '}
-                      {/* {reimbursementDetails.to}{' '} */}Kovarthanan
+                      <span style={{ fontWeight: 'bold' }}>
+                        Employee Name :
+                      </span>{' '}
+                      {rows.employeeName}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
-                      <span style={{ fontWeight: 'bold' }}>
-                        Topup Id :{' '}
-                      </span>
-                      2222222222
+                      <span style={{ fontWeight: 'bold' }}>Topup Id : </span>
+                      {rows.id}
                     </CardSubtitle>
                   </Col>
                   <br />
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       <span style={{ fontWeight: 'bold' }}>Amount : </span>
-                     500
+                      {rows.amount}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
                     <CardSubtitle>
                       {' '}
                       <span style={{ fontWeight: 'bold' }}>Status : </span>
-                      Accept
+                      {currentTopup.status}
                     </CardSubtitle>
                   </Col>
                   <br />
@@ -160,7 +163,7 @@ const TopupPendingDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Created Date :{' '}
                       </span>
-                      24-05-2020
+                      {getDate(currentTopup.createdAt)}
                     </CardSubtitle>
                   </Col>
                   <Col xs={12} sm={6}>
@@ -169,35 +172,35 @@ const TopupPendingDetail = (props) => {
                       <span style={{ fontWeight: 'bold' }}>
                         Updated Date :{' '}
                       </span>
-                      25-06-2021
+                      {getDate(currentTopup.updatedAt)}
                     </CardSubtitle>
                   </Col>
                   <br />
+                  <Col xs={12} sm={6}>
+                    <CardSubtitle>
+                      {' '}
+                      <span style={{ fontWeight: 'bold' }}>Description : </span>
+                      {currentTopup.description}
+                    </CardSubtitle>
+                  </Col>
                 </Row>
                 {currentUser.role === 'manager' ? (
                   <Row>
                     <Col xs={12} sm={6}>
-                      <button className="btn btn-primary">Accept</button>
+                      <button className="btn btn-success" onClick={onAccept}>
+                        Accept
+                      </button>
                     </Col>
                     <Col xs={12} sm={6}>
-                      <button className="btn btn-danger">Reject</button>
+                      <button className="btn btn-danger" onClick={onReject}>
+                        Reject
+                      </button>
                     </Col>
                   </Row>
                 ) : null}
               </CardBody>
             </Paper>
           </Card>
-        </Col>
-        <Col xs={12} sm={4}>
-          <Paper elevation={4}>
-            <CardImg
-              style={{ width: 'auto', height: 400 }}
-              top
-              width="100%"
-            //   src={relatedTransaction.receiptUrl}
-              alt="Card image cap"
-            />
-          </Paper>
         </Col>
       </Row>
     </div>

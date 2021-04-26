@@ -1,231 +1,154 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useFormik, Field } from 'formik';
-import * as yup from 'yup';
+import { useFormik } from 'formik';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import {
-    Button,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    FormText,
-    Container,
-    Row,
-    Col,
-} from 'reactstrap';
-import { Select, Paper } from '@material-ui/core';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { Input, Row, Col } from 'reactstrap';
+import { Paper } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { GetUsersContext } from '../context/GetUsersContext';
 import { SuccessMessage, FailedMessage } from './layouts/Alert';
-import DefaultProf from './Admin/profImg.jpg';
 
 const EditProfileForm = (props) => {
-    const [updateStatus, setUpdateStatus] = useState();
-    const { reloadUser } = useContext(GetUsersContext);
-    const currentUser = JSON.parse(localStorage.getItem('user'));
+  const { selectedUser } = props;
+  const [updateStatus, setUpdateStatus] = useState();
+  const { reloadUser } = useContext(GetUsersContext);
+  const currentUser = JSON.parse(localStorage.getItem('user'));
 
-    const editedDetails = {};
+  let url = '';
+  let viewUser = '';
+  let user = {
+    name: '',
+    role: '',
+    userId: '',
+    _id: '',
+  };
 
-    const formik = useFormik({
-        initialValues: {
-            name: currentUser.name,
-            role: currentUser.role,
-            gender: currentUser.gender,
-            dateOfBirth: currentUser.dateOfBirth,
-            mobileNumber: currentUser.mobileNumber,
-            email: currentUser.email,
-            userId: currentUser.userId,
+  const editedDetails = {};
+
+  if (selectedUser) {
+    user.name = selectedUser[0].name;
+    user.role = selectedUser[0].role;
+    user.userId = selectedUser[0].userId;
+    user._id = selectedUser[0]._id;
+
+    url = 'http://localhost:3000/userUpdate/' + user._id;
+    viewUser = '/ViewUser/' + user.userId;
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      name: user.name,
+      role: user.role,
+      userId: user.userId,
+    },
+
+    //validate,
+    onSubmit: (details) => {
+      console.log('submitted');
+      if (details.role !== user.role) {
+        editedDetails.role = details.role;
+      }
+
+      if (details.userId !== user.userId) {
+        editedDetails.userId = details.userId;
+      }
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        validationSchema: yup.object({
-            email: yup.string().email().required('Enter valid Email'),
-        }),
+      };
 
-        // validate,
-        // onSubmit: (user) => {
-        //     if (user.name !== currentUser.name) {
-        //         editedDetails.name = user.name;
-        //     }
-        //     if (user.email !== currentUser.email) {
-        //         editedDetails.email = user.email;
-        //     }
-        //     if (user.dateOfBirth !== currentUser.dateOfBirth) {
-        //         editedDetails.dateOfBirth = user.dateOfBirth;
-        //     }
-        //     if (user.mobileNumber !== currentUser.mobileNumber) {
-        //         editedDetails.mobileNumber = user.mobileNumber;
-        //     }
-        //     if (user.gender !== currentUser.gender) {
-        //         editedDetails.gender = user.gender;
-        //     }
-        //     if (user.gender !== currentUser.gender) {
-        //         editedDetails.gender = user.gender;
-        //     }
+      axios
+        .patch(url, editedDetails, config)
+        .then((res) => {
+          toast.success('User Update successful');
+          reloadUser();
+          setUpdateStatus(true);
+        })
+        .catch((err) => {
+          toast.error(err);
+          setUpdateStatus(false);
+        });
+    },
+  });
 
-        //     const config = {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             Authorization: `Bearer ${localStorage.getItem('token')}`,
-        //         },
-        //     };
-
-        //     axios
-        //         .patch('http://localhost:3000/users/me', editedDetails, config)
-        //         .then((res) => {
-        //             toast.success('User Register successful');
-        //             reloadUser();
-        //             setUpdateStatus(true);
-        //         })
-        //         .catch((err) => {
-        //             toast.error(err);
-        //             setUpdateStatus(false);
-        //         });
-        // },
-    });
-
-    return (
-        <Row>
-            <Col xs={12} sm={4}>
+  return (
+    <Row>
+      {/* <Col xs={12} sm={4}>
                 <Paper Container elevation={4}>
-                    {/* {profileImg===null?<img src={DefaultProf} alt="" />: <img scr={profileImg}/>} */}
+                
                     <img src={DefaultProf} alt="" />
                 </Paper>
-            </Col>
-            <Col xs={12} sm={8}>
-                <div className="container">
-                    <Paper elevation={4} style={{ padding: '20px' }}>
-                        <h3 style={{ textAlign: 'center' }}>Edit (Koshaliya) Profile</h3>
-                        <hr />
-                        {/* {updateStatus === true ? (
-              <SuccessMessage message="Successfully Edited Your Profile" />
+            </Col> */}
+      <Col xs={12} sm={2}></Col>
+      <Col xs={12} sm={8}>
+        <div className="container">
+          <Paper elevation={4} style={{ padding: '20px' }}>
+            <h3 style={{ textAlign: 'center' }}>Edit {user.name}'s Profile</h3>
+            <hr />
+            {updateStatus === true ? (
+              <SuccessMessage message="Successfully Edited" />
             ) : null}
             {updateStatus === false ? (
-              <FailedMessage message="Editing You Profile Failed." />
-            ) : null} */}
-                        <form autoComplete="off" onSubmit={formik.handleSubmit}>
-                            <Row>
-                                <Col xs={12} sm={6}>
-                                    <div className="form-group">
-                                        <label>Name:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text"
-                                            name="name"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.name}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col xs={12} sm={6}>
-                                    <div className="form-group">
-                                        <label>UserID: </label>
-                                        <input
-                                            className="form-control"
-                                            type="text"
-                                            name="userId"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.userId}
-                                        />
-                                    </div>
-                                </Col>
-                                {/* <Col xs={12} sm={8}>
+              <FailedMessage message="Editing Failed." />
+            ) : null}
+            <form autoComplete="off" onSubmit={formik.handleSubmit}>
+              <Row>
+                <Col xs={12} sm={6}>
                   <div className="form-group">
-                    <label>Email:</label>
+                    <label>UserID: </label>
                     <input
                       className="form-control"
                       type="text"
-                      name="email"
+                      name="userId"
                       onChange={formik.handleChange}
-                      value={formik.values.email}
+                      value={formik.values.userId}
                     />
-                    {formik.errors.email ? (
-                      <div className="text-danger">{formik.errors.email}</div>
-                    ) : null}
-                  </div>
-                </Col> */}
-                                {/* <Col xs={12} sm={4}>
-                  <div className="form-group">
-                    <label>Mobile Number:</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="mobileNumber"
-                      onChange={formik.handleChange}
-                      value={formik.values.mobileNumber}
-                    />
-                  </div>
-                </Col> */}
-                                <Col xs={12} sm={4}>
-                                    <div className="form-group">
-                                        <label>Role:</label>
-                                        <Input
-                                            className="form-control"
-                                            type="select"
-                                            name="role"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.role}
-                                        >
-                                            <option value="admin">Admin</option>
-                                            <option value="manager">Manager</option>
-                                            <option value="employee">Employee</option>
-                                        </Input>
-                                    </div>
-                                </Col>
-                                {/* <Col xs={12} sm={4}>
-                  <div className="form-group">
-                    <label>Gender:</label>
-                    <Select
-                      className="form-control"
-                      type="select"
-                      name="gender"
-                      onChange={formik.handleChange}
-                      value={formik.values.gender}
-                    >
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                    </Select>
                   </div>
                 </Col>
                 <Col xs={12} sm={4}>
                   <div className="form-group">
-                    <label>Date of Birth:</label>
-                    <input
+                    <label>Role:</label>
+                    <Input
                       className="form-control"
-                      name="dateOfBirth"
-                      type="date"
+                      type="select"
+                      name="role"
                       onChange={formik.handleChange}
-                      value={formik.values.dateOfBirth}
-                    />
+                      value={formik.values.role}
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="manager">Manager</option>
+                      <option value="employee">Employee</option>
+                    </Input>
                   </div>
-                </Col> */}
-                            </Row>
-                            <Row>
-                                <Col xs={12} sm={6}>
-                                    <button className="btn btn-primary">Confirm</button>
-                                </Col>
-                                <Col xs={12} sm={6} style={{ paddingTop: 10 }}>
-                                    <Row>
-                                    <Col xs={12} sm={6}></Col>
-                                        <Col xs={12} sm={6}>
-                                            <Link
-                                                style={{ textDecoration: 'none' }}
-                                                to="/ViewUser"
-                                            >
-                                                <ArrowBackIcon />
-                                                View User Profile{' '}
-                                            </Link>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </form>
-                    </Paper>
-                </div>
-            </Col>
-        </Row>
-    );
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12} sm={6}>
+                  <button className="btn btn-primary">Confirm</button>
+                </Col>
+                <Col xs={12} sm={6} style={{ paddingTop: 10 }}>
+                  <Row>
+                    <Col xs={12} sm={6}></Col>
+                    <Col xs={12} sm={6}>
+                      <Link style={{ textDecoration: 'none' }} to={viewUser}>
+                        <ArrowBackIcon />
+                        View User Profile{' '}
+                      </Link>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </form>
+          </Paper>
+        </div>
+      </Col>
+      <Col xs={12} sm={2}></Col>
+    </Row>
+  );
 };
 
 export default EditProfileForm;

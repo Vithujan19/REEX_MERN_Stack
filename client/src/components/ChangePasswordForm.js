@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useFormik, Field } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SuccessMessage, FailedMessage } from './layouts/Alert';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
-import { Select, Paper } from '@material-ui/core';
+import { Row, Col } from 'reactstrap';
+import { Paper } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 

@@ -1,13 +1,11 @@
-import { Paper } from '@material-ui/core';
 import React from 'react';
+import { Paper } from '@material-ui/core';
 import {
   Card,
   CardImg,
-  CardText,
   CardBody,
   CardTitle,
   CardSubtitle,
-  Button,
   Row,
   Col,
 } from 'reactstrap';
@@ -47,7 +45,7 @@ const EmployeeReimburseDetail = (props) => {
     const year = datee.getUTCFullYear();
     const month = datee.getUTCMonth();
     const date = datee.getUTCDate();
-    const correctDate = date + '-' + month + '-' + year;
+    const correctDate = date + '-' + (month + 1) + '-' + year;
     return correctDate;
   };
 

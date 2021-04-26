@@ -2,19 +2,8 @@ import React, { useState } from 'react';
 import { useFormik, Field } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { SubmitSuccess, SubmitFailed } from '../layouts/Alert';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Select, Paper } from '@material-ui/core';
 import DefaultProf from './profImg.jpg';
 
@@ -56,7 +45,6 @@ const CreateUserForm = (props) => {
     }),
     // validate,
     onSubmit: (user) => {
-      console.log(user);
       const userData = {
         name: user.name,
         role: user.role,

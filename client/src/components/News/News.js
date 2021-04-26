@@ -1,57 +1,86 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Paper } from '@material-ui/core';
-// reactstrap components
 import {
   Button,
   Card,
   CardBody,
   CardTitle,
-  CardText,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
+import axios from 'axios';
+import { SuccessMessage, FailedMessage } from '../layouts/Alert';
 
-function ReadMore({ children, maxCharacterCount = 100 }) {
+function ReadMore(props) {
+  const { singleNewsId, children, maxCharacterCount } = props;
   const text = children;
   const [isTruncated, setIsTruncated] = useState(true);
-  const resultString = isTruncated ? text.slice(0, 100) : text;
+  const resultString = isTruncated ? text.slice(0, maxCharacterCount) : text;
+  const [deleteStatus, setDeleteStatus] = useState();
 
   function toggleIsTruncated() {
     setIsTruncated(!isTruncated);
   }
   var currentUser = JSON.parse(localStorage.getItem('user'));
+
+  const onDeleteNews = () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    };
+    let deleteUrl = 'http://localhost:3000/news/' + singleNewsId;
+    axios
+      .delete(deleteUrl, config)
+      .then((res) => {
+        setDeleteStatus(true);
+      })
+      .catch((err) => {
+        setDeleteStatus(false);
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <p className="has-text-left">
+        {deleteStatus === true ? (
+          <SuccessMessage message="This news deleted successfully." />
+        ) : null}
+        {deleteStatus === false ? (
+          <FailedMessage message="Error in deleting this news." />
+        ) : null}
         {resultString}
-        {isTruncated ? "...." : null}
+        {isTruncated ? '....' : null}
       </p>
 
       <Row>
         <Col xs={12} sm={10}>
-          {text.slice(' ').length > 100 ? <Button color="primary" onClick={toggleIsTruncated} className="tag is-info is-small">
-            {isTruncated ? "Read More" : "Read Less"}
-          </Button> : null}
+          {text.slice(' ').length > 100 ? (
+            <Button
+              color="primary"
+              onClick={toggleIsTruncated}
+              className="tag is-info is-small"
+            >
+              {isTruncated ? 'Read More' : 'Read Less'}
+            </Button>
+          ) : null}
         </Col>
         <Col xs={12} sm={2}>
-          {currentUser.role === "admin" ?
-            <Button
-              color="danger"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
+          {currentUser.role === 'admin' ? (
+            <Button color="danger" href="#pablo" onClick={onDeleteNews}>
               Delete
-            </Button> : null}
+            </Button>
+          ) : null}
         </Col>
       </Row>
     </>
-  )
-
+  );
 }
 
-
 function News(props) {
-  const {news} = props;
+  const { news } = props;
 
   const NewsData = [];
 
@@ -60,67 +89,132 @@ function News(props) {
     const year = datee.getUTCFullYear();
     const month = datee.getUTCMonth();
     const date = datee.getUTCDate();
-    const correctDate = date + '-' + month + '-' + year;
+    const correctDate = date + '-' + (month + 1) + '-' + year;
     return correctDate;
   };
 
-  if(news){
+  if (news) {
     news.map((data) => {
       const dataa = {
         id: data._id,
         title: data.title,
         news: data.news,
-        startDisplayOn: data.startDisplayOn,
-        endDisplayOn: data.endDisplayOn,
+        startDisplayOn: new Date(data.startDisplayOn),
+        endDisplayOn: new Date(data.endDisplayOn),
         viewers: data.viewers,
         visibleStartOn: getDate(data.startDisplayOn),
         visibleEndOn: getDate(data.endDisplayOn),
+        createdOn: getDate(data.createdAt),
       };
       NewsData.push(dataa);
     });
   }
+  var currentUser = JSON.parse(localStorage.getItem('user'));
 
   return (
     <>
-    <Row>
-    <Col xs={12} sm={1}></Col>
-    <Col xs={12} sm={10}>
-    
+      <Row>
+        <Col xs={12} sm={1}></Col>
+        <Col xs={12} sm={10}>
           {NewsData.reverse().map((singleNews) => (
             <>
-            <Card>
-            <Paper elevation={4}>
-            <CardBody>
-            <CardTitle style={{ textAlign: "center" }} className=" mb-3" tag="h3">
-              {singleNews.title}
-          </CardTitle>
-            <hr />
-            <ReadMore>
-              {singleNews.news}
-          </ReadMore>
-          </CardBody>
-          </Paper>
-      </Card>
-      <br/>
-      </>
-      
+              {(singleNews.startDisplayOn <= new Date() &&
+                singleNews.endDisplayOn >= new Date()) ? (
+                <>
+                  <Card style={{ borderColor: "#ef4730", borderStyle: "solid", borderWidth: "2px" }}>
+                    <Paper elevation={4}>
+                      <CardBody>
+                        <CardTitle
+                          style={{ textAlign: 'center' }}
+                          className=" mb-3"
+                          tag="h4"
+                        >
+                          {singleNews.title}
+                        </CardTitle>
+                        {currentUser.role === 'admin' ? (
+                          <Row>
+                            <hr style={{ width: "98%" }} />
+                            <Col xs={12} sm={3}>
+                              <span style={{ fontWeight: "bold" }}>
+                                Start Display On : </span> {singleNews.visibleStartOn}
+
+                            </Col>
+                            <Col xs={12} sm={3}>
+                              <span style={{ fontWeight: "bold" }}>
+                                End Display On :</span> {singleNews.visibleEndOn}
+
+                            </Col>
+                            <Col xs={12} sm={3}>
+                              <span style={{ fontWeight: "bold" }}>Viewers : </span> {singleNews.viewers[0]} {singleNews.viewers[1]}
+                            </Col>
+                            <Col xs={12} sm={3}>
+                              <span style={{ fontWeight: "bold" }}>Created On : </span> {singleNews.createdOn}
+                            </Col>
+                          </Row>
+                        ) : null}
+                        <hr />
+                        <ReadMore
+                          singleNewsId={singleNews.id}
+                          children={singleNews.news}
+                          maxCharacterCount={150}
+                        >
+                          {singleNews.news}
+                        </ReadMore>
+                      </CardBody>
+                    </Paper>
+                  </Card>
+                </>
+              ) :
+                <Card style={{ borderColor: "#1278B8", borderStyle: "solid", borderWidth: "2px" }}>
+                  <Paper elevation={4}>
+                    <CardBody>
+                      <CardTitle
+                        style={{ textAlign: 'center' }}
+                        className=" mb-3"
+                        tag="h4"
+                      >
+                        {singleNews.title}
+                      </CardTitle>
+                      {currentUser.role === 'admin' ? (
+                        <Row>
+                          <hr style={{ width: "98%" }} />
+                          <Col xs={12} sm={3}>
+                            <span style={{ fontWeight: "bold" }}>
+                              Start Display On : </span> {singleNews.visibleStartOn}
+
+                          </Col>
+                          <Col xs={12} sm={3}>
+                            <span style={{ fontWeight: "bold" }}>
+                              End Display On :</span> {singleNews.visibleEndOn}
+
+                          </Col>
+                          <Col xs={12} sm={3}>
+                            <span style={{ fontWeight: "bold" }}>Viewers : </span> {singleNews.viewers[0]} {singleNews.viewers[1]}
+                          </Col>
+                          <Col xs={12} sm={3}>
+                            <span style={{ fontWeight: "bold" }}>Created On : </span> {singleNews.createdOn}
+                          </Col>
+                        </Row>
+                      ) : null}
+                      <hr />
+                      <ReadMore
+                        singleNewsId={singleNews.id}
+                        children={singleNews.news}
+                        maxCharacterCount={150}
+                      >
+                        {singleNews.news}
+                      </ReadMore>
+                    </CardBody>
+                  </Paper>
+                </Card>
+              }
+
+              <br />
+            </>
           ))}
-          {/* <CardBody>
-            <CardTitle style={{ textAlign: "center" }} className=" mb-3" tag="h3">
-              Card title
-          </CardTitle>
-            <hr />
-            <ReadMore>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Facilis non dolore est fuga nobis ipsum illum eligendi nemo iure
-              repellat, soluta, optio minus ut reiciendis voluptates enim
-              impedit veritatis officiis.
-          </ReadMore>
-          </CardBody> */}
-       
-    </Col>
-    <Col xs={12} sm={1}></Col>
-    </Row>
+        </Col>
+        <Col xs={12} sm={1}></Col>
+      </Row>
     </>
   );
 }

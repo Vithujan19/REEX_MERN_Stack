@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Sidenav from './SideNav/Sidenav';
-import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import ReportTab from './ReportTab';
+import { GetUsersContext } from '../context/GetUsersContext';
+import { ReportsContext } from '../context/ReportsContext';
 
 function Copyright() {
   return (
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -103,14 +105,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Report() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const { allUsers, getAllUsers } = useContext(GetUsersContext);
+  const {
+    getSentReports,
+    sentReports,
+    getReceivedReports,
+    receivedReports,
+  } = useContext(ReportsContext);
+
+  useEffect(() => {
+    getSentReports();
+  }, []);
+
+  useEffect(() => {
+    getReceivedReports();
+  }, []);
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -118,7 +131,11 @@ export default function Report() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          This is for Reporting Section
+          <ReportTab
+            allUsers={allUsers}
+            sentReports={sentReports}
+            receivedReports={receivedReports}
+          />
           <Box pt={4}>
             <Copyright />
           </Box>

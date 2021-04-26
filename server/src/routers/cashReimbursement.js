@@ -53,7 +53,7 @@ router.get(
 
 router.get(
   '/allReimbursement',
-  [auth.authUser, auth.isAdmin],
+  [auth.authUser, auth.isAdminOrManager],
   async (req, res) => {
     try {
       const allReimbursements = await CashReimbursement.find({});

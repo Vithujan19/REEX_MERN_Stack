@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
-import { useFormik, Field } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import { SubmitSuccess, SubmitFailed } from '../layouts/Alert';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Select, Paper } from '@material-ui/core';
 import DoubleArrowSharpIcon from '@material-ui/icons/DoubleArrowSharp';
 import { SuccessMessage, FailedMessage } from '../layouts/Alert';
@@ -33,7 +21,7 @@ const NewsForm = (props) => {
     validationSchema: yup.object({
       title: yup.string().required('Title is required'),
       news: yup.string().required('News is required'),
-      viewers: yup.string().required('viewers is required'),
+      // viewers: yup.array.required('viewers is required'),
       startDisplayOn: yup.string().required('Start preview date is required'),
       endDisplayOn: yup.string().required('End preview date is required'),
     }),
@@ -75,16 +63,6 @@ const NewsForm = (props) => {
           setNewsCreationStatus('fail');
         });
     },
-
-    // axios.post('http://localhost:3000/users', user)
-    //     .then(res => {
-    //         console.log("Done");
-    //         toast.success("User Register successful");
-    //         props.history.push('/user/me');
-    //     })
-    //     .catch(err => {
-    //         toast.error(err.response.user);
-    //     }),
   });
 
   return (

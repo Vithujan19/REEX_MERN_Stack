@@ -1,21 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Title from '../Title';
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
+import 'aos/dist/aos.css';
 AOS.init();
 
 export default function TotalStaffs(props) {
   const { managers, employees } = props;
-
-  //   let topupsCopy = [];
-  //   let pending = [];
-  //   let approved = [];
-  //   let rejected = [];
-  //   let totalTopupAmount = 0;
 
   let managersCopy = [];
   let managersMale = [];
@@ -52,12 +44,20 @@ export default function TotalStaffs(props) {
       <hr />
       <Row>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             Total Managers:
           </Typography>
         </Col>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6">
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             {managersCopy.length}
           </Typography>
         </Col>
@@ -65,12 +65,12 @@ export default function TotalStaffs(props) {
       <Typography>
         <Row>
           <Col xs={12} sm={6}>
-            <span style={{ color: '#ff6600' }}>
+            <span style={{ color: '#ff6600', fontFamily: 'Montserrat' }}>
               Male: {managersMale.length}
             </span>
           </Col>
           <Col xs={12} sm={6}>
-            <span style={{ color: '#00b300' }}>
+            <span style={{ color: '#00b300', fontFamily: 'Montserrat' }}>
               Female: {managersFemale.length}
             </span>
           </Col>
@@ -79,12 +79,20 @@ export default function TotalStaffs(props) {
       <br />
       <Row>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6" style={{ fontWeight: 'bold' }}>
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             Total Employees:
           </Typography>
         </Col>
         <Col xs={12} sm={6}>
-          <Typography component="p" variant="h6">
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             {employeesCopy.length}
           </Typography>
         </Col>
@@ -92,12 +100,12 @@ export default function TotalStaffs(props) {
       <Typography>
         <Row>
           <Col xs={12} sm={6}>
-            <span style={{ color: '#ff6600' }}>
+            <span style={{ color: '#ff6600', fontFamily: 'Montserrat' }}>
               Male: {employeesMale.length}
             </span>
           </Col>
           <Col xs={12} sm={6}>
-            <span style={{ color: '#00b300' }}>
+            <span style={{ color: '#00b300', fontFamily: 'Montserrat' }}>
               Female: {employeesFemale.length}
             </span>
           </Col>

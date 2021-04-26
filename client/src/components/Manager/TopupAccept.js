@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 
 export default function TopupAccept(props) {
@@ -13,11 +13,7 @@ export default function TopupAccept(props) {
       headerName: 'Amount',
       width: 130,
     },
-    // {
-    //   field: 'status',
-    //   headerName: 'Status',
-    //   width: 150,
-    // },
+    { field: 'updatedAt', headerName: 'Updated On', width: 170 },
   ];
 
   const getDate = (realDate) => {
@@ -25,7 +21,7 @@ export default function TopupAccept(props) {
     const year = datee.getUTCFullYear();
     const month = datee.getUTCMonth();
     const date = datee.getUTCDate();
-    const correctDate = date + '-' + month + '-' + year;
+    const correctDate = date + '-' + (month + 1) + '-' + year;
     return correctDate;
   };
 
@@ -53,7 +49,7 @@ export default function TopupAccept(props) {
         employeeName: getEmployeeName(approvedTopup.requestBy),
         employeeId: getEmployeeId(approvedTopup.requestBy),
         amount: approvedTopup.amount,
-        // status: approvedTopup.status,
+        updatedAt: getDate(approvedTopup.updatedAt),
       };
       rows.push(data);
     });
