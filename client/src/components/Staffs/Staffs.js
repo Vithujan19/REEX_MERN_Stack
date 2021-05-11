@@ -11,19 +11,18 @@ export default function History() {
   const classes = useStyles();
 
   return (
-
     <div className={classes.root}>
       <Sidenav />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container style={{paddingBottom:"20px"}}>
+          <Grid container style={{ paddingBottom: '20px' }}>
             <Grid xs={12} sm={4}></Grid>
             <Grid xs={12} sm={4}>
-              <div className="staff-search">
-                <input type="text" style={{ backgroundColor: "#fefefe" }} />
+              {/* <div className="staff-search">
+                <input type="text" style={{ backgroundColor: '#fefefe' }} />
                 <SearchIcon />
-              </div>
+              </div> */}
             </Grid>
             <Grid xs={12} sm={4}></Grid>
           </Grid>
@@ -34,7 +33,5 @@ export default function History() {
         </Container>
       </main>
     </div>
-
-
   );
 }

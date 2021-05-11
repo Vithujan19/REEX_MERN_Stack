@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import ManagerReimburseDetail from './ManagerReimburseDetail';
 import { Button } from 'reactstrap';
+import {Grid} from '@material-ui/core';
+import Gif from '../../assests/gif.gif';
 
 export default function ReimbursementReject(props) {
   const [rows, setRows] = useState();
@@ -124,6 +126,8 @@ export default function ReimbursementReject(props) {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
+      {details.length < 0 ? 
+      <>
       {rowSelected ? (
         <ManagerReimburseDetail
           rowData={rows}
@@ -136,6 +140,14 @@ export default function ReimbursementReject(props) {
           <DataGrid rows={details} columns={columns} pageSize={5} />
         </React.Fragment>
       )}
+      </> :
+      <Grid container style={{ textAlign: "center" }}>
+          <Grid xs={12} sm={4}></Grid>
+          <Grid xs={12} sm={4}>
+            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+          </Grid>
+          <Grid xs={12} sm={4}></Grid>
+        </Grid>}
       {/* <h3>Reimbursement Rejected</h3>
       <DataGrid rows={details} columns={columns} pageSize={5} /> */}
     </div>

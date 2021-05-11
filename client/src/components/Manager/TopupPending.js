@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import TopupPendingDetail from './TopupPendingDetail';
 import { Button } from 'reactstrap';
+import {Grid} from '@material-ui/core';
+import Gif from '../../assests/gif.gif';
 
 export default function TopupPending(props) {
   const { topups, employees } = props;
@@ -83,6 +85,8 @@ export default function TopupPending(props) {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
+      {details.length > 0 ?
+      <>
       {rowSelected ? (
         <TopupPendingDetail topups={topups} rows={rows} />
       ) : (
@@ -90,7 +94,14 @@ export default function TopupPending(props) {
           <h3>Topups Pending</h3>
           <DataGrid rows={details} columns={columns} pageSize={5} />
         </React.Fragment>
-      )}
+      )}</> :
+      <Grid container style={{ textAlign: "center" }}>
+          <Grid xs={12} sm={4}></Grid>
+          <Grid xs={12} sm={4}>
+            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+          </Grid>
+          <Grid xs={12} sm={4}></Grid>
+        </Grid>}
     </div>
   );
 }

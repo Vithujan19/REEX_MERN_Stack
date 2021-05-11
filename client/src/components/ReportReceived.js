@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 import { CardBody, CardTitle, CardText, Row, Col } from 'reactstrap';
 import FlagIcon from '@material-ui/icons/Flag';
+import Gif from '../assests/gif.gif';
 
 function ReportReceived(props) {
   const { receivedReports, allUsers } = props;
@@ -40,38 +41,48 @@ function ReportReceived(props) {
 
   return (
     <React.Fragment>
-      {reportsDetails.reverse().map((data) => (
-        <React.Fragment>
-          <Row>
-            <Paper elevation={4}>
-              <Col xs={12} sm={12}>
-                <CardBody>
-                  <Row>
-                    <Col xs={10} sm={11}>
-                      <CardTitle className=" mb-3" tag="h5">
-                        {data.title}
-                      </CardTitle>
-                    </Col>
-                    <Col xs={2} sm={1}>
-                      {data.receivedOn === data.today ?
-                        <FlagIcon style={{ color: "green" }} />
-                        : null}
-                    </Col>
-                  </Row>
-                  <hr />
-                  <CardText>
-                    <span>From : {data.sender}</span>
-                    <br />
-                    <span>Received On : {data.receivedOn}</span>
-                  </CardText>
-                  <CardText>{data.message}</CardText>
-                </CardBody>
-              </Col>
-            </Paper>
-          </Row>
-          <br />
-        </React.Fragment>
-      ))}
+      {reportsDetails.length > 0 ?
+        <>
+          {reportsDetails.reverse().map((data) => (
+            <React.Fragment>
+              <Row>
+                <Paper elevation={4}>
+                  <Col xs={12} sm={12}>
+                    <CardBody>
+                      <Row>
+                        <Col xs={10} sm={11}>
+                          <CardTitle className=" mb-3" tag="h5">
+                            {data.title}
+                          </CardTitle>
+                        </Col>
+                        <Col xs={2} sm={1}>
+                          {data.receivedOn === data.today ?
+                            <FlagIcon style={{ color: "green" }} />
+                            : null}
+                        </Col>
+                      </Row>
+                      <hr />
+                      <CardText>
+                        <span>From : {data.sender}</span>
+                        <br />
+                        <span>Received On : {data.receivedOn}</span>
+                      </CardText>
+                      <CardText>{data.message}</CardText>
+                    </CardBody>
+                  </Col>
+                </Paper>
+              </Row>
+              <br />
+            </React.Fragment>
+
+          ))}</> :
+        <Grid container style={{ textAlign: "center" }}>
+          <Grid xs={12} sm={4}></Grid>
+          <Grid xs={12} sm={4}>
+            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+          </Grid>
+          <Grid xs={12} sm={4}></Grid>
+        </Grid>}
     </React.Fragment>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 import {
   Button,
   Card,
@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import axios from 'axios';
 import { SuccessMessage, FailedMessage } from '../layouts/Alert';
+import Gif from '../../assests/gif.gif'
 
 function ReadMore(props) {
   const { singleNewsId, children, maxCharacterCount } = props;
@@ -114,14 +115,67 @@ function News(props) {
   return (
     <>
       <Row>
+        <h3 style={{textAlign:"center", padding:20}}>News</h3>
         <Col xs={12} sm={1}></Col>
-        <Col xs={12} sm={10}>
-          {NewsData.reverse().map((singleNews) => (
-            <>
-              {(singleNews.startDisplayOn <= new Date() &&
-                singleNews.endDisplayOn >= new Date()) ? (
-                <>
-                  <Card style={{ borderColor: "#ef4730", borderStyle: "solid", borderWidth: "2px" }}>
+        {!news ?
+          <Grid container style={{textAlign:"center"}}>
+            <Grid xs={12} sm={4}></Grid>
+            <Grid xs={12} sm={4} justify="center">
+              <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+            </Grid>
+            <Grid xs={12} sm={4}></Grid>
+          </Grid> :
+          <Col xs={12} sm={10}>
+            {NewsData.reverse().map((singleNews) => (
+              <>
+                {(singleNews.startDisplayOn <= new Date() &&
+                  singleNews.endDisplayOn >= new Date()) ? (
+                  <>
+                    <Card style={{ borderColor: "#ef4730", borderStyle: "solid", borderWidth: "2px" }}>
+                      <Paper elevation={4}>
+                        <CardBody>
+                          <CardTitle
+                            style={{ textAlign: 'center' }}
+                            className=" mb-3"
+                            tag="h4"
+                          >
+                            {singleNews.title}
+                          </CardTitle>
+                          {currentUser.role === 'admin' ? (
+                            <Row>
+                              <hr style={{ width: "98%" }} />
+                              <Col xs={12} sm={3}>
+                                <span style={{ fontWeight: "bold" }}>
+                                  Start Display On : </span> {singleNews.visibleStartOn}
+
+                              </Col>
+                              <Col xs={12} sm={3}>
+                                <span style={{ fontWeight: "bold" }}>
+                                  End Display On :</span> {singleNews.visibleEndOn}
+
+                              </Col>
+                              <Col xs={12} sm={3}>
+                                <span style={{ fontWeight: "bold" }}>Viewers : </span> {singleNews.viewers[0]} {singleNews.viewers[1]}
+                              </Col>
+                              <Col xs={12} sm={3}>
+                                <span style={{ fontWeight: "bold" }}>Created On : </span> {singleNews.createdOn}
+                              </Col>
+                            </Row>
+                          ) : null}
+                          <hr />
+                          <ReadMore
+                            singleNewsId={singleNews.id}
+                            children={singleNews.news}
+                            maxCharacterCount={150}
+                          >
+                            {singleNews.news}
+                          </ReadMore>
+                        </CardBody>
+                      </Paper>
+                    </Card>
+                  </>
+                ) :
+                  <Card style={{ borderColor: "#1278B8", borderStyle: "solid", borderWidth: "2px" }}>
                     <Paper elevation={4}>
                       <CardBody>
                         <CardTitle
@@ -163,56 +217,13 @@ function News(props) {
                       </CardBody>
                     </Paper>
                   </Card>
-                </>
-              ) :
-                <Card style={{ borderColor: "#1278B8", borderStyle: "solid", borderWidth: "2px" }}>
-                  <Paper elevation={4}>
-                    <CardBody>
-                      <CardTitle
-                        style={{ textAlign: 'center' }}
-                        className=" mb-3"
-                        tag="h4"
-                      >
-                        {singleNews.title}
-                      </CardTitle>
-                      {currentUser.role === 'admin' ? (
-                        <Row>
-                          <hr style={{ width: "98%" }} />
-                          <Col xs={12} sm={3}>
-                            <span style={{ fontWeight: "bold" }}>
-                              Start Display On : </span> {singleNews.visibleStartOn}
+                }
 
-                          </Col>
-                          <Col xs={12} sm={3}>
-                            <span style={{ fontWeight: "bold" }}>
-                              End Display On :</span> {singleNews.visibleEndOn}
-
-                          </Col>
-                          <Col xs={12} sm={3}>
-                            <span style={{ fontWeight: "bold" }}>Viewers : </span> {singleNews.viewers[0]} {singleNews.viewers[1]}
-                          </Col>
-                          <Col xs={12} sm={3}>
-                            <span style={{ fontWeight: "bold" }}>Created On : </span> {singleNews.createdOn}
-                          </Col>
-                        </Row>
-                      ) : null}
-                      <hr />
-                      <ReadMore
-                        singleNewsId={singleNews.id}
-                        children={singleNews.news}
-                        maxCharacterCount={150}
-                      >
-                        {singleNews.news}
-                      </ReadMore>
-                    </CardBody>
-                  </Paper>
-                </Card>
-              }
-
-              <br />
-            </>
-          ))}
-        </Col>
+                <br />
+              </>
+            ))}
+          </Col>
+        }
         <Col xs={12} sm={1}></Col>
       </Row>
     </>

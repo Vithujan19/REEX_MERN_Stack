@@ -27,7 +27,7 @@ export default function ATotalReimbursement(props) {
     });
 
     rejected = reimbursements.filter((reimbursement) => {
-      return reimbursement.status === 'Rejected';
+      return reimbursement.status === 'Cancelled';
     });
 
     reimbursements.map((reimbursement) => {
@@ -41,24 +41,40 @@ export default function ATotalReimbursement(props) {
       <hr />
       <Row>
         <Col xs={12} sm={8}>
-          <Typography component="p" variant="h6" style={{ fontFamily:"Montserrat" }}>
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             Reimbursement(Rs.):
           </Typography>
         </Col>
         <Col xs={12} sm={4}>
-          <Typography component="p" variant="h6" style={{ fontFamily:"Montserrat" }}>
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             {totalreimbursementAmount}
           </Typography>
         </Col>
       </Row>
       <Row>
         <Col xs={12} sm={8}>
-          <Typography component="p" variant="h6" style={{ fontFamily:"Montserrat" }}>
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             Total(Number):
           </Typography>
         </Col>
         <Col xs={12} sm={4}>
-          <Typography component="p" variant="h6" style={{ fontFamily:"Montserrat" }}>
+          <Typography
+            component="p"
+            variant="h6"
+            style={{ fontFamily: 'Montserrat' }}
+          >
             {reimbursementsCopy.length}
           </Typography>
         </Col>
@@ -67,15 +83,17 @@ export default function ATotalReimbursement(props) {
       <Typography>
         <Row>
           <Col xs={12} sm={4}>
-            <span style={{ color: '#ff6600',fontFamily:"Montserrat" }}>Pending: {pending.length}</span>
+            <span style={{ color: '#ff6600', fontFamily: 'Montserrat' }}>
+              Pending: {pending.length}
+            </span>
           </Col>
           <Col xs={12} sm={4}>
-            <span style={{ color: '#00b300',fontFamily:"Montserrat" }}>
+            <span style={{ color: '#00b300', fontFamily: 'Montserrat' }}>
               Accepted: {approved.length}
             </span>
           </Col>
           <Col xs={12} sm={4}>
-            <span style={{ color: '#ff0000',fontFamily:"Montserrat" }}>
+            <span style={{ color: '#ff0000', fontFamily: 'Montserrat' }}>
               Rejected: {rejected.length}
             </span>
           </Col>

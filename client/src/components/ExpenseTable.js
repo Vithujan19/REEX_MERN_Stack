@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import { DataGrid } from '@material-ui/data-grid';
+import {Grid} from '@material-ui/core';
+import Gif from '../assests/gif.gif';
 
 export default function ExpenseTable(props) {
   const { managers, transactions } = props;
@@ -94,7 +96,13 @@ export default function ExpenseTable(props) {
       <h3>Expense History</h3>
       {details.length > 0 ? (
         <DataGrid rows={details} columns={columns} pageSize={5} />
-      ) : null}
+      ) : <Grid container style={{textAlign:"center"}}>
+      <Grid xs={12} sm={4}></Grid>
+      <Grid xs={12} sm={4}>
+        <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+      </Grid>
+      <Grid xs={12} sm={4}></Grid>
+    </Grid>}
     </div>
   );
 }

@@ -1,14 +1,17 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import EmployeeStaffCard from './EmployeeCard';
 import { Grid } from '@material-ui/core';
 import { GetUsersContext } from '../../context/GetUsersContext';
+import SearchIcon from '@material-ui/icons/Search';
+import Gif from '../../assests/gif.gif';
 
 const Content = () => {
   const { employees, getEmployees } = useContext(GetUsersContext);
+  const [searchItem, setSearchItem] = useState('');
 
   useEffect(async () => {
     await getEmployees();
-  }, [])
+  }, []);
 
   const getDate = (realDate) => {
     const datee = new Date(realDate);
@@ -47,9 +50,43 @@ const Content = () => {
 
   return (
     <div>
-      <Grid container spacing={2}>
-        {employeeDetails.map((staffObj) => getStaffCard(staffObj))}
+      <Grid container>
+        <Grid xs={12} sm={4}></Grid>
+        <Grid xs={12} sm={4}>
+          <div className="staff-search">
+            <input
+              type="text"
+              style={{ backgroundColor: '#fefefe' }}
+              onChange={(event) => {
+                setSearchItem(event.target.value);
+              }}
+            />
+            <SearchIcon />
+          </div>
+        </Grid>
+        <Grid xs={12} sm={4}></Grid>
       </Grid>
+      {!employees ?
+        <Grid container style={{ textAlign: "center" }}>
+          <Grid xs={12} sm={4}></Grid>
+          <Grid xs={12} sm={4}>
+            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+          </Grid>
+          <Grid xs={12} sm={4}></Grid>
+        </Grid> :
+        <Grid container spacing={2}>
+          {employeeDetails
+            .filter((value) => {
+              if (searchItem === '') {
+                return value;
+              } else if (
+                value.name.toLowerCase().includes(searchItem.toLowerCase())
+              ) {
+                return value;
+              }
+            })
+            .map((staffObj) => getStaffCard(staffObj))}
+        </Grid>}
     </div>
   );
 };

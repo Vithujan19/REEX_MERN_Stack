@@ -12,8 +12,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import HelpOutlinedIcon from '@material-ui/icons/HelpOutlined';
 import ListItems from './ListItems';
-import {useStyles} from '../Styles';
+import { useStyles } from '../Styles';
 import ProfileCircle from '../ProfileCircle';
+import {Link} from '@material-ui/core';
 
 var currentUser = JSON.parse(localStorage.getItem('user'));
 
@@ -58,8 +59,10 @@ export default function Sidenav() {
           >
             REEX
           </Typography>
-          <IconButton style={{paddingTop:"15px"}} color="inherit">
-            <HelpOutlinedIcon />
+          <IconButton style={{ paddingTop: "15px" }} color="inherit">
+            <Link href="/help" style={{ color: "#FFF" }}>
+              <HelpOutlinedIcon />
+            </Link>
           </IconButton>
           <Divider />
           <Divider />

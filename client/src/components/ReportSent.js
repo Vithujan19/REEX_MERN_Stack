@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper,Grid } from '@material-ui/core';
 import { Button, CardBody, CardTitle, CardText, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { SuccessMessage, FailedMessage } from './layouts/Alert';
+import Gif from '../assests/gif.gif';
 
 function ReportSent(props) {
   const { sentReports, allUsers } = props;
@@ -64,6 +65,7 @@ function ReportSent(props) {
 
   return (
     <React.Fragment>
+      {reportsDetails.length > 0 ? <>
       {reportsDetails.reverse().map((data) => (
         <React.Fragment>
           <Row>
@@ -105,7 +107,14 @@ function ReportSent(props) {
           </Row>
           <br />
         </React.Fragment>
-      ))}
+      ))} </> : 
+      <Grid container style={{ textAlign: "center" }}>
+          <Grid xs={12} sm={4}></Grid>
+          <Grid xs={12} sm={4}>
+            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+          </Grid>
+          <Grid xs={12} sm={4}></Grid>
+        </Grid>}
     </React.Fragment>
   );
 }

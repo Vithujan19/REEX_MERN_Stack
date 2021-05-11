@@ -89,7 +89,7 @@ function SignIn(props) {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/helps" variant="body2">
                   {'Have any trouble'}
                 </Link>
               </Grid>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { Button } from 'reactstrap';
 import EmployeeReimburseDetail from './EmployeeReimburseDetail';
+import {Grid} from '@material-ui/core';
+import Gif from '../../assests/gif.gif';
 
 export default function EmployeeReimbursementData(props) {
   const [rows, setRows] = useState();
@@ -89,6 +91,8 @@ export default function EmployeeReimbursementData(props) {
 
   return (
     <div style={{ height: 400, width: 'auto' }}>
+      {details.length > 0 ?
+      <>
       {rowSelcted ? (
         <EmployeeReimburseDetail
           rowData={rows}
@@ -101,7 +105,14 @@ export default function EmployeeReimbursementData(props) {
           <h3>Reimbursement Requests</h3>
           <DataGrid rows={details} columns={columns} pageSize={5} />
         </React.Fragment>
-      )}
+      )}</> :
+      <Grid container style={{ textAlign: "center" }}>
+          <Grid xs={12} sm={4}></Grid>
+          <Grid xs={12} sm={4}>
+            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+          </Grid>
+          <Grid xs={12} sm={4}></Grid>
+        </Grid>}
     </div>
   );
 }

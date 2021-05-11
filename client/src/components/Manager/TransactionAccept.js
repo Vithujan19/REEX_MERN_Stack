@@ -1,5 +1,7 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import {Grid} from '@material-ui/core';
+import Gif from '../../assests/gif.gif';
 
 export default function TopupAccept(props) {
   const { transactions, employees } = props;
@@ -75,8 +77,18 @@ export default function TopupAccept(props) {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
+      {rows.length > 0 ?
+      <>
       <h3>Transactions Approved</h3>
       <DataGrid rows={rows} columns={columns} pageSize={5} />
+      </> :
+      <Grid container style={{ textAlign: "center" }}>
+          <Grid xs={12} sm={4}></Grid>
+          <Grid xs={12} sm={4}>
+            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+          </Grid>
+          <Grid xs={12} sm={4}></Grid>
+        </Grid>}
     </div>
   );
 }
