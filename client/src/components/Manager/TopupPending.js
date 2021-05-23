@@ -12,6 +12,12 @@ export default function TopupPending(props) {
 
   const columns = [
     { field: 'createdAt', headerName: 'Requested Date', width: 160 },
+    {
+      field: 'requestBy',
+      headerName: 'requestBy',
+      width: 160,
+      hide: true,
+    },
     { field: 'id', headerName: 'Requested Date', width: 160, hide: true },
     { field: 'employeeName', headerName: 'Employee Name', width: 170 },
     { field: 'employeeId', headerName: 'Employee UserID', width: 170 },
@@ -76,16 +82,16 @@ export default function TopupPending(props) {
         createdAt: getDate(pendingTopup.createdAt),
         employeeName: getEmployeeName(pendingTopup.requestBy),
         employeeId: getEmployeeId(pendingTopup.requestBy),
+        requestBy: pendingTopup.requestBy,
         amount: pendingTopup.amount,
       };
       details.push(data);
     });
-
   }
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      {details.length > 0 ?
+      {topups ?
       <>
       {rowSelected ? (
         <TopupPendingDetail topups={topups} rows={rows} />

@@ -1,7 +1,7 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 
-const connectionURL =
-  "mongodb+srv://admin:admin@reex.xw1tu.mongodb.net/ReEx?retryWrites=true&w=majority";
+const connectionURL = process.env.MONGO_URL; //link your mongodb url
 
 mongoose
   .connect(connectionURL, {

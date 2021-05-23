@@ -312,7 +312,7 @@ const ManagerReimburseDetail = (props) => {
                   <br />
                 </Row>
                 {currentUser.role === 'manager' &&
-                  rowData.status === 'Pending' ? (
+                rowData.status === 'Pending' ? (
                   <Row>
                     <Col xs={12} sm={6}>
                       <button className="btn btn-primary" onClick={onAccept}>

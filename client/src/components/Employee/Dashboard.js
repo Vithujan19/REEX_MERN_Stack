@@ -25,11 +25,13 @@ import { TransactionContext } from '../../context/TransactionContext';
 import { TopupContext } from '../../context/TopupContext';
 import { ReimbursementContext } from '../../context/ReimbursementContext';
 import { GetUsersContext } from '../../context/GetUsersContext';
+import { CardDetailsContext } from '../../context/CardDetailsContext';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import { Button } from 'reactstrap';
 import CachedIcon from '@material-ui/icons/Cached';
 import TotalEmployee from '../Manager/TotalEmployee';
 import TotalStaffs from '../Admin/TotalStaffs';
+import DisplayCardDetail from './cardDetailComponent';
 
 const drawerWidth = '240';
 
@@ -113,9 +115,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
-  const { getManagers, managers, employees, getEmployees } = useContext(
-    GetUsersContext
-  );
+  const { getManagers, managers, employees, getEmployees } =
+    useContext(GetUsersContext);
 
   const {
     transactions,
@@ -131,12 +132,10 @@ export default function Dashboard() {
     getAllReimbursement,
   } = useContext(ReimbursementContext);
 
-  const {
-    topups,
-    getEmployeeTopups,
-    getManagerTopups,
-    getAllTopups,
-  } = useContext(TopupContext);
+  const { topups, getEmployeeTopups, getManagerTopups, getAllTopups } =
+    useContext(TopupContext);
+
+  const { cardDetails, getUserCardDetails } = useContext(CardDetailsContext);
 
   var currentUser = JSON.parse(localStorage.getItem('user'));
 
@@ -151,14 +150,18 @@ export default function Dashboard() {
   useEffect(async () => {
     var user = JSON.parse(localStorage.getItem('user'));
 
-    if (user.role === 'admin') {
-      await getEmployees();
+    if (user.role === 'employee') {
+      await getUserCardDetails(user._id);
     }
   }, []);
 
-  // useEffect(async () => {
-  //   await getEmployees();
-  // }, []);
+  useEffect(async () => {
+    var user = JSON.parse(localStorage.getItem('user'));
+
+    if (user.role === 'admin' || user.role === 'manager') {
+      await getEmployees();
+    }
+  }, []);
 
   useEffect(async () => {
     var user = JSON.parse(localStorage.getItem('user'));
@@ -240,9 +243,10 @@ export default function Dashboard() {
             </Grid>
             <Grid item xs={12} md={4} lg={6}>
               <Paper className={classes.paper} elevation={4}>
-                {currentUser.role === 'employee' ||
-                currentUser.role === 'manager' ? (
-                  <TotalEmployee />
+                {currentUser.role === 'employee' ? (
+                  <DisplayCardDetail cardDetails={cardDetails} />
+                ) : currentUser.role === 'manager' ? (
+                  <TotalEmployee employees={employees} />
                 ) : currentUser.role === 'admin' ? (
                   <TotalStaffs managers={managers} employees={employees} />
                 ) : null}
@@ -260,8 +264,9 @@ export default function Dashboard() {
                     >
                       <CachedIcon style={{ width: 230, height: 100 }} />
                       <br />
-                      Check Reimbursement 
-                      <br/>Requests
+                      Check Reimbursement
+                      <br />
+                      Requests
                     </Link>
                   </Button>
                 ) : currentUser.role === 'admin' ? (

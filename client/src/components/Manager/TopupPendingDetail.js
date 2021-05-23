@@ -1,13 +1,6 @@
 import { Paper } from '@material-ui/core';
 import React, { useState } from 'react';
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Card, CardBody, CardTitle, CardSubtitle, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { SuccessMessage, FailedMessage } from '../layouts/Alert';
 
@@ -15,12 +8,12 @@ const TopupPendingDetail = (props) => {
   const { rows, topups } = props;
   const [updatedStatus, setUpdateStatus] = useState();
   const [updatedRejectStatus, setUpdateRejectStatus] = useState();
+  const [cardUpdateStatus, setCardUpdateStatus] = useState();
 
   let currentTopup = {};
 
   if (topups) {
     currentTopup = topups.find((m) => m._id === rows.id);
-    console.log(currentTopup);
   }
 
   const getDate = (realDate) => {
@@ -45,6 +38,20 @@ const TopupPendingDetail = (props) => {
     };
 
     let url = 'http://localhost:3000/topUpRequest/' + rows.id;
+    let cardUrl = 'http://localhost:3000/addAmount/' + rows.requestBy;
+
+    let amount = JSON.stringify({
+      amount: rows.amount,
+    });
+
+    axios
+      .patch(cardUrl, amount, config)
+      .then((res) => {
+        setCardUpdateStatus(true);
+      })
+      .catch((err) => {
+        setCardUpdateStatus(false);
+      });
 
     const dataa = JSON.stringify({
       status: 'Approved',

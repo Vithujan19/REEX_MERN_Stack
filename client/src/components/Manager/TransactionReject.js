@@ -36,12 +36,16 @@ export default function TopupReject(props) {
 
   const getEmployeeName = (id) => {
     let employee = employees.find((m) => m._id === id);
-    return employee.name;
+    if (employee) {
+      return employee.name;
+    }
   };
 
   const getEmployeeId = (id) => {
     let employee = employees.find((m) => m._id === id);
-    return employee.userId;
+    if (employee) {
+      return employee.userId;
+    }
   };
 
   const rows = [];
@@ -70,18 +74,28 @@ export default function TopupReject(props) {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      {rows.length > 0 ?
+      {transactions ? (
         <>
           <h3>Transactions Rejected</h3>
           <DataGrid rows={rows} columns={columns} pageSize={5} />
-        </> :
-        <Grid container style={{ textAlign: "center" }}>
+        </>
+      ) : (
+        <Grid container style={{ textAlign: 'center' }}>
           <Grid xs={12} sm={4}></Grid>
           <Grid xs={12} sm={4}>
-            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+            <img
+              src={Gif}
+              alt=""
+              style={{
+                alignItems: 'center',
+                paddingTop: 50,
+                paddingBottom: 100,
+              }}
+            />
           </Grid>
           <Grid xs={12} sm={4}></Grid>
-        </Grid>}
+        </Grid>
+      )}
     </div>
   );
 }

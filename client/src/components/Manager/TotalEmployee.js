@@ -7,6 +7,22 @@ import 'aos/dist/aos.css';
 AOS.init();
 
 export default function TotalEmployee(props) {
+  const { employees } = props;
+  let employeesCopy = [];
+  let employeeMale = [];
+  let employeeFemale = [];
+
+  if (employees) {
+    employeesCopy = employees;
+
+    employeeMale = employeesCopy.filter((employee) => {
+      return employee.gender === 'male';
+    });
+
+    employeeFemale = employeesCopy.filter((employee) => {
+      return employee.gender === 'female';
+    });
+  }
 
   return (
     <div>
@@ -19,7 +35,7 @@ export default function TotalEmployee(props) {
         </Col>
         <Col xs={12} sm={6}>
           <Typography component="p" variant="h6">
-            50
+            {employeesCopy.length}
           </Typography>
         </Col>
       </Row>
@@ -28,12 +44,12 @@ export default function TotalEmployee(props) {
         <Row>
           <Col xs={12} sm={6}>
             <span style={{ color: '#ff6600' }}>
-              Male: 30
+              Male: {employeeMale.length}
             </span>
           </Col>
           <Col xs={12} sm={6}>
             <span style={{ color: '#00b300' }}>
-              Female: 20
+              Female: {employeeFemale.length}
             </span>
           </Col>
         </Row>

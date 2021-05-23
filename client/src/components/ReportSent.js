@@ -65,7 +65,7 @@ function ReportSent(props) {
 
   return (
     <React.Fragment>
-      {reportsDetails.length > 0 ? <>
+      {sentReports ? <>
       {reportsDetails.reverse().map((data) => (
         <React.Fragment>
           <Row>

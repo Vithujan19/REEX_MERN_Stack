@@ -16,6 +16,8 @@ const TransactionPendingDetail = (props) => {
   const { rows, transactions, employees } = props;
   const [updateAcceptStatus, setUpdateAcceptStatus] = useState();
   const [updateRejectStatus, setUpdateRejectStatus] = useState();
+  const [cardUpdateStatus, setCardUpdateStatus] = useState();
+  const [transactionUpdateStatus, setTransactionUpdateStatus] = useState();
 
   const onClick = () => {
     window.location.reload();
@@ -41,6 +43,23 @@ const TransactionPendingDetail = (props) => {
     };
 
     let url = 'http://localhost:3000/transaction/' + rows.id;
+    if (rows) {
+      let cardUrl = 'http://localhost:3000/subAmount/' + rows.employeeId;
+
+      let amount = JSON.stringify({
+        amount: rows.amount,
+      });
+      if (rows.paymentMethod === 'Card') {
+        axios
+          .patch(cardUrl, amount, config)
+          .then((res) => {
+            setCardUpdateStatus(true);
+          })
+          .catch((err) => {
+            setCardUpdateStatus(false);
+          });
+      }
+    }
 
     const dataa = JSON.stringify({
       status: 'Approved',
@@ -52,7 +71,6 @@ const TransactionPendingDetail = (props) => {
         setUpdateAcceptStatus(true);
       })
       .catch((err) => {
-        console.log(err);
         setUpdateAcceptStatus(false);
       });
   };

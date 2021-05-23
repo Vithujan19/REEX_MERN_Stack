@@ -41,7 +41,7 @@ function ReportReceived(props) {
 
   return (
     <React.Fragment>
-      {reportsDetails.length > 0 ?
+      {receivedReports || reportsDetails > 0 ? (
         <>
           {reportsDetails.reverse().map((data) => (
             <React.Fragment>
@@ -56,9 +56,9 @@ function ReportReceived(props) {
                           </CardTitle>
                         </Col>
                         <Col xs={2} sm={1}>
-                          {data.receivedOn === data.today ?
-                            <FlagIcon style={{ color: "green" }} />
-                            : null}
+                          {data.receivedOn === data.today ? (
+                            <FlagIcon style={{ color: 'green' }} />
+                          ) : null}
                         </Col>
                       </Row>
                       <hr />
@@ -74,15 +74,25 @@ function ReportReceived(props) {
               </Row>
               <br />
             </React.Fragment>
-
-          ))}</> :
-        <Grid container style={{ textAlign: "center" }}>
+          ))}
+        </>
+      ) : (
+        <Grid container style={{ textAlign: 'center' }}>
           <Grid xs={12} sm={4}></Grid>
           <Grid xs={12} sm={4}>
-            <img src={Gif} alt="" style={{ alignItems: "center", paddingTop: 50, paddingBottom: 100 }} />
+            <img
+              src={Gif}
+              alt=""
+              style={{
+                alignItems: 'center',
+                paddingTop: 50,
+                paddingBottom: 100,
+              }}
+            />
           </Grid>
           <Grid xs={12} sm={4}></Grid>
-        </Grid>}
+        </Grid>
+      )}
     </React.Fragment>
   );
 }

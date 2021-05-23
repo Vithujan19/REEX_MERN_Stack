@@ -1,11 +1,19 @@
 const express = require('express');
 const multer = require('multer');
 const User = require('../models/user');
+const CardDetail = require('../models/cardDetail');
 const router = express.Router();
 const auth = require('../middleware/auth');
 
 router.post('/users', [auth.authUser, auth.isAdmin], async (req, res) => {
   const user = new User(req.body);
+  console.log(user.role);
+  if (user.role === 'employee') {
+    const cardDetail = new CardDetail({
+      holder: user._id,
+    });
+    await cardDetail.save();
+  }
   try {
     await user.save();
     res.status(201).send(user);
@@ -68,14 +76,18 @@ router.get('/getalladmin', [auth.authUser], async (req, res) => {
   }
 });
 
-router.get('/user/:userId', [auth.authUser, auth.isAdminOrManager], async (req, res) => {
-  try {
-    const user = await User.find({ userId: req.params.userId });
-    res.send(user);
-  } catch (error) {
-    res.status(400).send();
+router.get(
+  '/user/:userId',
+  [auth.authUser, auth.isAdminOrManager],
+  async (req, res) => {
+    try {
+      const user = await User.find({ userId: req.params.userId });
+      res.send(user);
+    } catch (error) {
+      res.status(400).send();
+    }
   }
-});
+);
 
 router.get('/getallusers', [auth.authUser], async (req, res) => {
   try {

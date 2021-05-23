@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Input,
-} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, Input } from 'reactstrap';
 import { Form, FormGroup, Label } from 'reactstrap';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
@@ -105,7 +99,7 @@ const ModalExample = (props) => {
             encType="multipart/form-data"
           >
             <FormGroup>
-              <Label for="categorySelect">Sender</Label>
+              <Label for="categorySelect">Receiver</Label>
               <Input
                 required
                 type="select"
@@ -115,15 +109,15 @@ const ModalExample = (props) => {
                 <option aria-label="None" value="" />
                 {allUsers
                   ? allUsers.map((user) => {
-                    if (currentUser._id !== user._id) {
-                      return (
-                        <option value={user._id}>
-                          {' '}
-                          {user.userId} - {user.name} ({user.role})
-                        </option>
-                      );
-                    }
-                  })
+                      if (currentUser._id !== user._id) {
+                        return (
+                          <option value={user._id}>
+                            {' '}
+                            {user.userId} - {user.name} ({user.role})
+                          </option>
+                        );
+                      }
+                    })
                   : null}
               </Input>
             </FormGroup>

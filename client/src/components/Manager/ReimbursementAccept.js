@@ -109,7 +109,7 @@ export default function ReimbursementAccept(props) {
   }
   return (
     <div style={{ height: 400, width: '100%' }}>
-      {details.length > 0 ? 
+      {reimbursements ? 
       <>
       {rowSelected ? (
         <ManagerReimburseDetail
